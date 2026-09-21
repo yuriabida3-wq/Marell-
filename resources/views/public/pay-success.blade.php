@@ -54,7 +54,11 @@
       </div>
     </div>
 
-    <div class="mt-6 text-xs text-gray-500">
+    <div class="mt-4 text-xs">
+      <a href="/verify-receipt/{{ $payment->receipt_no }}" class="text-navy underline">✓ Verify this receipt online</a>
+    </div>
+
+<div class="mt-6 text-xs text-gray-500">
       An SMS receipt has been sent to {{ $payment->student->parent_phone }}.
     </div>
   </div>

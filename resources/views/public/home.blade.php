@@ -93,6 +93,10 @@
   </div>
 </section>
 
+
+
+
+
 {{-- MAP --}}
 <section class="w-full h-72 md:h-96">
   <iframe src="https://www.google.com/maps?q=Bungoma,Kenya&output=embed" class="w-full h-full border-0" loading="lazy"></iframe>

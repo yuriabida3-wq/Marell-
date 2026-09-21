@@ -61,6 +61,8 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37' 
 
   <div class="text-center mt-6 text-xs text-white/60">
     <a href="/" class="hover:text-gold">← Back to website</a>
+    <span class="mx-2">·</span>
+    <a href="/parent/login" class="hover:text-gold">Parent Login</a>
   </div>
 </div>
 

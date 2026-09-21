@@ -45,6 +45,17 @@
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
       <div class="font-bold text-navy flex-1 text-sm">{{ auth()->user()->name }}</div>
+      <div class="relative" id="quickJump">
+        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200">⚡ Jump ▾</button>
+        <div id="qjMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border py-2 min-w-[200px] z-50">
+          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50">👑 Principal</a>
+          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50">📚 DOS</a>
+          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50">💰 Bursar</a>
+          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50">👨‍🏫 Teacher</a>
+          <div class="border-t my-1"></div>
+          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500">🌐 Website</a>
+        </div>
+      </div>
       <form method="POST" action="/logout">@csrf<a href="/password" class="text-xs text-gray-500 hover:text-gold px-2 py-1">Password</a><button class="text-xs text-gray-500 hover:text-red-600 px-2 py-1">Logout</button></form>
     </div>
   </header>
@@ -69,5 +80,6 @@
   });
 </script>
 @stack('scripts')
+<form id="logoutForm" method="POST" action="/logout" style="display:none;">@csrf</form>
 </body>
 </html>

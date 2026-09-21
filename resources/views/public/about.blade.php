@@ -104,4 +104,5 @@
   </div>
 </section>
 
+@include('public._related')
 @endsection

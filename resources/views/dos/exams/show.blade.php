@@ -29,6 +29,8 @@
 @endif
 
 {{-- STATUS CONTROLS --}}
+<div class="mb-4"><a href="{{ route('dos.exams.controls', $exam) }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold hover:scale-105 transition">🔓 Per-Class Marks Portal &amp; Audit</a></div>
+
 <div class="bg-white rounded-2xl p-5 shadow mb-6">
   <h2 class="font-extrabold text-navy mb-3">⚙️ Exam Status</h2>
   <div class="flex flex-wrap gap-2">

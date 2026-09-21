@@ -8,6 +8,7 @@ use App\Models\Homework;
 use App\Models\Result;
 use App\Models\Student;
 use App\Models\Timetable;
+use App\Models\TeacherSubject;
 use App\Services\SmsService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class TeacherController extends Controller
 
         $myClasses = $classKeys->map(function ($k) {
             $q = Student::where('class', $k->class);
-            if ($k->stream) $q->where('stream', $k->stream);
+            if ($k->stream) if ($k->stream !== null && $k->stream !== '') { $q->when($k->stream !== null && $k->stream !== '', fn($q) => $q->where('stream', $k->stream)); }
             return ['class'=>$k->class,'stream'=>$k->stream,'count'=>$q->count()];
         });
 
@@ -51,13 +52,13 @@ class TeacherController extends Controller
 
         $classes = $classKeys->map(function ($k) use ($teacher) {
             $q = Student::where('class', $k->class);
-            if ($k->stream) $q->where('stream', $k->stream);
+            if ($k->stream) if ($k->stream !== null && $k->stream !== '') { $q->when($k->stream !== null && $k->stream !== '', fn($q) => $q->where('stream', $k->stream)); }
             $students = $q->orderBy('name')->get();
 
             // Subjects this teacher teaches in this class
             $subjects = Timetable::where('teacher_id', $teacher->id)
                 ->where('class', $k->class)
-                ->where('stream', $k->stream)
+                ->when($k->stream !== null && $k->stream !== '', fn($q) => $q->where('stream', $k->stream))
                 ->distinct('subject')
                 ->pluck('subject')
                 ->unique()
@@ -140,6 +141,11 @@ class TeacherController extends Controller
         $exam = Exam::findOrFail($data['exam_id']);
         if ($exam->status !== 'open') {
             return back()->with('error', 'Exam is not open for marks entry.');
+        }
+
+        // Verify this specific class is open for this exam
+        if (!\App\Http\Controllers\ExamControlController::isOpenFor($exam, $data['class'], $data['stream'] ?? null)) {
+            return back()->with('error', 'Marks entry for this class is closed. Contact DOS.');
         }
 
         $teacher = auth()->user();

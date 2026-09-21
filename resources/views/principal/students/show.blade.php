@@ -21,6 +21,11 @@
 
 {{-- FEE SUMMARY --}}
 <div class="grid grid-cols-3 gap-4 mb-6">
+  <div class="bg-gold/20 rounded-2xl p-5 shadow">
+    <div class="text-xs text-navy tracking-widest font-semibold">SIBLING DISCOUNT</div>
+    <div class="text-2xl font-extrabold text-navy mt-1">KES {{ number_format($student->discount_amount, 0) }}</div>
+    <div class="text-xs text-gray-600 mt-1">Child #{{ $student->sibling_order }}</div>
+  </div>
   <div class="bg-white rounded-2xl p-5 shadow">
     <div class="text-xs text-gray-500 tracking-widest font-semibold">TOTAL FEE</div>
     <div class="text-2xl font-extrabold text-navy mt-1">KES {{ number_format($student->total_fee, 0) }}</div>

@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#0B3D91">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Marell">
+
 <title>@yield('title', 'Marell Academy') — Empowering Tomorrow's Leaders</title>
 <meta name="description" content="@yield('meta_description', 'Marell Academy — Quality CBC education in Kenya. Pay fees online, check results, apply online.')">
 
@@ -58,8 +64,23 @@ tailwind.config = {
       <a href="/fees" class="hover:text-gold transition">Fees</a>
       <a href="/results" class="hover:text-gold transition">Results</a>
       <a href="/news" class="hover:text-gold transition">News</a>
+      <a href="/timetable" class="hover:text-gold transition">Timetable</a>
       <a href="/contact" class="hover:text-gold transition">Contact</a>
-      <a href="/pay" class="btn btn-gold text-sm !min-h-[42px] !py-1.5 !px-4">Parent Portal</a>
+      <div class="relative group">
+        <button class="hover:text-gold transition flex items-center gap-1">Portal <span class="text-xs">▾</span></button>
+        <div class="absolute right-0 top-full pt-2 hidden group-hover:block">
+          <div class="bg-white rounded-xl shadow-xl py-2 min-w-[200px] text-navy">
+            <a href="/parent/login" class="block px-4 py-2 hover:bg-gold/10 text-sm">🔐 Parent Login (OTP)</a>
+            <a href="/pay" class="block px-4 py-2 hover:bg-gold/10 text-sm">💳 Pay Fees Online</a>
+            <a href="/results" class="block px-4 py-2 hover:bg-gold/10 text-sm">📊 Check Results</a>
+            <a href="/verify-receipt/REC-2026-00003" class="block px-4 py-2 hover:bg-gold/10 text-sm">✓ Verify Receipt</a>
+            <a href="/report" class="block px-4 py-2 hover:bg-gold/10 text-sm">🕊️ Report Anonymously</a>
+            <div class="border-t my-1"></div>
+            <a href="/login" class="block px-4 py-2 hover:bg-gold/10 text-sm text-gray-500">👨‍💼 Staff Login</a>
+          </div>
+        </div>
+      </div>
+      <a href="/pay" class="btn btn-gold text-sm !min-h-[42px] !py-1.5 !px-4">Pay Fees</a>
     </nav>
 
     <button id="hamburger" class="md:hidden p-2" aria-label="Menu">
@@ -85,8 +106,19 @@ tailwind.config = {
     <a href="/fees" class="py-3 px-3 rounded-lg hover:bg-white/10">Fees</a>
     <a href="/results" class="py-3 px-3 rounded-lg hover:bg-white/10">Results</a>
     <a href="/news" class="py-3 px-3 rounded-lg hover:bg-white/10">News</a>
+    <a href="/timetable" class="py-3 px-3 rounded-lg hover:bg-white/10">Timetable</a>
     <a href="/contact" class="py-3 px-3 rounded-lg hover:bg-white/10">Contact</a>
-    <a href="/pay" class="btn btn-gold mt-4 w-full">Parent Portal</a>
+
+    <div class="mt-4 pt-4 border-t border-white/10">
+      <div class="text-[10px] tracking-widest text-gold font-bold px-3 mb-2">PARENT PORTAL</div>
+      <a href="/parent/login" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2">🔐 Login (OTP)</a>
+      <a href="/pay" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2">💳 Pay Fees</a>
+      <a href="/results" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2">📊 Check Results</a>
+      <a href="/report" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2">🕊️ Report Anonymously</a>
+    </div>
+
+    <a href="/pay" class="btn btn-gold mt-4 w-full">Pay Fees</a>
+    <a href="/login" class="btn btn-outline mt-2 w-full text-sm">Staff Login</a>
   </nav>
 </aside>
 
@@ -110,6 +142,10 @@ tailwind.config = {
         <li><a href="/fees" class="hover:text-gold">Fee Structure</a></li>
         <li><a href="/results" class="hover:text-gold">Check Results</a></li>
         <li><a href="/pay" class="hover:text-gold">Pay Fees Online</a></li>
+        <li><a href="/timetable" class="hover:text-gold">Timetable</a></li>
+        <li><a href="/news" class="hover:text-gold">News &amp; Events</a></li>
+        <li><a href="/report" class="hover:text-gold">Anonymous Report</a></li>
+        <li><a href="/parent/login" class="hover:text-gold">Parent Portal</a></li>
       </ul>
     </div>
     <div>
@@ -147,6 +183,16 @@ tailwind.config = {
   overlay.addEventListener('click', closeMenu);
   closeBtn.addEventListener('click', closeMenu);
 </script>
+
+@push('scripts')
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+  });
+}
+</script>
+@endpush
 @stack('scripts')
 </body>
 </html>

@@ -41,4 +41,5 @@
     </div>
   @endif
 </section>
+@include('public._related')
 @endsection

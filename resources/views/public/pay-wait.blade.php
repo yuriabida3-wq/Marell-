@@ -25,6 +25,7 @@
 
     <div class="mt-6">
       <a href="{{ route('pay') }}" class="text-sm text-navy underline">Cancel and try another payment</a>
+      <div class="mt-3 text-xs text-gray-500">Something wrong? <a href="/contact" class="text-navy underline">Contact us</a> or <a href="/report" class="text-navy underline">report a concern</a>.</div>
     </div>
   </div>
 </section>

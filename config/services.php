@@ -35,6 +35,17 @@ return [
         ],
     ],
 
+    'whatsapp' => [
+        'verify_token' => env('WHATSAPP_VERIFY_TOKEN', 'marell_demo_token_2026'),
+        'provider'     => env('WHATSAPP_PROVIDER', 'meta'),
+        'token'        => env('WHATSAPP_TOKEN'),
+        'phone_id'     => env('WHATSAPP_PHONE_ID'),
+    ],
+
+    'sms' => [
+        'director_phone' => env('DIRECTOR_PHONE', '254700000001'),
+    ],
+
     'africastalking' => [
         'username' => env('AFRICASTALKING_USERNAME'),
         'api_key'  => env('AFRICASTALKING_API_KEY'),

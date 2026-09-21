@@ -167,4 +167,5 @@ function showTab(key){
 </script>
 @endpush
 
+@include('public._related')
 @endsection

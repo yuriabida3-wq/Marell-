@@ -229,3 +229,96 @@ Route::middleware('auth')->group(function () {
     Route::get('/password', [App\Http\Controllers\PasswordController::class, 'show'])->name('password.show');
     Route::post('/password', [App\Http\Controllers\PasswordController::class, 'update'])->name('password.update');
 });
+
+// Public receipt verification
+Route::get('/verify-receipt/{receipt_no}', [App\Http\Controllers\VerifyController::class, 'receipt'])->name('verify.receipt');
+
+// Principal — Live Collection Projector
+Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/live-collection', [App\Http\Controllers\LiveCollectionController::class, 'index'])->name('live-collection');
+    Route::get('/live-collection/feed', [App\Http\Controllers\LiveCollectionController::class, 'feed'])->name('live-collection.feed');
+});
+
+// Public anonymous report
+Route::get('/report', [App\Http\Controllers\ConfessionController::class, 'form'])->name('confession.form');
+Route::post('/report', [App\Http\Controllers\ConfessionController::class, 'submit'])->middleware('throttle:5,1')->name('confession.submit');
+
+// Principal inbox
+Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/confessions', [App\Http\Controllers\ConfessionController::class, 'index'])->name('confessions.index');
+    Route::get('/confessions/{confession}', [App\Http\Controllers\ConfessionController::class, 'show'])->name('confessions.show');
+    Route::post('/confessions/{confession}/flag', [App\Http\Controllers\ConfessionController::class, 'flag'])->name('confessions.flag');
+    Route::delete('/confessions/{confession}', [App\Http\Controllers\ConfessionController::class, 'destroy'])->name('confessions.destroy');
+});
+
+// Principal — Late Fines
+Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/fines', [App\Http\Controllers\LateFineController::class, 'index'])->name('fines.index');
+    Route::post('/fines/apply', [App\Http\Controllers\LateFineController::class, 'apply'])->name('fines.apply');
+    Route::post('/fines/{fine}/waive', [App\Http\Controllers\LateFineController::class, 'waive'])->name('fines.waive');
+});
+
+// Principal — AI Predictions
+Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/predictions', [App\Http\Controllers\PredictionController::class, 'index'])->name('predictions');
+});
+
+// Principal — Board Report
+Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/board-report', [App\Http\Controllers\BoardReportController::class, 'index'])->name('board-report');
+    Route::post('/board-report', [App\Http\Controllers\BoardReportController::class, 'generate'])->name('board-report.generate');
+});
+
+// PWA
+Route::get('/manifest.webmanifest', [App\Http\Controllers\PwaController::class, 'manifest'])->name('pwa.manifest');
+Route::get('/service-worker.js',    [App\Http\Controllers\PwaController::class, 'serviceWorker']);
+Route::get('/icon-{size}.png',      [App\Http\Controllers\PwaController::class, 'icon'])->where('size', '192|512');
+
+// WhatsApp Bot — public webhook (no auth, no CSRF)
+Route::get('/webhook/whatsapp',  [App\Http\Controllers\WhatsappBotController::class, 'verify']);
+Route::post('/webhook/whatsapp', [App\Http\Controllers\WhatsappBotController::class, 'incoming']);
+
+// Demo tester (only in local/env to preview replies)
+Route::get('/whatsapp-demo', function () {
+    return view('public.whatsapp-demo');
+})->name('whatsapp.demo');
+
+Route::post('/whatsapp-demo', function (\Illuminate\Http\Request $r) {
+    $r->validate(['phone' => 'required|string', 'message' => 'required|string']);
+    $bot = new \App\Http\Controllers\WhatsappBotController();
+    return response()->json([
+        'reply' => $bot->handleMessage($r->phone, $r->message),
+    ]);
+});
+
+// Principal — Voice SMS
+Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/voice-sms',         [App\Http\Controllers\VoiceSmsController::class, 'index'])->name('voice-sms');
+    Route::post('/voice-sms/bulk',   [App\Http\Controllers\VoiceSmsController::class, 'bulkRemind'])->name('voice-sms.bulk');
+    Route::post('/voice-sms/preview',[App\Http\Controllers\VoiceSmsController::class, 'preview'])->name('voice-sms.preview');
+});
+
+// DOS — Teacher Subjects
+Route::middleware(['auth', 'role:dos|principal'])->prefix('dos')->name('dos.')->group(function () {
+    Route::get('/teacher-subjects',                     [App\Http\Controllers\TeacherSubjectController::class, 'index'])->name('teacher-subjects.index');
+    Route::post('/teacher-subjects',                    [App\Http\Controllers\TeacherSubjectController::class, 'store'])->name('teacher-subjects.store');
+    Route::post('/teacher-subjects/bulk',               [App\Http\Controllers\TeacherSubjectController::class, 'bulkAssign'])->name('teacher-subjects.bulk');
+    Route::delete('/teacher-subjects/{teacherSubject}', [App\Http\Controllers\TeacherSubjectController::class, 'destroy'])->name('teacher-subjects.destroy');
+    Route::delete('/teacher-subjects/clear/{user}',     [App\Http\Controllers\TeacherSubjectController::class, 'clearTeacher'])->name('teacher-subjects.clear');
+});
+
+// DOS — School-Wide Timetable Generator
+Route::middleware(['auth', 'role:dos|principal'])->prefix('dos')->name('dos.')->group(function () {
+    Route::get('/timetable-generator',        [App\Http\Controllers\TimetableGeneratorController::class, 'index'])->name('timetable-generator.index');
+    Route::post('/timetable-generator',       [App\Http\Controllers\TimetableGeneratorController::class, 'generate'])->name('timetable-generator.generate');
+    Route::post('/timetable-generator/verify',[App\Http\Controllers\TimetableGeneratorController::class, 'verify'])->name('timetable-generator.verify');
+});
+
+// DOS — Exam Controls (per-class marks portal)
+Route::middleware(['auth', 'role:dos|principal'])->prefix('dos')->name('dos.')->group(function () {
+    Route::get('/exams/{exam}/controls',            [App\Http\Controllers\ExamControlController::class, 'index'])->name('exams.controls');
+    Route::post('/exams/{exam}/controls/open',      [App\Http\Controllers\ExamControlController::class, 'open'])->name('exams.controls.open');
+    Route::post('/exams/{exam}/controls/close',     [App\Http\Controllers\ExamControlController::class, 'close'])->name('exams.controls.close');
+    Route::post('/exams/{exam}/controls/open-all',  [App\Http\Controllers\ExamControlController::class, 'openAll'])->name('exams.controls.open-all');
+    Route::post('/exams/{exam}/controls/close-all', [App\Http\Controllers\ExamControlController::class, 'closeAll'])->name('exams.controls.close-all');
+});

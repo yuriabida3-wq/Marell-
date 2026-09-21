@@ -60,6 +60,12 @@
         <div class="text-xs text-gray-500 tracking-widest">BALANCE</div>
         <div class="text-lg md:text-xl font-bold text-red-600 mt-1">KES {{ number_format($selected->balance, 0) }}</div>
       </div>
+    @if ($selected->discount_amount > 0)
+    <div class="bg-gold/20 rounded-xl p-4 text-center col-span-3 border-2 border-gold">
+      <div class="text-xs text-navy tracking-widest">SIBLING DISCOUNT APPLIED</div>
+      <div class="text-lg md:text-xl font-bold text-navy mt-1">- KES {{ number_format($selected->discount_amount, 0) }} <span class="text-xs font-semibold">(child #{{ $selected->sibling_order }})</span></div>
+    </div>
+    @endif
     </div>
 
     {{-- PIE VISUAL (CSS donut) --}}
@@ -76,11 +82,13 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-6">
       <a href="{{ route('pay') }}?adm={{ $selected->adm_no }}" class="btn btn-gold text-sm">💳 Pay Fees</a>
       <a href="#results" class="btn btn-navy text-sm">📊 View Results</a>
       <a href="#payments" class="btn bg-gray-200 text-navy text-sm">📄 Receipts</a>
-      <a href="/contact" class="btn bg-gray-200 text-navy text-sm">📞 Support</a>
+      <a href="{{ route('bursar.statement', $selected) }}" class="btn bg-gray-200 text-navy text-sm">📋 Full Statement</a>
+      <a href="/timetable" class="btn bg-gray-200 text-navy text-sm">📅 Timetable</a>
+      <a href="/report" class="btn bg-gray-200 text-navy text-sm">🕊️ Report Concern</a>
     </div>
   </div>
 
@@ -177,5 +185,25 @@
     </div>
   </div>
 </section>
+
+<div class="max-w-6xl mx-auto px-4 pb-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <a href="/report" class="card p-4 text-center hover:shadow-lg transition">
+      <div class="text-2xl">🕊️</div>
+      <div class="text-sm font-semibold text-navy mt-1">Report a Concern</div>
+      <div class="text-xs text-gray-500">Anonymous to Director</div>
+    </a>
+    <a href="/verify-receipt/REC-2026-00003" class="card p-4 text-center hover:shadow-lg transition">
+      <div class="text-2xl">✓</div>
+      <div class="text-sm font-semibold text-navy mt-1">Verify a Receipt</div>
+      <div class="text-xs text-gray-500">Scan any receipt QR</div>
+    </a>
+    <a href="/contact" class="card p-4 text-center hover:shadow-lg transition">
+      <div class="text-2xl">📞</div>
+      <div class="text-sm font-semibold text-navy mt-1">Contact School</div>
+      <div class="text-xs text-gray-500">Call, email, or message</div>
+    </a>
+  </div>
+</div>
 
 @endsection

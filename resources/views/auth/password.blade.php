@@ -25,7 +25,7 @@
       <div><label class="block text-xs font-semibold text-navy mb-2 tracking-widest">CONFIRM *</label><input name="password_confirmation" type="password" required class="w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none"></div>
       <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold">Update Password</button>
     </form>
-    <div class="text-center mt-4 text-xs"><a href="/" class="text-navy hover:text-gold">← Back to home</a></div>
+    <div class="text-center mt-4 text-xs"><a href="/" class="text-navy hover:text-gold">← Back to home</a> | <a href="/parent/login" class="text-navy hover:text-gold">Parent Login</a></div>
   </div>
 </div>
 </body>

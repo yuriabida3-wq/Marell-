@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#0B3D91">
+
 <title>@yield('title', 'Admin') — Marell Admin</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -39,6 +42,12 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
 
   <nav class="p-3">
     <div class="sidebar-group-title">Overview</div>
+    <a href="/principal/predictions" class="sidebar-link {{ request()->is('principal/predictions*') ? 'active' : '' }}">
+      <span>🤖</span> AI Predictions
+    </a>
+    <a href="/principal/live-collection" class="sidebar-link {{ request()->is('principal/live-collection*') ? 'active' : '' }}">
+      <span>🎥</span> Live Collection
+    </a>
     <a href="/principal" class="sidebar-link {{ request()->is('principal') ? 'active' : '' }}">
       <span>📊</span> Dashboard
     </a>
@@ -58,14 +67,23 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     <a href="/principal/finance" class="sidebar-link {{ request()->is('principal/finance*') ? 'active' : '' }}">
       <span>💰</span> Payments
     </a>
+    <a href="/principal/fines" class="sidebar-link {{ request()->is('principal/fines*') ? 'active' : '' }}">
+      <span>⚠️</span> Late Fines
+    </a>
+    <a href="/principal/board-report" class="sidebar-link {{ request()->is('principal/board-report*') ? 'active' : '' }}">
+      <span>📊</span> Board Report
+    </a>
     <a href="/principal/expenses" class="sidebar-link {{ request()->is('principal/expenses*') ? 'active' : '' }}">
       <span>💸</span> Expenses
     </a>
-    <a href="/principal/defaulters" class="sidebar-link {{ request()->is('principal/defaulters*') ? 'active' : '' }}">
+    <a href="/principal/finance/defaulters" class="sidebar-link {{ request()->is('principal/finance/defaulters*') ? 'active' : '' }}">
       <span>⚠️</span> Defaulters
     </a>
 
     <div class="sidebar-group-title mt-3">Communication</div>
+    <a href="/principal/voice-sms" class="sidebar-link {{ request()->is('principal/voice-sms*') ? 'active' : '' }}">
+      <span>🎙️</span> Voice SMS
+    </a>
     <a href="/principal/sms" class="sidebar-link {{ request()->is('principal/sms*') ? 'active' : '' }}">
       <span>📱</span> SMS Center
     </a>
@@ -76,6 +94,9 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     <div class="sidebar-group-title mt-3">System</div>
     <a href="/principal/users" class="sidebar-link {{ request()->is('principal/users*') ? 'active' : '' }}">
       <span>👥</span> Users
+    </a>
+    <a href="/principal/confessions" class="sidebar-link {{ request()->is('principal/confessions*') ? 'active' : '' }}">
+      <span>🔒</span> Anonymous Reports
     </a>
     <a href="/principal/contacts" class="sidebar-link {{ request()->is('principal/contacts*') ? 'active' : '' }}">
       <span>✉️</span> Messages
@@ -104,6 +125,19 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
       </div>
 
       <div class="ml-auto flex items-center gap-3">
+      <div class="relative" id="quickJump">
+        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200">⚡ Quick Jump ▾</button>
+        <div id="qjMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border py-2 min-w-[200px] z-50">
+          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50">👑 Principal</a>
+          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50">📚 DOS</a>
+          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50">💰 Bursar</a>
+          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50">👨‍🏫 Teacher</a>
+          <div class="border-t my-1"></div>
+          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500">🌐 Public Website</a>
+          <a href="/logout" onclick="event.preventDefault(); document.getElementById('logoutForm')?.submit();" class="block px-4 py-2 text-sm hover:bg-gray-50 text-red-600">🚪 Logout</a>
+        </div>
+      </div>
+      
         <div class="hidden sm:block text-right">
           <div class="text-xs text-gray-500">Signed in as</div>
           <div class="font-semibold text-navy text-sm">{{ auth()->user()->name ?? 'Guest' }}</div>

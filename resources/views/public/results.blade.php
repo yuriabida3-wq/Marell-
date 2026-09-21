@@ -102,4 +102,5 @@
     <p>Can't find your ADM number? Call <a href="tel:+254700000000" class="text-navy font-semibold">+254 700 000 000</a>.</p>
   </div>
 </section>
+@include('public._related')
 @endsection

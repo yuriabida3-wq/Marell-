@@ -25,4 +25,5 @@
   </div>
   <div class="mt-8">{{ $news->links() }}</div>
 </section>
+@include('public._related')
 @endsection

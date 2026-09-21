@@ -41,6 +41,12 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
 
     <div class="sidebar-group-title mt-3">Academics</div>
     <a href="/dos/classes" class="sidebar-link {{ request()->is('dos/classes*') ? 'active' : '' }}"><span>🏫</span> Classes</a>
+    <a href="/dos/teacher-subjects" class="sidebar-link {{ request()->is('dos/teacher-subjects*') ? 'active' : '' }}">
+      <span>📋</span> Teacher Subjects
+    </a>
+    <a href="/dos/timetable-generator" class="sidebar-link {{ request()->is('dos/timetable-generator*') ? 'active' : '' }}">
+      <span>⚡</span> Auto-Generate
+    </a>
     <a href="/dos/timetable" class="sidebar-link {{ request()->is('dos/timetable*') ? 'active' : '' }}"><span>📅</span> Timetable</a>
     <a href="/dos/exams" class="sidebar-link {{ request()->is('dos/exams*') ? 'active' : '' }}"><span>📝</span> Exams</a>
     <a href="/dos/marks" class="sidebar-link {{ request()->is('dos/marks*') ? 'active' : '' }}"><span>✍️</span> Marks Entry</a>
@@ -70,6 +76,18 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
       </div>
 
       <div class="ml-auto flex items-center gap-3">
+      <div class="relative" id="quickJump">
+        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200">⚡ Quick Jump ▾</button>
+        <div id="qjMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border py-2 min-w-[200px] z-50">
+          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50">👑 Principal</a>
+          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50">📚 DOS</a>
+          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50">💰 Bursar</a>
+          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50">👨‍🏫 Teacher</a>
+          <div class="border-t my-1"></div>
+          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500">🌐 Public Website</a>
+        </div>
+      </div>
+      
         <div class="hidden sm:block text-right">
           <div class="text-xs text-gray-500">Signed in as</div>
           <div class="font-semibold text-navy text-sm">{{ auth()->user()->name ?? 'Guest' }}</div>
