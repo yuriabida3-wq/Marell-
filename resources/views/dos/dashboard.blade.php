@@ -61,7 +61,7 @@
       <a href="/dos/exams" class="block p-3 rounded-xl bg-gray-50 hover:bg-navy hover:text-white transition">
         📝 <span class="font-semibold">Create Exam</span>
       </a>
-      <a href="/dos/students" class="block p-3 rounded-xl bg-gray-50 hover:bg-navy hover:text-white transition">
+      <a href="/dos/students/create" class="block p-3 rounded-xl bg-gray-50 hover:bg-navy hover:text-white transition">
         🎓 <span class="font-semibold">Register Student</span>
       </a>
     </div>

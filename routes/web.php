@@ -342,3 +342,47 @@ Route::middleware(['auth', 'role:dos|principal'])->prefix('dos')->name('dos.')->
     Route::get('/students/{student}/edit',     [App\Http\Controllers\DosStudentController::class, 'edit'])->name('students.edit');
     Route::put('/students/{student}',          [App\Http\Controllers\DosStudentController::class, 'update'])->name('students.update');
 });
+
+// Principal — Emergency Broadcast
+Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/emergency',              [App\Http\Controllers\EmergencyAlertController::class, 'index'])->name('emergency.index');
+    Route::get('/emergency/create',       [App\Http\Controllers\EmergencyAlertController::class, 'create'])->name('emergency.create');
+    Route::post('/emergency',             [App\Http\Controllers\EmergencyAlertController::class, 'store'])->name('emergency.store');
+    Route::get('/emergency/{emergency}',  [App\Http\Controllers\EmergencyAlertController::class, 'show'])->name('emergency.show');
+    Route::delete('/emergency/{emergency}',[App\Http\Controllers\EmergencyAlertController::class, 'destroy'])->name('emergency.destroy');
+});
+
+// Library (DOS + Principal + Bursar can all access)
+Route::middleware(['auth', 'role:dos|principal|bursar'])->prefix('library')->name('library.')->group(function () {
+    Route::get('/',                         [App\Http\Controllers\LibraryController::class, 'index'])->name('index');
+
+    // Books
+    Route::get('/books',                    [App\Http\Controllers\LibraryController::class, 'books'])->name('books');
+    Route::get('/books/create',             [App\Http\Controllers\LibraryController::class, 'createBook'])->name('books.create');
+    Route::post('/books',                   [App\Http\Controllers\LibraryController::class, 'storeBook'])->name('books.store');
+    Route::get('/books/{book}/edit',        [App\Http\Controllers\LibraryController::class, 'editBook'])->name('books.edit');
+    Route::put('/books/{book}',             [App\Http\Controllers\LibraryController::class, 'updateBook'])->name('books.update');
+
+    // Loans
+    Route::get('/loans',                    [App\Http\Controllers\LibraryController::class, 'loans'])->name('loans');
+    Route::post('/loans/{loan}/return',     [App\Http\Controllers\LibraryController::class, 'returnBook'])->name('loans.return');
+    Route::post('/loans/{loan}/fine-paid',  [App\Http\Controllers\LibraryController::class, 'markFinePaid'])->name('loans.fine-paid');
+
+    // Issue / Return
+    Route::get('/issue',                    [App\Http\Controllers\LibraryController::class, 'issueForm'])->name('issue');
+    Route::post('/issue',                   [App\Http\Controllers\LibraryController::class, 'issue'])->name('issue.store');
+    Route::get('/return',                   [App\Http\Controllers\LibraryController::class, 'returnForm'])->name('return');
+});
+
+// Visitor Management (gate staff + principal + dos)
+Route::middleware(['auth', 'role:principal|dos|bursar|teacher'])->prefix('visitors')->name('visitors.')->group(function () {
+    Route::get('/gate',                     [App\Http\Controllers\VisitorController::class, 'gate'])->name('gate');
+    Route::get('/',                         [App\Http\Controllers\VisitorController::class, 'index'])->name('index');
+    Route::get('/check-in',                 [App\Http\Controllers\VisitorController::class, 'checkInForm'])->name('check-in');
+    Route::post('/check-in',                [App\Http\Controllers\VisitorController::class, 'checkIn'])->name('check-in.store');
+    Route::post('/check-out/{visitor}',     [App\Http\Controllers\VisitorController::class, 'checkOut'])->name('check-out');
+    Route::get('/pre-register',             [App\Http\Controllers\VisitorController::class, 'preRegisterForm'])->name('pre-register');
+    Route::post('/pre-register',            [App\Http\Controllers\VisitorController::class, 'preRegister'])->name('pre-register.store');
+    Route::get('/{visitor}',                [App\Http\Controllers\VisitorController::class, 'show'])->name('show');
+    Route::delete('/{visitor}',             [App\Http\Controllers\VisitorController::class, 'destroy'])->name('destroy');
+});

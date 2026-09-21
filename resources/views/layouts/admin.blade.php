@@ -73,6 +73,12 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     <a href="/principal/board-report" class="sidebar-link {{ request()->is('principal/board-report*') ? 'active' : '' }}">
       <span>📊</span> Board Report
     </a>
+    <a href="/visitors/gate" class="sidebar-link {{ request()->is('visitors*') ? 'active' : '' }}">
+      <span>🚪</span> Gate
+    </a>
+    <a href="/library" class="sidebar-link {{ request()->is('library*') ? 'active' : '' }}">
+      <span>📚</span> Library
+    </a>
     <a href="/principal/expenses" class="sidebar-link {{ request()->is('principal/expenses*') ? 'active' : '' }}">
       <span>💸</span> Expenses
     </a>
@@ -83,6 +89,9 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     <div class="sidebar-group-title mt-3">Communication</div>
     <a href="/principal/voice-sms" class="sidebar-link {{ request()->is('principal/voice-sms*') ? 'active' : '' }}">
       <span>🎙️</span> Voice SMS
+    </a>
+    <a href="/principal/emergency" class="sidebar-link {{ request()->is('principal/emergency*') ? 'active' : '' }}">
+      <span>🚨</span> Emergency Alert
     </a>
     <a href="/principal/sms" class="sidebar-link {{ request()->is('principal/sms*') ? 'active' : '' }}">
       <span>📱</span> SMS Center

@@ -134,7 +134,7 @@
     <div class="text-3xl mb-2">💰</div>
     <div class="font-bold text-navy text-sm">Finance</div>
   </a>
-  <a href="/principal/defaulters" class="bg-white rounded-2xl p-5 shadow hover:shadow-lg transition text-center">
+  <a href="/principal/finance/defaulters" class="bg-white rounded-2xl p-5 shadow hover:shadow-lg transition text-center">
     <div class="text-3xl mb-2">⚠️</div>
     <div class="font-bold text-navy text-sm">Defaulters</div>
   </a>
