@@ -101,6 +101,9 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     </a>
 
     <div class="sidebar-group-title mt-3">System</div>
+    <a href="/qr-scanner" class="sidebar-link {{ request()->is('qr-scanner*') ? 'active' : '' }}">
+      <span>📷</span> QR Scanner
+    </a>
     <a href="/principal/audit" class="sidebar-link {{ request()->is('principal/audit*') ? 'active' : '' }}">
       <span>🔍</span> Audit Log
     </a>

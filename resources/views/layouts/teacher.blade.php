@@ -35,6 +35,8 @@
     <a href="/teacher/timetable" class="sl {{ request()->is('teacher/timetable*') ? 'active' : '' }}"><span>📅</span> My Timetable</a>
     <a href="/teacher/marks" class="sl {{ request()->is('teacher/marks*') ? 'active' : '' }}"><span>✍️</span> Enter Marks</a>
     <a href="/teacher/homework" class="sl {{ request()->is('teacher/homework*') ? 'active' : '' }}"><span>📚</span> Homework</a>
+    <a href="/library" class="sl {{ request()->is('library*') ? 'active' : '' }}"><span>📚</span> Library</a>
+    <a href="/visitors/gate" class="sl {{ request()->is('visitors*') ? 'active' : '' }}"><span>🚪</span> Gate</a>
   </nav>
 </aside>
 

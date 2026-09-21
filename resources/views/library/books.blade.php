@@ -1,4 +1,4 @@
-@extends('layouts.dos')
+@extends(role_layout())
 @section('title', 'Book Catalog')
 @section('content')
 

@@ -386,3 +386,26 @@ Route::middleware(['auth', 'role:principal|dos|bursar|teacher'])->prefix('visito
     Route::get('/{visitor}',                [App\Http\Controllers\VisitorController::class, 'show'])->name('show');
     Route::delete('/{visitor}',             [App\Http\Controllers\VisitorController::class, 'destroy'])->name('destroy');
 });
+
+// Principal — Results Overview
+Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/results',                    [App\Http\Controllers\PrincipalResultsController::class, 'index'])->name('results');
+    Route::get('/results/export/{exam}',      [App\Http\Controllers\PrincipalResultsController::class, 'exportExam'])->name('results.export');
+});
+
+// Principal — Teachers management
+Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/teachers',                        [App\Http\Controllers\PrincipalTeacherController::class, 'index'])->name('teachers.index');
+    Route::get('/teachers/create',                 [App\Http\Controllers\PrincipalTeacherController::class, 'create'])->name('teachers.create');
+    Route::post('/teachers',                       [App\Http\Controllers\PrincipalTeacherController::class, 'store'])->name('teachers.store');
+    Route::get('/teachers/{teacher}',              [App\Http\Controllers\PrincipalTeacherController::class, 'show'])->name('teachers.show');
+    Route::get('/teachers/{teacher}/edit',         [App\Http\Controllers\PrincipalTeacherController::class, 'edit'])->name('teachers.edit');
+    Route::put('/teachers/{teacher}',              [App\Http\Controllers\PrincipalTeacherController::class, 'update'])->name('teachers.update');
+    Route::post('/teachers/{teacher}/reset-password', [App\Http\Controllers\PrincipalTeacherController::class, 'resetPassword'])->name('teachers.reset-password');
+});
+
+// QR Receipt Scanner (Director, Bursar, DOS)
+Route::middleware(['auth', 'role:principal|bursar|dos'])->prefix('qr-scanner')->name('qr.')->group(function () {
+    Route::get('/',        [App\Http\Controllers\QrScannerController::class, 'index'])->name('scanner');
+    Route::post('/verify', [App\Http\Controllers\QrScannerController::class, 'verify'])->name('verify');
+});

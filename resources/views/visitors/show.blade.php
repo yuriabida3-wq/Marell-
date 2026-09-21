@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends(role_layout())
 @section('title', 'Visitor Details')
 @section('content')
 

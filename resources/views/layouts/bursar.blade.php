@@ -41,6 +41,9 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     <a href="/bursar/payments" class="sl {{ request()->is('bursar/payments*') ? 'active' : '' }}"><span>💳</span> All Payments</a>
     <a href="/bursar/balances" class="sl {{ request()->is('bursar/balances*') ? 'active' : '' }}"><span>📊</span> Fee Balances</a>
     <a href="/bursar/daily" class="sl {{ request()->is('bursar/daily*') ? 'active' : '' }}"><span>📅</span> Daily Report</a>
+    <a href="/qr-scanner" class="sl {{ request()->is('qr-scanner*') ? 'active' : '' }}"><span>📷</span> QR Scanner</a>
+    <a href="/library" class="sl {{ request()->is('library*') ? 'active' : '' }}"><span>📚</span> Library</a>
+    <a href="/visitors/gate" class="sl {{ request()->is('visitors*') ? 'active' : '' }}"><span>🚪</span> Gate</a>
     <a href="/bursar/bulk" class="sl {{ request()->is('bursar/bulk*') ? 'active' : '' }}"><span>📥</span> Bulk Cash Upload</a>
   </nav>
 </aside>

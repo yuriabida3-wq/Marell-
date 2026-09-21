@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends(role_layout())
 @section('title', 'Pre-Register Visitor')
 @section('content')
 

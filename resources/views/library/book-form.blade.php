@@ -1,4 +1,4 @@
-@extends('layouts.dos')
+@extends(role_layout())
 @section('title', isset($book) ? 'Edit Book' : 'Add Book')
 @section('content')
 <div class="mb-6">
