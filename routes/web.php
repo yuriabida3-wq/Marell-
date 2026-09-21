@@ -332,3 +332,13 @@ Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('princi
 Route::post('/assistant/ask', [App\Http\Controllers\AssistantController::class, 'ask'])
     ->middleware('throttle:30,1')
     ->name('assistant.ask');
+
+// DOS — Student Management
+Route::middleware(['auth', 'role:dos|principal'])->prefix('dos')->name('dos.')->group(function () {
+    Route::get('/students',                    [App\Http\Controllers\DosStudentController::class, 'index'])->name('students.index');
+    Route::get('/students/create',             [App\Http\Controllers\DosStudentController::class, 'create'])->name('students.create');
+    Route::post('/students',                   [App\Http\Controllers\DosStudentController::class, 'store'])->name('students.store');
+    Route::get('/students/{student}',          [App\Http\Controllers\DosStudentController::class, 'show'])->name('students.show');
+    Route::get('/students/{student}/edit',     [App\Http\Controllers\DosStudentController::class, 'edit'])->name('students.edit');
+    Route::put('/students/{student}',          [App\Http\Controllers\DosStudentController::class, 'update'])->name('students.update');
+});

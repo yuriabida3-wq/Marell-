@@ -52,7 +52,7 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     <a href="/dos/marks" class="sidebar-link {{ request()->is('dos/marks*') ? 'active' : '' }}"><span>✍️</span> Marks Entry</a>
 
     <div class="sidebar-group-title mt-3">Students</div>
-    <a href="/dos/students" class="sidebar-link {{ request()->is('dos/students*') ? 'active' : '' }}"><span>🎓</span> Register Student</a>
+    <a href="/dos/students/create" class="sidebar-link {{ request()->is('dos/students*') ? 'active' : '' }}"><span>🎓</span> Register Student</a>
     <a href="/dos/promote" class="sidebar-link {{ request()->is('dos/promote*') ? 'active' : '' }}"><span>⬆️</span> Promote</a>
 
     <div class="sidebar-group-title mt-3">Teachers</div>

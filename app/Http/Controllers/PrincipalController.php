@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StudentsExport;
 use App\Models\Payment;
 use App\Models\Student;
 use App\Models\User;
@@ -12,6 +13,12 @@ class PrincipalController extends Controller
 {
     public function dashboard()
     {
+        // DOS visiting /principal → send them to /dos
+        $u = auth()->user();
+        if ($u && $u->hasRole('dos') && !$u->hasRole('principal')) {
+            return redirect()->route('dos.dashboard');
+        }
+
         $today = now()->toDateString();
 
         $todayCollection = Payment::where('status', 'completed')
@@ -26,7 +33,6 @@ class PrincipalController extends Controller
         $activeStudents = Student::where('status', 'active')->count();
         $teachers       = User::role('teacher')->count();
 
-        // Fees Trend — last 7 days
         $trend = Payment::select(
                 DB::raw('DATE(created_at) as day'),
                 DB::raw('SUM(amount) as total')
@@ -99,9 +105,6 @@ class PrincipalController extends Controller
         return response()->json(['results' => $results]);
     }
 
-    /**
-     * Native CSV export — no Maatwebsite dependency, works on PHP 8.5.
-     */
     public function exportStudents(Request $request)
     {
         $class    = $request->get('class');
@@ -118,8 +121,6 @@ class PrincipalController extends Controller
 
         $callback = function () use ($students) {
             $out = fopen('php://output', 'w');
-
-            // BOM for Excel UTF-8 compatibility
             fprintf($out, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
             fputcsv($out, [

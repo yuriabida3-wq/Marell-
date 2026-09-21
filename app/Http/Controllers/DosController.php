@@ -46,7 +46,24 @@ class DosController extends Controller
             'capacity'         => 'nullable|integer|min:1|max:200',
         ]);
 
+        // Check for duplicate
+        $exists = Classroom::where('name', $data['name'])
+            ->where(function ($q) use ($data) {
+                if (!empty($data['stream'])) {
+                    $q->where('stream', $data['stream']);
+                } else {
+                    $q->whereNull('stream')->orWhere('stream', '');
+                }
+            })
+            ->exists();
+
+        if ($exists) {
+            $label = $data['name'] . (!empty($data['stream']) ? ' ' . $data['stream'] : '');
+            return back()->with('error', "Class \"{$label}\" already exists.")->withInput();
+        }
+
         Classroom::create($data);
+
         return back()->with('success', 'Class created.');
     }
 
@@ -60,7 +77,26 @@ class DosController extends Controller
             'capacity'         => 'nullable|integer|min:1|max:200',
             'active'           => 'boolean',
         ]);
+
+        // Check for duplicate (excluding self)
+        $exists = Classroom::where('name', $data['name'])
+            ->where(function ($q) use ($data) {
+                if (!empty($data['stream'])) {
+                    $q->where('stream', $data['stream']);
+                } else {
+                    $q->whereNull('stream')->orWhere('stream', '');
+                }
+            })
+            ->where('id', '!=', $classroom->id)
+            ->exists();
+
+        if ($exists) {
+            $label = $data['name'] . (!empty($data['stream']) ? ' ' . $data['stream'] : '');
+            return back()->with('error', "Class \"{$label}\" already exists.");
+        }
+
         $classroom->update($data);
+
         return back()->with('success', 'Class updated.');
     }
 
@@ -106,9 +142,7 @@ class DosController extends Controller
 
         $times = [
             1 => ['08:00','08:40'], 2 => ['08:40','09:20'], 3 => ['09:20','10:00'],
-            4 => ['10:20','11:00'],
-            5 => ['11:00','11:40'],
-            6 => ['11:40','12:20'],
+            4 => ['10:20','11:00'], 5 => ['11:00','11:40'], 6 => ['11:40','12:20'],
             7 => ['14:00','14:40'], 8 => ['14:40','15:20'],
         ];
 
@@ -193,8 +227,8 @@ class DosController extends Controller
 
         $times = [
             1 => ['08:00','08:40'], 2 => ['08:40','09:20'], 3 => ['09:20','10:00'],
-            4 => ['10:20','11:00'], 5 => ['11:00','11:40'],
-            6 => ['11:40','12:20'], 7 => ['14:00','14:40'], 8 => ['14:40','15:20'],
+            4 => ['10:20','11:00'], 5 => ['11:00','11:40'], 6 => ['11:40','12:20'],
+            7 => ['14:00','14:40'], 8 => ['14:40','15:20'],
         ];
 
         Timetable::updateOrCreate(
