@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Marell">
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title', 'Marell Academy') — Empowering Tomorrow's Leaders</title>
 <meta name="description" content="@yield('meta_description', 'Marell Academy — Quality CBC education in Kenya. Pay fees online, check results, apply online.')">
 
@@ -194,5 +195,7 @@ if ('serviceWorker' in navigator) {
 </script>
 @endpush
 @stack('scripts')
+
+@include('partials.assistant')
 </body>
 </html>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\LoginActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 
 class LoginController extends Controller
 {
@@ -23,25 +25,48 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
+        $key = 'login:' . strtolower($creds['email']) . '|' . $request->ip();
+
+        // Lockout after 5 failed attempts in 15 min
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $secs = RateLimiter::availableIn($key);
+            LoginActivity::record('locked_out', $creds['email'], null, "Locked for {$secs}s");
+            return back()->withErrors(['email' => "Too many attempts. Try again in {$secs} seconds."])->withInput();
+        }
+
         if (!Auth::attempt($creds, $request->boolean('remember'))) {
+            RateLimiter::hit($key, 900); // 15 min window
+            LoginActivity::record('login_failed', $creds['email'], null, 'Invalid credentials');
             return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
         }
 
-        if (!Auth::user()->active) {
+        $user = Auth::user();
+
+        if (!$user->active) {
             Auth::logout();
+            LoginActivity::record('login_failed', $creds['email'], $user->id, 'Account inactive');
             return back()->withErrors(['email' => 'Your account has been deactivated.'])->withInput();
         }
 
+        RateLimiter::clear($key);
         $request->session()->regenerate();
 
-        return redirect()->intended($this->homeFor(Auth::user()));
+        LoginActivity::record('login_success', $user->email, $user->id);
+
+        return redirect()->intended($this->homeFor($user));
     }
 
     public function logout(Request $request)
     {
+        $user = Auth::user();
+        if ($user) {
+            LoginActivity::record('logout', $user->email, $user->id);
+        }
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/');
     }
 

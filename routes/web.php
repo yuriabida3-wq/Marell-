@@ -185,7 +185,7 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')
     Route::post('/marks', [App\Http\Controllers\TeacherController::class, 'marksStore'])->name('marks.store');
     Route::get('/homework', [App\Http\Controllers\TeacherController::class, 'homeworkIndex'])->name('homework');
     Route::post('/homework', [App\Http\Controllers\TeacherController::class, 'homeworkStore'])->name('homework.store');
-    Route::get('/class-list/pdf', [App\Http\Controllers\TeacherController::class, 'classListPdf'])->name('teacher.classListPdf');
+    Route::get('/class-list/pdf', [App\Http\Controllers\TeacherController::class, 'classListPdf'])->name('classListPdf');
 });
 
 // Principal — News / Admissions / Contacts / Expenses
@@ -322,3 +322,13 @@ Route::middleware(['auth', 'role:dos|principal'])->prefix('dos')->name('dos.')->
     Route::post('/exams/{exam}/controls/open-all',  [App\Http\Controllers\ExamControlController::class, 'openAll'])->name('exams.controls.open-all');
     Route::post('/exams/{exam}/controls/close-all', [App\Http\Controllers\ExamControlController::class, 'closeAll'])->name('exams.controls.close-all');
 });
+
+// Principal — Audit Log
+Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/audit', [App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+});
+
+// Virtual Assistant (public, throttled)
+Route::post('/assistant/ask', [App\Http\Controllers\AssistantController::class, 'ask'])
+    ->middleware('throttle:30,1')
+    ->name('assistant.ask');

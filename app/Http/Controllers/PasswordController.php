@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Rules\StrongPassword;
 use Illuminate\Support\Facades\Hash;
 
 class PasswordController extends Controller
@@ -16,7 +17,7 @@ class PasswordController extends Controller
     {
         $data = $request->validate([
             'current_password' => 'required|string',
-            'password'         => 'required|string|min:6|confirmed',
+            'password'         => ['required', 'string', 'confirmed', new StrongPassword],
         ]);
 
         $user = auth()->user();

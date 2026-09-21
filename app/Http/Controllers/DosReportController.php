@@ -10,6 +10,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Rules\StrongPassword;
 use Illuminate\Support\Facades\Hash;
 
 class DosReportController extends Controller
@@ -181,7 +182,7 @@ class DosReportController extends Controller
             'name'     => 'required|string|max:120',
             'email'    => 'required|email|unique:users,email',
             'phone'    => 'nullable|string|max:20|unique:users,phone',
-            'password' => 'required|string|min:6',
+            'password' => ['required', 'string', new StrongPassword],
         ]);
 
         $user = User::create([

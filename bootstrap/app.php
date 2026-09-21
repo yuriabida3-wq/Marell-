@@ -17,6 +17,14 @@ return Application::configure(basePath: dirname(__DIR__))
             'api/mpesa/callback',
         ]);
 
+        $middleware->append(
+            \App\Http\Middleware\SecurityHeaders::class,
+        );
+
+        $middleware->appendToGroup('web', [
+            \App\Http\Middleware\SessionTimeout::class,
+        ]);
+
         $middleware->alias([
             'parent.auth'        => \App\Http\Middleware\ParentAuth::class,
             'role'               => \Spatie\Permission\Middleware\RoleMiddleware::class,

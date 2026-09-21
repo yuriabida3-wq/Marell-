@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\AuditLog;
+use App\Rules\StrongPassword;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -42,7 +44,7 @@ class UserAdminController extends Controller
             'name'     => 'required|string|max:120',
             'email'    => 'required|email|unique:users,email',
             'phone'    => 'nullable|string|max:20|unique:users,phone',
-            'password' => 'required|string|min:6',
+            'password' => ['required', 'string', new StrongPassword],
             'role'     => 'required|string|exists:roles,name',
         ]);
 
@@ -90,10 +92,11 @@ class UserAdminController extends Controller
     public function resetPassword(Request $request, User $user)
     {
         $data = $request->validate([
-            'password' => 'required|string|min:6',
+            'password' => ['required', 'string', new StrongPassword],
         ]);
 
         $user->update(['password' => Hash::make($data['password'])]);
+        AuditLog::log('user.password_reset', $user, [], [], 'Admin reset password');
 
         return back()->with('success', "Password reset for {$user->name}.");
     }
@@ -103,7 +106,9 @@ class UserAdminController extends Controller
         if ($user->id === auth()->id()) {
             return back()->with('error', 'You cannot deactivate yourself.');
         }
+        $old = $user->active;
         $user->update(['active' => !$user->active]);
+        AuditLog::log('user.status_changed', $user, ['active' => $old], ['active' => !$old]);
         return back()->with('success', "User " . ($user->active ? 'activated' : 'deactivated') . ".");
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classroom;
 use App\Models\Payment;
 use App\Models\Student;
+use App\Models\AuditLog;
 use App\Services\SmsService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -90,6 +91,8 @@ class BursarController extends Controller
 
             $locked->update(['paid_amount' => $newPaid, 'balance' => $newBalance]);
         });
+
+        AuditLog::log('payment.recorded', $payment, [], ['amount' => $data['amount'], 'method' => $data['method'], 'student_id' => $student->id], 'Bursar manual entry');
 
         // Optional SMS
         if (!empty($data['send_sms']) && $student->parent_phone) {

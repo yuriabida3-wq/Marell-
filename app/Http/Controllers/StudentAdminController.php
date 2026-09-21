@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\AuditLog;
 use App\Models\Result;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -106,7 +107,9 @@ class StudentAdminController extends Controller
         $data['parent_phone'] = $this->normalizePhone($data['parent_phone']);
         $data['balance']      = max(0, (float) $data['total_fee'] - (float) $student->paid_amount);
 
+        $before = $student->only(['name','class','stream','parent_name','parent_phone','total_fee','status']);
         $student->update($data);
+        AuditLog::log('student.updated', $student, $before, $student->only(['name','class','stream','parent_name','parent_phone','total_fee','status']));
 
         return redirect()->route('principal.students.show', $student)
             ->with('success', 'Student updated.');
@@ -115,7 +118,9 @@ class StudentAdminController extends Controller
     public function toggleStatus(Student $student)
     {
         $new = $student->status === 'active' ? 'suspended' : 'active';
+        $old = $student->status;
         $student->update(['status' => $new]);
+        AuditLog::log('student.status_changed', $student, ['status' => $old], ['status' => $new]);
         return back()->with('success', "Student marked as {$new}.");
     }
 
