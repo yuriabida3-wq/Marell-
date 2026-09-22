@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class WalletTransaction extends Model
 {
-    protected $fillable = ['student_id','type','amount','balance_after','reference','category','description','recorded_by','staff_id','ip'];
+    protected $fillable = ['student_id','type','amount','balance_after','reference','category','description','recorded_by','staff_id','ip', 'status', 'checkout_request_id', 'mpesa_receipt', 'phone'];
     protected $casts = ['amount' => 'decimal:2', 'balance_after' => 'decimal:2'];
 
     public function student() { return $this->belongsTo(Student::class); }

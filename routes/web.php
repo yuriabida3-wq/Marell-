@@ -534,3 +534,13 @@ Route::prefix('canteen')->name('canteen.')->group(function () {
     Route::post('/checkout',[App\Http\Controllers\CanteenItemController::class, 'checkout'])->name('item-checkout');
 });
 Route::post('parent/wallet/blocked-items', [App\Http\Controllers\WalletController::class, 'saveBlockedItems'])->name('parent.wallet.blocked');
+
+// ============ GATE CONSOLE ============
+Route::middleware(['auth'])->prefix('gate/console')->name('gate.console.')->group(function () {
+    Route::get('/',                   [App\Http\Controllers\GuardConsoleController::class, 'index'])->name('index');
+    Route::get('/stats',              [App\Http\Controllers\GuardConsoleController::class, 'stats'])->name('stats');
+    Route::get('/recent',             [App\Http\Controllers\GuardConsoleController::class, 'recent'])->name('recent');
+    Route::get('/inside',             [App\Http\Controllers\GuardConsoleController::class, 'inside'])->name('inside');
+    Route::post('/visitor',           [App\Http\Controllers\GuardConsoleController::class, 'visitorCheckIn'])->name('visitor-in');
+    Route::post('/visitor-out',       [App\Http\Controllers\GuardConsoleController::class, 'visitorCheckOut'])->name('visitor-out');
+});
