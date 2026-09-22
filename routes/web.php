@@ -518,3 +518,18 @@ Route::post('gate/console/staff-scan', [App\Http\Controllers\StaffAttendanceCont
 Route::get('principal/staff-attendance', [App\Http\Controllers\StaffAttendanceController::class, 'index'])->name('principal.staff-attendance');
 Route::get('principal/staff-qrcodes', [App\Http\Controllers\StaffAttendanceController::class, 'qrcodes'])->name('principal.staff-qrcodes');
 Route::get('principal/canteen-report', [App\Http\Controllers\WalletController::class, 'canteenReport'])->name('principal.canteen-report');
+
+// ============ CANTEEN ITEM MENU + BLOCKED ITEMS ============
+Route::middleware(['auth', 'role:principal|bursar'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/canteen-items',              [App\Http\Controllers\CanteenItemController::class, 'index'])->name('canteen-items.index');
+    Route::post('/canteen-items',             [App\Http\Controllers\CanteenItemController::class, 'store'])->name('canteen-items.store');
+    Route::put('/canteen-items/{item}',       [App\Http\Controllers\CanteenItemController::class, 'update'])->name('canteen-items.update');
+    Route::post('/canteen-items/{item}/toggle',[App\Http\Controllers\CanteenItemController::class, 'toggle'])->name('canteen-items.toggle');
+    Route::delete('/canteen-items/{item}',    [App\Http\Controllers\CanteenItemController::class, 'destroy'])->name('canteen-items.destroy');
+});
+
+Route::prefix('canteen')->name('canteen.')->group(function () {
+    Route::get('/menu',     [App\Http\Controllers\CanteenItemController::class, 'menu'])->name('menu');
+    Route::post('/lookup',  [App\Http\Controllers\CanteenItemController::class, 'lookup'])->name('item-lookup');
+    Route::post('/checkout',[App\Http\Controllers\CanteenItemController::class, 'checkout'])->name('item-checkout');
+});
