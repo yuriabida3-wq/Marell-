@@ -17,7 +17,9 @@ class Student extends Model
         'auto_reload_phone', 'auto_reload_enabled',
         'total_fee', 'paid_amount', 'balance',
         'photo', 'status',
-    ];
+        'blocked_items',
+    'blocked_categories',
+];
 
     protected $casts = [
         'total_fee'             => 'decimal:2',
@@ -29,6 +31,8 @@ class Student extends Model
         'auto_reload_threshold' => 'decimal:2',
         'auto_reload_amount'    => 'decimal:2',
         'auto_reload_enabled'   => 'boolean',
+            'blocked_items'       => 'array',
+        'blocked_categories'  => 'array',
     ];
 
     public function payments()
