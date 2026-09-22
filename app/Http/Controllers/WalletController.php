@@ -47,29 +47,38 @@ class WalletController extends Controller
             ->where('parent_phone', $phone)
             ->firstOrFail();
 
-        // Create pending manual load — in real M-Pesa this would trigger STK push
-        // For demo, directly credit
+        $txn = WalletTransaction::create([
+            'student_id'    => $student->id,
+            'type'          => 'topup',
+            'amount'        => $data['amount'],
+            'balance_after' => $student->wallet_balance,
+            'category'      => 'mpesa_topup',
+            'status'        => 'pending',
+            'phone'         => $student->parent_phone,
+            'description'   => 'M-Pesa wallet top-up (pending)',
+            'reference'     => 'PEND-' . strtoupper(uniqid()),
+        ]);
+
         try {
-            $txn = $student->topUpWallet(
+            $response = app(\App\Services\MpesaService::class)->stkPush(
+                \App\Services\MpesaService::normalizePhone($student->parent_phone),
                 (float) $data['amount'],
-                'MANUAL-' . strtoupper(uniqid()),
-                'load',
-                'Wallet top-up by parent'
+                'WALLET-' . $txn->id,
+                'Wallet Top-up'
             );
-
-            // Send SMS
-            try {
-                app(SmsService::class)->send(
-                    $student->parent_phone,
-                    "MARELL WALLET\nLoaded KES " . number_format($data['amount'], 2) .
-                    " for {$student->name}.\nNew balance: KES " . number_format($student->fresh()->wallet_balance, 2)
-                );
-            } catch (\Throwable $e) {}
-
-            return back()->with('success', "Wallet loaded KES " . number_format($data['amount'], 2) . ". New balance: KES " . number_format($student->fresh()->wallet_balance, 2));
         } catch (\Throwable $e) {
-            return back()->with('error', 'Top-up failed: ' . $e->getMessage());
+            $txn->update(['status' => 'failed', 'description' => 'STK error: ' . $e->getMessage()]);
+            return back()->with('error', 'Could not reach M-Pesa. Try again.');
         }
+
+        if (!empty($response['CheckoutRequestID'])) {
+            $txn->update(['checkout_request_id' => $response['CheckoutRequestID']]);
+            return back()->with('success', 'M-Pesa prompt sent to ' . $student->parent_phone . '. Enter your PIN.');
+        }
+
+        $err = $response['errorMessage'] ?? ($response['error'] ?? 'Unknown error');
+        $txn->update(['status' => 'failed', 'description' => 'STK rejected: ' . $err]);
+        return back()->with('error', 'M-Pesa declined: ' . $err);
     }
 
     public function parentSettings(Request $request)
@@ -162,6 +171,17 @@ class WalletController extends Controller
             DB::transaction(function () use ($student, $data, &$txn) {
                 $locked = Student::where('id', $student->id)->lockForUpdate()->first();
 
+                // Daily canteen limit check
+                $dailySpend = \App\Models\WalletTransaction::where('student_id', $locked->id)
+                    ->where('category', 'canteen')
+                    ->where('type', 'spend')
+                    ->whereDate('created_at', today())
+                    ->sum('amount');
+                $dailyLimit = (float) ($locked->daily_limit ?? 0);
+                if ($dailyLimit > 0 && ($dailySpend + (float) $data['amount']) > $dailyLimit) {
+                    throw new \RuntimeException('Daily limit KES ' . number_format($dailyLimit, 2) . ' | Spent today KES ' . number_format((float) $dailySpend, 2));
+                }
+
                 if ((float) $data['amount'] > (float) $locked->wallet_balance) {
                     throw new \RuntimeException("Insufficient wallet balance (KES " . number_format((float) $locked->wallet_balance, 2) . ")");
                 }
@@ -183,6 +203,18 @@ class WalletController extends Controller
                     'ip'            => request()->ip(),
                 ]);
             });
+
+            // Low balance alert
+            try {
+                $fresh = $student->fresh();
+                $alertThreshold = (float) ($student->low_balance_alert ?? 200);
+                if ($alertThreshold > 0 && (float) $fresh->wallet_balance < $alertThreshold && (float) $fresh->wallet_balance >= 0) {
+                    app(SmsService::class)->send(
+                        $student->parent_phone,
+                        "MARELL ALERT\n{$student->name} wallet is LOW: KES " . number_format((float) $fresh->wallet_balance, 2) . ".\nPlease top up via the parent portal."
+                    );
+                }
+            } catch (\Throwable $e) {}
 
             // SMS to parent (stubbed)
             try {
@@ -271,4 +303,36 @@ class WalletController extends Controller
             ]),
         ]);
     }
+
+
+    public function canteenReport(Request $request)
+    {
+        $days = (int) ($request->input('days', 7));
+        $from = now()->subDays($days)->startOfDay();
+        $to   = now()->endOfDay();
+
+        $base = \App\Models\WalletTransaction::where('category', 'canteen')
+            ->where('type', 'spend')
+            ->whereBetween('created_at', [$from, $to]);
+
+        $total = (clone $base)->sum('amount');
+        $count = (clone $base)->count();
+        $avg   = $count > 0 ? $total / $count : 0;
+
+        $daily = (clone $base)->selectRaw('DATE(created_at) as day, SUM(amount) as total, COUNT(*) as txns')
+            ->groupBy('day')->orderByDesc('day')->get();
+
+        $topSpenders = \App\Models\WalletTransaction::where('category', 'canteen')
+            ->where('type', 'spend')
+            ->whereBetween('created_at', [$from, $to])
+            ->selectRaw('student_id, SUM(amount) as total, COUNT(*) as txns')
+            ->groupBy('student_id')
+            ->orderByDesc('total')
+            ->limit(15)
+            ->with('student')
+            ->get();
+
+        return view('wallet.canteen_report', compact('total', 'count', 'avg', 'daily', 'topSpenders', 'days'));
+    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Payment;
 use App\Models\Student;
+use App\Models\WalletTransaction;
 use App\Services\SmsService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,8 +42,14 @@ class ProcessMpesaCallback implements ShouldQueue
         }
 
         $payment = Payment::where('checkout_request_id', $checkoutId)->first();
+
         if (!$payment) {
-            Log::warning("M-Pesa callback: no payment matches checkout {$checkoutId}");
+            $wallet = WalletTransaction::where('checkout_request_id', $checkoutId)->first();
+            if ($wallet) {
+                $this->handleWalletTopup($wallet, $stk, $resultCode, $resultDesc);
+                return;
+            }
+            Log::warning("M-Pesa callback: no payment/wallet matches checkout {$checkoutId}");
             return;
         }
 
@@ -138,6 +145,67 @@ class ProcessMpesaCallback implements ShouldQueue
                         Log::warning('SMS receipt failed: ' . $e->getMessage());
                     }
                 }
+            }
+        });
+    }
+
+    protected function handleWalletTopup(WalletTransaction $wallet, array $stk, int $resultCode, string $resultDesc): void
+    {
+        if ($wallet->status === 'completed') { return; }
+
+        if ($resultCode !== 0) {
+            $wallet->update(['status' => 'failed', 'description' => "M-Pesa: {$resultDesc} (code {$resultCode})"]);
+            return;
+        }
+
+        $meta = collect($stk['CallbackMetadata']['Item'] ?? [])
+            ->mapWithKeys(fn ($i) => [$i['Name'] => $i['Value'] ?? null])->all();
+
+        $mpesaReceipt = $meta['MpesaReceiptNumber'] ?? null;
+        $paidAmount   = (float) ($meta['Amount'] ?? $wallet->amount);
+        $phone        = $meta['PhoneNumber'] ?? $wallet->phone;
+
+        if (!$mpesaReceipt) {
+            Log::warning("Wallet topup {$wallet->id}: no MpesaReceiptNumber");
+            return;
+        }
+
+        $dupe = WalletTransaction::where('mpesa_receipt', $mpesaReceipt)
+            ->where('id', '!=', $wallet->id)->where('status', 'completed')->exists();
+        if ($dupe) {
+            $wallet->update(['status' => 'failed', 'description' => 'Duplicate M-Pesa receipt']);
+            return;
+        }
+
+        DB::transaction(function () use ($wallet, $mpesaReceipt, $paidAmount, $phone) {
+            $student = Student::where('id', $wallet->student_id)->lockForUpdate()->first();
+            if (!$student) throw new \RuntimeException("Student {$wallet->student_id} not found");
+
+            $fresh = WalletTransaction::where('id', $wallet->id)->lockForUpdate()->first();
+            if ($fresh->status === 'completed') return;
+
+            $newBalance = (float) $student->wallet_balance + $paidAmount;
+            $student->update(['wallet_balance' => $newBalance]);
+
+            $fresh->update([
+                'status'        => 'completed',
+                'amount'        => $paidAmount,
+                'balance_after' => $newBalance,
+                'mpesa_receipt' => $mpesaReceipt,
+                'phone'         => $phone,
+                'description'   => 'M-Pesa wallet top-up completed',
+                'reference'     => 'MPESA-' . $mpesaReceipt,
+            ]);
+
+            $to = \App\Services\MpesaService::normalizePhone($phone ?: $student->parent_phone);
+            if ($to) {
+                try {
+                    app(SmsService::class)->send($to, sprintf(
+                        "MARELL WALLET\nReceived KES %s from %s for %s.\nNew wallet balance: KES %s",
+                        number_format($paidAmount, 2), $mpesaReceipt,
+                        $student->name, number_format($newBalance, 2)
+                    ));
+                } catch (\Throwable $e) {}
             }
         });
     }
