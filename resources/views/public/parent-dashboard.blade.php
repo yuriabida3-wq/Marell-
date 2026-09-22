@@ -188,6 +188,11 @@
 
 <div class="max-w-6xl mx-auto px-4 pb-8">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+    <a href="#attendance" class="card p-4 text-center hover:shadow-lg transition border-2 border-green-300">
+      <div class="text-2xl">✅</div>
+      <div class="text-sm font-semibold text-navy mt-1">Mark Excused</div>
+      <div class="text-xs text-gray-500">Notify school of absence</div>
+    </a>
     <a href="{{ route('parent.wallet') }}" class="card p-4 text-center hover:shadow-lg transition border-2 border-gold">
       <div class="text-2xl">💰</div>
       <div class="text-sm font-semibold text-navy mt-1">Canteen Wallet</div>

@@ -40,7 +40,16 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     <a href="/dos" class="sidebar-link {{ request()->is('dos') ? 'active' : '' }}"><span>📊</span> Dashboard</a>
 
     <div class="sidebar-group-title mt-3">Academics</div>
+    <a href="/principal/attendance" class="sidebar-link {{ request()->is('principal/attendance*') ? 'active' : '' }}">
+      <span>✅</span> Attendance
+    </a>
     <a href="/dos/classes" class="sidebar-link {{ request()->is('dos/classes*') ? 'active' : '' }}"><span>🏫</span> Classes</a>
+    <a href="/dos/lesson-plans" class="sidebar-link {{ request()->is('dos/lesson-plans*') ? 'active' : '' }}">
+      <span>📋</span> Lesson Plans
+    </a>
+    <a href="/dos/teacher-performance" class="sidebar-link {{ request()->is('dos/teacher-performance*') ? 'active' : '' }}">
+      <span>🏆</span> Teacher Performance
+    </a>
     <a href="/dos/teacher-subjects" class="sidebar-link {{ request()->is('dos/teacher-subjects*') ? 'active' : '' }}">
       <span>📋</span> Teacher Subjects
     </a>

@@ -45,6 +45,8 @@ return Application::configure(basePath: dirname(__DIR__))
         })->dailyAt('02:00')->name('nightly-checkpoint');
 
         // Every minute during school days — apply late fines (kills no-op days)
+        $schedule->command('fees:autopilot')->dailyAt('08:00')->name('fee-autopilot');
+
         $schedule->command('fines:apply')->dailyAt('06:55')->name('auto-late-fines');
     })
     ->withExceptions(function (Exceptions $exceptions) {

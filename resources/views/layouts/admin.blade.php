@@ -53,6 +53,9 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     </a>
 
     <div class="sidebar-group-title mt-3">Academics</div>
+    <a href="/principal/attendance" class="sidebar-link {{ request()->is('principal/attendance*') ? 'active' : '' }}">
+      <span>✅</span> Attendance
+    </a>
     <a href="/principal/students" class="sidebar-link {{ request()->is('principal/students*') ? 'active' : '' }}">
       <span>🎓</span> Students
     </a>
@@ -64,6 +67,9 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     </a>
 
     <div class="sidebar-group-title mt-3">Finance</div>
+    <a href="/principal/fee-autopilot" class="sidebar-link {{ request()->is('principal/fee-autopilot*') ? 'active' : '' }}">
+      <span>🤖</span> Fee Autopilot
+    </a>
     <a href="/principal/finance" class="sidebar-link {{ request()->is('principal/finance*') ? 'active' : '' }}">
       <span>💰</span> Payments
     </a>

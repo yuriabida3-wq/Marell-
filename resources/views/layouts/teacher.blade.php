@@ -33,6 +33,9 @@
     <a href="/teacher" class="sl {{ request()->is('teacher') ? 'active' : '' }}"><span>📊</span> Dashboard</a>
     <a href="/teacher/classes" class="sl {{ request()->is('teacher/classes*') ? 'active' : '' }}"><span>🎓</span> My Classes</a>
     <a href="/teacher/timetable" class="sl {{ request()->is('teacher/timetable*') ? 'active' : '' }}"><span>📅</span> My Timetable</a>
+    <a href="/teacher/lesson-plans" class="sl {{ request()->is('teacher/lesson-plans*') ? 'active' : '' }}"><span>📋</span> Lesson Plans</a>
+    <a href="/teacher/performance" class="sl {{ request()->is('teacher/performance*') ? 'active' : '' }}"><span>🏆</span> My Performance</a>
+    <a href="/teacher/attendance" class="sl {{ request()->is('teacher/attendance*') ? 'active' : '' }}"><span>✅</span> Attendance</a>
     <a href="/teacher/marks" class="sl {{ request()->is('teacher/marks*') ? 'active' : '' }}"><span>✍️</span> Enter Marks</a>
     <a href="/teacher/homework" class="sl {{ request()->is('teacher/homework*') ? 'active' : '' }}"><span>📚</span> Homework</a>
     <a href="/library" class="sl {{ request()->is('library*') ? 'active' : '' }}"><span>📚</span> Library</a>

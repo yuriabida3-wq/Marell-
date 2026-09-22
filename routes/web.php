@@ -471,3 +471,46 @@ Route::middleware(['auth', 'role:principal|dos|bursar'])->prefix('student-qr-car
     Route::get('/{student}',     [App\Http\Controllers\StudentQrController::class, 'card'])->name('card');
     Route::post('/bulk-pdf',     [App\Http\Controllers\StudentQrController::class, 'bulkPdf'])->name('bulk-pdf');
 });
+
+// Teacher — Attendance
+Route::middleware(['auth', 'role:teacher'])->prefix('teacher/attendance')->name('teacher.attendance.')->group(function () {
+    Route::get('/',         [App\Http\Controllers\AttendanceController::class, 'markForm'])->name('mark');
+    Route::post('/',        [App\Http\Controllers\AttendanceController::class, 'markStore'])->name('store');
+});
+
+// Parent — Excuse attendance
+Route::middleware('parent.auth')->post('/parent/attendance/excuse', [App\Http\Controllers\AttendanceController::class, 'parentExcuse'])->name('parent.attendance.excuse');
+
+// Principal + DOS — Attendance dashboard
+Route::middleware(['auth', 'role:principal|dos'])->prefix('principal/attendance')->name('principal.attendance.')->group(function () {
+    Route::get('/',              [App\Http\Controllers\AttendanceController::class, 'index'])->name('index');
+    Route::get('/chronic',       [App\Http\Controllers\AttendanceController::class, 'chronic'])->name('chronic');
+    Route::get('/export',        [App\Http\Controllers\AttendanceController::class, 'export'])->name('export');
+});
+
+// Principal — Fee Autopilot
+Route::middleware(['auth', 'role:principal'])->prefix('principal/fee-autopilot')->name('principal.fee-autopilot.')->group(function () {
+    Route::get('/',                    [App\Http\Controllers\FeeAutopilotController::class, 'index'])->name('index');
+    Route::post('/run',                [App\Http\Controllers\FeeAutopilotController::class, 'run'])->name('run');
+    Route::get('/settings',            [App\Http\Controllers\FeeAutopilotController::class, 'settings'])->name('settings');
+    Route::post('/settings',           [App\Http\Controllers\FeeAutopilotController::class, 'updateSettings'])->name('settings.update');
+    Route::get('/student/{student}',   [App\Http\Controllers\FeeAutopilotController::class, 'student'])->name('student');
+    Route::post('/student/{student}/trigger', [App\Http\Controllers\FeeAutopilotController::class, 'triggerNext'])->name('trigger');
+});
+
+// Teacher — Lesson Plans + Check-in + Performance
+Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
+    Route::post('/clock-in',                       [App\Http\Controllers\TeacherAccountabilityController::class, 'clockIn'])->name('clock-in');
+    Route::post('/clock-out',                      [App\Http\Controllers\TeacherAccountabilityController::class, 'clockOut'])->name('clock-out');
+    Route::get('/lesson-plans',                    [App\Http\Controllers\TeacherAccountabilityController::class, 'myLessonPlans'])->name('lesson-plans.index');
+    Route::post('/lesson-plans',                   [App\Http\Controllers\TeacherAccountabilityController::class, 'submitLessonPlan'])->name('lesson-plans.store');
+    Route::get('/performance',                     [App\Http\Controllers\TeacherAccountabilityController::class, 'myPerformance'])->name('performance');
+});
+
+// DOS — Lesson Plan Reviews + Teacher Performance
+Route::middleware(['auth', 'role:dos|principal'])->prefix('dos')->name('dos.')->group(function () {
+    Route::get('/lesson-plans',                    [App\Http\Controllers\TeacherAccountabilityController::class, 'reviewIndex'])->name('lesson-plans.index');
+    Route::post('/lesson-plans/{plan}/review',     [App\Http\Controllers\TeacherAccountabilityController::class, 'review'])->name('lesson-plans.review');
+    Route::get('/teacher-performance',             [App\Http\Controllers\TeacherAccountabilityController::class, 'performanceIndex'])->name('teacher-performance.index');
+    Route::post('/teacher-performance/compute',    [App\Http\Controllers\TeacherAccountabilityController::class, 'computeAll'])->name('teacher-performance.compute');
+});
