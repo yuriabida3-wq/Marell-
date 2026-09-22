@@ -187,7 +187,22 @@
 </section>
 
 <div class="max-w-6xl mx-auto px-4 pb-8">
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+    <a href="{{ route('parent.wallet') }}" class="card p-4 text-center hover:shadow-lg transition border-2 border-gold">
+      <div class="text-2xl">💰</div>
+      <div class="text-sm font-semibold text-navy mt-1">Canteen Wallet</div>
+      <div class="text-xs text-gray-500">Load money for food</div>
+    </a>
+    <a href="{{ route('parent.library') }}" class="card p-4 text-center hover:shadow-lg transition border-2 border-navy">
+      <div class="text-2xl">📚</div>
+      <div class="text-sm font-semibold text-navy mt-1">Library Books</div>
+      <div class="text-xs text-gray-500">See what kids borrowed</div>
+    </a>
+    <a href="{{ route('parent.pickups') }}" class="card p-4 text-center hover:shadow-lg transition border-2 border-gold">
+      <div class="text-2xl">👥</div>
+      <div class="text-sm font-semibold text-navy mt-1">Approved Pickups</div>
+      <div class="text-xs text-gray-500">Who can collect</div>
+    </a>
     <a href="/report" class="card p-4 text-center hover:shadow-lg transition">
       <div class="text-2xl">🕊️</div>
       <div class="text-sm font-semibold text-navy mt-1">Report a Concern</div>

@@ -409,3 +409,65 @@ Route::middleware(['auth', 'role:principal|bursar|dos'])->prefix('qr-scanner')->
     Route::get('/',        [App\Http\Controllers\QrScannerController::class, 'index'])->name('scanner');
     Route::post('/verify', [App\Http\Controllers\QrScannerController::class, 'verify'])->name('verify');
 });
+
+// Parent — Approved Pickups (OTP-protected via session)
+Route::middleware('parent.auth')->prefix('parent/pickups')->name('parent.pickups')->group(function () {
+    Route::get('/',                    [App\Http\Controllers\ParentPickupController::class, 'index']);
+    Route::post('/',                   [App\Http\Controllers\ParentPickupController::class, 'store'])->name('.store');
+    Route::get('/{pickup}/qr',         [App\Http\Controllers\ParentPickupController::class, 'qrCard'])->name('.qr');
+    Route::post('/{pickup}/toggle',    [App\Http\Controllers\ParentPickupController::class, 'toggle'])->name('.toggle');
+    Route::delete('/{pickup}',         [App\Http\Controllers\ParentPickupController::class, 'destroy'])->name('.destroy');
+});
+
+// Security Guard — Public gate login (no auth guard, session-based)
+Route::prefix('security')->name('security.')->group(function () {
+    Route::get('/login',   [App\Http\Controllers\SecurityGuardController::class, 'loginForm'])->name('login');
+    Route::post('/login',  [App\Http\Controllers\SecurityGuardController::class, 'login'])->name('login.post')->middleware('throttle:10,1');
+    Route::post('/logout', [App\Http\Controllers\SecurityGuardController::class, 'logout'])->name('logout');
+
+    Route::get('/dashboard', [App\Http\Controllers\SecurityGuardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/scan',      [App\Http\Controllers\SecurityGuardController::class, 'scan'])->name('scan');
+    Route::post('/verify',   [App\Http\Controllers\SecurityGuardController::class, 'verify'])->name('verify');
+    Route::post('/panic',    [App\Http\Controllers\SecurityGuardController::class, 'panic'])->name('panic')->middleware('throttle:5,1');
+    Route::get('/logs',      [App\Http\Controllers\SecurityGuardController::class, 'logs'])->name('logs');
+});
+
+// Parent — Library view (OTP protected)
+Route::middleware('parent.auth')->prefix('parent/library')->name('parent.library')->group(function () {
+    Route::get('/', [App\Http\Controllers\LibraryController::class, 'parentView']);
+});
+
+// Public library catalog (no login needed)
+Route::get('/library-catalog', [App\Http\Controllers\LibraryController::class, 'publicCatalog'])->name('library.public');
+
+// ============ STUDENT QR ============
+Route::get('/student-qr/{token}', [App\Http\Controllers\StudentQrController::class, 'show'])->name('student.qr.public');
+
+// ============ CANTEEN (Guard or Admin) ============
+Route::prefix('canteen')->name('canteen.')->group(function () {
+    Route::get('/',              [App\Http\Controllers\WalletController::class, 'canteen'])->name('index');
+    Route::get('/logs',          [App\Http\Controllers\WalletController::class, 'canteenLogs'])->name('logs');
+    Route::post('/lookup',       [App\Http\Controllers\WalletController::class, 'canteenLookup'])->name('lookup');
+    Route::post('/sell',         [App\Http\Controllers\WalletController::class, 'canteenSell'])->name('sell');
+});
+
+// ============ PARENT WALLET (OTP protected) ============
+Route::middleware('parent.auth')->prefix('parent/wallet')->name('parent.wallet')->group(function () {
+    Route::get('/',              [App\Http\Controllers\WalletController::class, 'parentIndex']);
+    Route::post('/topup',        [App\Http\Controllers\WalletController::class, 'parentTopUp'])->name('.topup');
+    Route::post('/settings',     [App\Http\Controllers\WalletController::class, 'parentSettings'])->name('.settings');
+    Route::get('/{student}/qr',  [App\Http\Controllers\StudentQrController::class, 'parentCard'])->name('.qr');
+});
+
+// ============ ADMIN WALLET ============
+Route::middleware(['auth', 'role:principal|bursar'])->prefix('principal/wallet')->name('principal.wallet.')->group(function () {
+    Route::get('/',              [App\Http\Controllers\WalletController::class, 'admin'])->name('index');
+    Route::post('/load',         [App\Http\Controllers\WalletController::class, 'adminLoad'])->name('load');
+    Route::get('/search',        [App\Http\Controllers\WalletController::class, 'adminSearch'])->name('search');
+});
+
+// ============ STUDENT QR CARDS (admin print) ============
+Route::middleware(['auth', 'role:principal|dos|bursar'])->prefix('student-qr-cards')->name('student-qr-cards.')->group(function () {
+    Route::get('/{student}',     [App\Http\Controllers\StudentQrController::class, 'card'])->name('card');
+    Route::post('/bulk-pdf',     [App\Http\Controllers\StudentQrController::class, 'bulkPdf'])->name('bulk-pdf');
+});

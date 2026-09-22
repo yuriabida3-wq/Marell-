@@ -145,6 +145,7 @@ tailwind.config = {
         <li><a href="/pay" class="hover:text-gold">Pay Fees Online</a></li>
         <li><a href="/timetable" class="hover:text-gold">Timetable</a></li>
         <li><a href="/news" class="hover:text-gold">News &amp; Events</a></li>
+        <li><a href="/library-catalog" class="hover:text-gold">Library</a></li>
         <li><a href="/report" class="hover:text-gold">Anonymous Report</a></li>
         <li><a href="/parent/login" class="hover:text-gold">Parent Portal</a></li>
       </ul>

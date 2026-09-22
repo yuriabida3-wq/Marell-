@@ -79,6 +79,12 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
     <a href="/library" class="sidebar-link {{ request()->is('library*') ? 'active' : '' }}">
       <span>📚</span> Library
     </a>
+    <a href="/principal/wallet" class="sidebar-link {{ request()->is('principal/wallet*') ? 'active' : '' }}">
+      <span>💰</span> Canteen Wallet
+    </a>
+    <a href="/canteen" class="sidebar-link {{ request()->is('canteen*') ? 'active' : '' }}">
+      <span>🍔</span> Canteen
+    </a>
     <a href="/principal/expenses" class="sidebar-link {{ request()->is('principal/expenses*') ? 'active' : '' }}">
       <span>💸</span> Expenses
     </a>
