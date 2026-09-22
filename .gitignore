@@ -33,3 +33,12 @@ Thumbs.db
 .env.local.backup
 .env.*.backup
 .env.*.txt
+
+# Audit files
+audit.php
+audit-results.txt
+stress_test.php
+stress_results.txt
+report_card_test.php
+report_test.txt
+library_patch.php
