@@ -74,7 +74,7 @@
                 <td class="p-3 font-mono text-xs">{{ $s->adm_no }}</td>
                 <td class="p-3 font-semibold text-navy">{{ $s->name }}</td>
                 <td class="p-3 text-gray-600">{{ $s->class }}</td>
-                <td class="p-3 text-right font-bold {{ $s->wallet_balance > 0 ? 'text-green-600' : 'text-gray-400' }}">KES {{ number_format($s->wallet_balance, 0) }}</td>
+                <td class="p-3 text-right font-bold {{ $s->wallet_balance > 0 ? 'text-green-600' : 'text-gray-400' }}">KES {{ number_format((float) $s->wallet_balance, 0) }}</td>
                 <td class="p-3 text-right">
                   <a href="{{ route('student-qr-cards.card', $s) }}" class="text-xs font-semibold text-navy hover:text-gold">📱 Card</a>
                 </td>

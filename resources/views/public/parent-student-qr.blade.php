@@ -16,7 +16,7 @@
 
     <div class="bg-navy text-white rounded-xl p-4 mb-4">
       <div class="text-xs tracking-widest text-gold font-bold">WALLET BALANCE</div>
-      <div class="text-3xl font-extrabold mt-1">KES {{ number_format($student->wallet_balance, 2) }}</div>
+      <div class="text-3xl font-extrabold mt-1">KES {{ number_format((float) $student->wallet_balance, 2) }}</div>
     </div>
 
     <div class="text-xs text-gray-500 mb-6">

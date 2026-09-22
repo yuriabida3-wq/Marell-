@@ -50,20 +50,20 @@
     <div class="grid grid-cols-3 gap-3 mt-6">
       <div class="bg-gray-50 rounded-xl p-4 text-center">
         <div class="text-xs text-gray-500 tracking-widest">TOTAL FEE</div>
-        <div class="text-lg md:text-xl font-bold text-navy mt-1">KES {{ number_format($selected->total_fee, 0) }}</div>
+        <div class="text-lg md:text-xl font-bold text-navy mt-1">KES {{ number_format((float) $selected->total_fee, 0) }}</div>
       </div>
       <div class="bg-green-50 rounded-xl p-4 text-center">
         <div class="text-xs text-gray-500 tracking-widest">PAID</div>
-        <div class="text-lg md:text-xl font-bold text-green-700 mt-1">KES {{ number_format($selected->paid_amount, 0) }}</div>
+        <div class="text-lg md:text-xl font-bold text-green-700 mt-1">KES {{ number_format((float) $selected->paid_amount, 0) }}</div>
       </div>
       <div class="bg-red-50 rounded-xl p-4 text-center">
         <div class="text-xs text-gray-500 tracking-widest">BALANCE</div>
-        <div class="text-lg md:text-xl font-bold text-red-600 mt-1">KES {{ number_format($selected->balance, 0) }}</div>
+        <div class="text-lg md:text-xl font-bold text-red-600 mt-1">KES {{ number_format((float) $selected->balance, 0) }}</div>
       </div>
     @if ($selected->discount_amount > 0)
     <div class="bg-gold/20 rounded-xl p-4 text-center col-span-3 border-2 border-gold">
       <div class="text-xs text-navy tracking-widest">SIBLING DISCOUNT APPLIED</div>
-      <div class="text-lg md:text-xl font-bold text-navy mt-1">- KES {{ number_format($selected->discount_amount, 0) }} <span class="text-xs font-semibold">(child #{{ $selected->sibling_order }})</span></div>
+      <div class="text-lg md:text-xl font-bold text-navy mt-1">- KES {{ number_format((float) $selected->discount_amount, 0) }} <span class="text-xs font-semibold">(child #{{ $selected->sibling_order }})</span></div>
     </div>
     @endif
     </div>
@@ -144,7 +144,7 @@
           @foreach ($payments as $p)
             <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
               <div>
-                <div class="font-semibold text-navy text-sm">KES {{ number_format($p->amount, 2) }}</div>
+                <div class="font-semibold text-navy text-sm">KES {{ number_format((float) $p->amount, 2) }}</div>
                 <div class="text-xs text-gray-500">{{ $p->created_at->format('d M Y') }} · {{ $p->transaction_code ?: $p->method }}</div>
               </div>
               <a href="{{ URL::signedRoute('pay.receipt', ['payment' => $p->id]) }}" class="text-xs font-semibold text-navy hover:text-gold">📥 Receipt</a>

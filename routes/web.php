@@ -353,7 +353,7 @@ Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('princi
 });
 
 // Library (DOS + Principal + Bursar can all access)
-Route::middleware(['auth', 'role:dos|principal|bursar'])->prefix('library')->name('library.')->group(function () {
+Route::middleware(['auth', 'role:dos|principal|bursar|teacher'])->prefix('library')->name('library.')->group(function () {
     Route::get('/',                         [App\Http\Controllers\LibraryController::class, 'index'])->name('index');
 
     // Books

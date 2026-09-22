@@ -211,4 +211,25 @@ class LibraryController extends Controller
         $loan->update(['fine_paid' => true]);
         return back()->with('success', 'Fine marked as paid.');
     }
+
+    public function publicCatalog(Request $request)
+    {
+        $q = trim($request->get("q", ""));
+        $category = $request->get("category");
+
+        $query = Book::where("active", true);
+        if ($q) {
+            $query->where(function ($s) use ($q) {
+                $s->where("title", "like", "%{$q}%")
+                  ->orWhere("author", "like", "%{$q}%");
+            });
+        }
+        if ($category) $query->where("category", $category);
+
+        $books = $query->orderBy("title")->paginate(24)->withQueryString();
+        $categories = Book::whereNotNull("category")->where("active", true)->distinct()->pluck("category");
+        $totalBooks = Book::where("active", true)->sum("total_copies");
+
+        return view("public.library-catalog", compact("books", "categories", "q", "category", "totalBooks"));
+    }
 }

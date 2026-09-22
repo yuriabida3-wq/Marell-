@@ -46,7 +46,7 @@
       </div>
       <div class="text-right">
         <div class="text-xs text-gold tracking-widest font-bold">WALLET BALANCE</div>
-        <div class="text-3xl font-extrabold">KES {{ number_format($selected->wallet_balance, 2) }}</div>
+        <div class="text-3xl font-extrabold">KES {{ number_format((float) $selected->wallet_balance, 2) }}</div>
       </div>
     </div>
 
@@ -124,9 +124,9 @@
             </div>
             <div class="text-right">
               <div class="font-bold {{ $t->type === 'load' ? 'text-green-600' : 'text-red-600' }}">
-                {{ $t->type === 'load' ? '+' : '-' }} KES {{ number_format($t->amount, 2) }}
+                {{ $t->type === 'load' ? '+' : '-' }} KES {{ number_format((float) $t->amount, 2) }}
               </div>
-              <div class="text-xs text-gray-500">Bal: KES {{ number_format($t->balance_after, 2) }}</div>
+              <div class="text-xs text-gray-500">Bal: KES {{ number_format((float) $t->balance_after, 2) }}</div>
             </div>
           </div>
         @endforeach
