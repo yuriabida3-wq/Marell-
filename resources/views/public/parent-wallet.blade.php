@@ -102,6 +102,16 @@
         <div class="text-xs text-gray-500 mt-2">
           When wallet drops below threshold, we'll request M-Pesa payment automatically so your child never runs out.
         </div>
+          <div>
+            <label class="block text-sm font-bold mb-1">Daily Spending Limit (KES)</label>
+            <input name="daily_limit" type="number" min="0" step="10" value="{{ (int) $selected->daily_limit }}" class="w-full min-h-[42px] rounded-xl border-2 border-gray-200 px-3 text-sm">
+            <p class="text-xs text-gray-500 mt-1">0 = no limit. Blocks canteen purchases above this amount per day.</p>
+          </div>
+          <div>
+            <label class="block text-sm font-bold mb-1">Low Balance Alert (KES)</label>
+            <input name="low_balance_alert" type="number" min="0" step="50" value="{{ (int) $selected->low_balance_alert }}" class="w-full min-h-[42px] rounded-xl border-2 border-gray-200 px-3 text-sm">
+            <p class="text-xs text-gray-500 mt-1">You get an SMS when the wallet drops below this amount.</p>
+          </div>
       </form>
     </div>
   </div>

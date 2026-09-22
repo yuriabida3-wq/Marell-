@@ -514,3 +514,7 @@ Route::middleware(['auth', 'role:dos|principal'])->prefix('dos')->name('dos.')->
     Route::get('/teacher-performance',             [App\Http\Controllers\TeacherAccountabilityController::class, 'performanceIndex'])->name('teacher-performance.index');
     Route::post('/teacher-performance/compute',    [App\Http\Controllers\TeacherAccountabilityController::class, 'computeAll'])->name('teacher-performance.compute');
 });
+Route::post('gate/console/staff-scan', [App\Http\Controllers\StaffAttendanceController::class, 'scan'])->name('gate.console.staff-scan');
+Route::get('principal/staff-attendance', [App\Http\Controllers\StaffAttendanceController::class, 'index'])->name('principal.staff-attendance');
+Route::get('principal/staff-qrcodes', [App\Http\Controllers\StaffAttendanceController::class, 'qrcodes'])->name('principal.staff-qrcodes');
+Route::get('principal/canteen-report', [App\Http\Controllers\WalletController::class, 'canteenReport'])->name('principal.canteen-report');
