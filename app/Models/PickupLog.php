@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,9 +9,9 @@ class PickupLog extends Model
     protected $fillable = ['approved_pickup_id','student_id','picker_name','picker_phone','relationship','result','reason','guard_id','guard_name','ip'];
     protected $casts = ['created_at' => 'datetime'];
 
-    public function student()  { return $this->belongsTo(Student::class); }
-    public function pickup()   { return $this->belongsTo(ApprovedPickup::class, 'approved_pickup_id'); }
-    public function guard()    { return $this->belongsTo(User::class, 'guard_id'); }
+    public function student() { return $this->belongsTo(Student::class); }
+    public function pickup()  { return $this->belongsTo(ApprovedPickup::class, 'approved_pickup_id'); }
+    public function guardUser() { return $this->belongsTo(User::class, 'guard_id'); }
 
     public function resultColor(): string
     {
