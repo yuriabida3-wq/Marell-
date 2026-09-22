@@ -335,4 +335,31 @@ class WalletController extends Controller
         return view('wallet.canteen_report', compact('total', 'count', 'avg', 'daily', 'topSpenders', 'days'));
     }
 
+
+
+    public function saveBlockedItems(Request $request)
+    {
+        $phone = session('parent_phone');
+        if (!$phone) return redirect()->route('parent.login');
+
+        $data = $request->validate([
+            'student_id'          => 'required|exists:students,id',
+            'blocked_items'       => 'nullable|array',
+            'blocked_items.*'     => 'string|max:100',
+            'blocked_categories'  => 'nullable|array',
+            'blocked_categories.*'=> 'string|max:50',
+        ]);
+
+        $student = Student::where('id', $data['student_id'])
+            ->where('parent_phone', $phone)
+            ->firstOrFail();
+
+        $student->update([
+            'blocked_items'      => $data['blocked_items'] ?? [],
+            'blocked_categories' => $data['blocked_categories'] ?? [],
+        ]);
+
+        return back()->with('success', 'Blocked items updated for ' . $student->name);
+    }
+
 }

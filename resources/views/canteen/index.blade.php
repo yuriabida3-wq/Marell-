@@ -107,7 +107,7 @@ function showResult(html) {
 async function lookup(token) {
   if (!token || !token.trim()) return;
   try {
-    const r = await fetch('{{ route("canteen.lookup") }}', {
+    const r = await fetch('{{ route("canteen.item-lookup") }}', {
       method: 'POST',
       headers: {'Content-Type':'application/json','Accept':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
       body: JSON.stringify({ token: token.trim() })

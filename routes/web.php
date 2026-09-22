@@ -533,3 +533,4 @@ Route::prefix('canteen')->name('canteen.')->group(function () {
     Route::post('/lookup',  [App\Http\Controllers\CanteenItemController::class, 'lookup'])->name('item-lookup');
     Route::post('/checkout',[App\Http\Controllers\CanteenItemController::class, 'checkout'])->name('item-checkout');
 });
+Route::post('parent/wallet/blocked-items', [App\Http\Controllers\WalletController::class, 'saveBlockedItems'])->name('parent.wallet.blocked');

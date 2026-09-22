@@ -116,6 +116,9 @@
     </div>
   </div>
 
+  @include('public._blocked_items')
+
+
   {{-- TRANSACTIONS --}}
   <div class="card overflow-hidden">
     <div class="p-5 border-b"><div class="font-extrabold text-navy">📋 Recent Transactions</div></div>
