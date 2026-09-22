@@ -42,3 +42,6 @@ stress_results.txt
 report_card_test.php
 report_test.txt
 library_patch.php
+
+final_stress.php
+final_stress_results.txt
