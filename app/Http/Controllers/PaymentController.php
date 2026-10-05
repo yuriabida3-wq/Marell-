@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\DemoAutoCompletePayment;
 use App\Models\Payment;
 use App\Models\Student;
 use App\Services\MpesaService;
@@ -39,13 +40,15 @@ class PaymentController extends Controller
         $phone = MpesaService::normalizePhone($data['phone']);
         if (!$phone) return back()->with('error', 'Invalid phone number. Use format 07XXXXXXXX.');
 
+        // Prevent double submit
         $recent = Payment::where('student_id', $student->id)
             ->where('status', 'pending')
             ->where('amount', $data['amount'])
             ->where('created_at', '>=', now()->subSeconds(30))
             ->first();
-        if ($recent) return back()->with('error', 'A payment is already in progress. Please wait for the M-Pesa prompt.');
+        if ($recent) return back()->with('error', 'A payment is already in progress. Please wait.');
 
+        // Create pending payment
         $payment = Payment::create([
             'student_id' => $student->id,
             'amount'     => $data['amount'],
@@ -55,6 +58,23 @@ class PaymentController extends Controller
             'year'       => date('Y'),
         ]);
 
+        $skipStk = config('services.mpesa_skip_stk', false);
+
+        if ($skipStk) {
+            // === DEMO MODE — skip Safaricom, fake the CheckoutRequestID ===
+            $fakeCheckout = 'DEMO_' . strtoupper(bin2hex(random_bytes(8)));
+
+            $payment->update(['checkout_request_id' => $fakeCheckout]);
+
+            // Auto-complete after 3 seconds
+            DemoAutoCompletePayment::dispatch($payment)
+                ->delay(now()->addSeconds(3))
+                ->onQueue('default');
+
+            return redirect()->route('pay.wait', ['payment' => $payment->id]);
+        }
+
+        // === PRODUCTION MODE — real STK Push ===
         $mpesa = new MpesaService();
         $res   = $mpesa->stkPush($phone, (float) $data['amount'], $student->adm_no, 'Fees ' . $student->adm_no);
 
@@ -69,6 +89,13 @@ class PaymentController extends Controller
         }
 
         $payment->update(['checkout_request_id' => $res['CheckoutRequestID']]);
+
+        // In demo mode, still auto-complete even when real STK fired
+        if (config('services.demo_mode', false)) {
+            DemoAutoCompletePayment::dispatch($payment)
+                ->delay(now()->addSeconds(3))
+                ->onQueue('default');
+        }
 
         return redirect()->route('pay.wait', ['payment' => $payment->id]);
     }

@@ -52,6 +52,8 @@ return [
         'sender'   => env('AFRICASTALKING_SENDER', 'MARELL'),
     ],
 
+    'mpesa_skip_stk' => env('MPESA_SKIP_STK', false),
+
     'mpesa' => [
         'env'             => env('MPESA_ENV', 'sandbox'),
         'consumer_key'    => env('MPESA_CONSUMER_KEY'),
