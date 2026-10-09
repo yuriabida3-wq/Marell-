@@ -93,7 +93,10 @@ class ProcessMpesaCallback implements ShouldQueue
             return;
         }
 
-        DB::transaction(function () use ($payment, $mpesaReceipt, $paidAmount, $phone) {
+        $smsTo  = null;
+        $smsMsg = null;
+
+        DB::transaction(function () use ($payment, $mpesaReceipt, $paidAmount, $phone, &$smsTo, &$smsMsg) {
             $student = Student::where('id', $payment->student_id)
                 ->lockForUpdate()
                 ->first();
@@ -130,7 +133,8 @@ class ProcessMpesaCallback implements ShouldQueue
             if ($phone || $student->parent_phone) {
                 $to = \App\Services\MpesaService::normalizePhone($phone ?: $student->parent_phone);
                 if ($to) {
-                    $msg = sprintf(
+                    $smsTo  = $to;
+                    $smsMsg = sprintf(
                         "MARELL ACADEMY\nReceived KES %s from %s for %s.\nReceipt: %s\nNew balance: KES %s\nThank you.",
                         number_format($paidAmount, 2),
                         $mpesaReceipt,
@@ -138,15 +142,18 @@ class ProcessMpesaCallback implements ShouldQueue
                         $receiptNo,
                         number_format($newBalance, 2)
                     );
-
-                    try {
-                        app(SmsService::class)->send($to, $msg);
-                    } catch (\Throwable $e) {
-                        Log::warning('SMS receipt failed: ' . \App\Support\LogRedactor::maskPhonesInString($e->getMessage()));
-                    }
                 }
             }
         });
+
+        // SMS after commit — a network failure must not roll back the credit.
+        if ($smsTo && $smsMsg) {
+            try {
+                app(SmsService::class)->send($smsTo, $smsMsg);
+            } catch (\Throwable $e) {
+                Log::warning('SMS receipt failed: ' . \App\Support\LogRedactor::maskPhonesInString($e->getMessage()));
+            }
+        }
     }
 
     protected function handleWalletTopup(WalletTransaction $wallet, array $stk, int $resultCode, string $resultDesc): void
@@ -177,7 +184,10 @@ class ProcessMpesaCallback implements ShouldQueue
             return;
         }
 
-        DB::transaction(function () use ($wallet, $mpesaReceipt, $paidAmount, $phone) {
+        $smsTo  = null;
+        $smsMsg = null;
+
+        DB::transaction(function () use ($wallet, $mpesaReceipt, $paidAmount, $phone, &$smsTo, &$smsMsg) {
             $student = Student::where('id', $wallet->student_id)->lockForUpdate()->first();
             if (!$student) throw new \RuntimeException("Student {$wallet->student_id} not found");
 
@@ -199,14 +209,23 @@ class ProcessMpesaCallback implements ShouldQueue
 
             $to = \App\Services\MpesaService::normalizePhone($phone ?: $student->parent_phone);
             if ($to) {
-                try {
-                    app(SmsService::class)->send($to, sprintf(
-                        "MARELL WALLET\nReceived KES %s from %s for %s.\nNew wallet balance: KES %s",
-                        number_format($paidAmount, 2), $mpesaReceipt,
-                        $student->name, number_format($newBalance, 2)
-                    ));
-                } catch (\Throwable $e) {}
+                $smsTo  = $to;
+                $smsMsg = sprintf(
+                    "MARELL WALLET\nReceived KES %s from %s for %s.\nNew wallet balance: KES %s",
+                    number_format($paidAmount, 2), $mpesaReceipt,
+                    $student->name, number_format($newBalance, 2)
+                );
             }
         });
+
+        // SMS after commit. Also replaces the previous silent empty catch,
+        // which swallowed SMS failures with no trace.
+        if ($smsTo && $smsMsg) {
+            try {
+                app(SmsService::class)->send($smsTo, $smsMsg);
+            } catch (\Throwable $e) {
+                Log::warning('Wallet SMS failed: ' . \App\Support\LogRedactor::maskPhonesInString($e->getMessage()));
+            }
+        }
     }
 }
