@@ -5,7 +5,7 @@ Owner:  Jenga Web Technologies
 Stack:  Laravel 13, PHP 8.5, MariaDB, Blade + TailwindCSS, Safaricom Daraja (M-Pesa STK Push), Africa's Talking SMS
 
 This document is the single reference for running, backing up, and deploying the system.
-Last updated: CP-31.
+Last updated: CP-34.
 
 ---
 
@@ -25,8 +25,8 @@ Last updated: CP-31.
 |---|---|---|
 | `APP_ENV` | `local` in dev, `production` on VPS | CP-26 guard refuses to boot if `production` + debug |
 | `APP_DEBUG` | `true` in dev, must be `false` in production | |
-| `APP_TIMEZONE` / `APP_TIMEZONE` | Kenya ops uses Africa/Nairobi | Set in `config/app.php` |
-| `DB_*` | MariaDB connection | App user has ALL on `marell`.* only |
+| `APP_TIMEZONE` | Kenya ops uses Africa/Nairobi | Set in `config/app.php` |
+| `DB_*` | MariaDB connection | App user (`marell_app`) has SELECT/INSERT/UPDATE/DELETE on `marell`.* only — see §3b |
 | `DB_TIMEZONE` | `+03:00` | Set in `config/database.php`, overridable |
 | `CURRENT_TERM`, `CURRENT_YEAR` | Fee term for new payments (CP-30) | Update at start of each term |
 | `MPESA_ENV` | `sandbox` or `production` | |
