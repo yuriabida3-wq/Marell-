@@ -160,88 +160,18 @@ class WalletController extends Controller
 
     public function canteenSell(Request $request)
     {
-        if (!session('guard_id') && !auth()->check()) {
-            return response()->json(['error' => 'Not authorized'], 401);
-        }
-
-        $data = $request->validate([
-            'student_id' => 'required|exists:students,id',
-            'amount'     => 'required|numeric|min:1|max:10000',
-            'items'      => 'nullable|string|max:500',
+        // CP-18: deprecated. This endpoint deducted an arbitrary free-text
+        // amount and bypassed blocked_items, blocked_categories, and stock.
+        // All canteen sales must go through CanteenItemController@checkout.
+        \Illuminate\Support\Facades\Log::warning('Deprecated /canteen/sell called', [
+            'ip'        => $request->ip(),
+            'has_items' => $request->filled('items'),
         ]);
 
-        $student = Student::findOrFail($data['student_id']);
-
-        try {
-            DB::transaction(function () use ($student, $data, &$txn) {
-                $locked = Student::where('id', $student->id)->lockForUpdate()->first();
-
-                // Daily canteen limit check
-                $dailySpend = \App\Models\WalletTransaction::where('student_id', $locked->id)
-                    ->where('category', 'canteen')
-                    ->where('type', 'spend')
-                    ->whereDate('created_at', today())
-                    ->sum('amount');
-                $dailyLimit = (float) ($locked->daily_limit ?? 0);
-                if ($dailyLimit > 0 && ($dailySpend + (float) $data['amount']) > $dailyLimit) {
-                    throw new \RuntimeException('Daily limit KES ' . number_format($dailyLimit, 2) . ' | Spent today KES ' . number_format((float) $dailySpend, 2));
-                }
-
-                if ((float) $data['amount'] > (float) $locked->wallet_balance) {
-                    throw new \RuntimeException("Insufficient wallet balance (KES " . number_format((float) $locked->wallet_balance, 2) . ")");
-                }
-
-                $staffName = session('guard_name') ?? (auth()->user()->name ?? 'Canteen');
-
-                $newBalance = (float) $locked->wallet_balance - (float) $data['amount'];
-                $locked->update(['wallet_balance' => $newBalance]);
-
-                $txn = WalletTransaction::create([
-                    'student_id'    => $locked->id,
-                    'type'          => 'spend',
-                    'amount'        => $data['amount'],
-                    'balance_after' => $newBalance,
-                    'category'      => 'canteen',
-                    'description'   => $data['items'] ?? 'Canteen purchase',
-                    'recorded_by'   => $staffName,
-                    'staff_id'      => session('guard_id') ?? auth()->id(),
-                    'ip'            => request()->ip(),
-                ]);
-            });
-
-            // Low balance alert
-            try {
-                $fresh = $student->fresh();
-                $alertThreshold = (float) ($student->low_balance_alert ?? 200);
-                if ($alertThreshold > 0 && (float) $fresh->wallet_balance < $alertThreshold && (float) $fresh->wallet_balance >= 0) {
-                    app(SmsService::class)->send(
-                        $student->parent_phone,
-                        "MARELL ALERT\n{$student->name} wallet is LOW: KES " . number_format((float) $fresh->wallet_balance, 2) . ".\nPlease top up via the parent portal."
-                    );
-                }
-            } catch (\Throwable $e) {}
-
-            // SMS to parent (stubbed)
-            try {
-                app(SmsService::class)->send(
-                    $student->parent_phone,
-                    "MARELL CANTEEN\n{$student->name} spent KES " . number_format($data['amount'], 2) .
-                    ".\nNew balance: KES " . number_format($student->fresh()->wallet_balance, 2)
-                );
-            } catch (\Throwable $e) {}
-
-            return response()->json([
-                'status'        => 'ok',
-                'message'       => '✅ Purchase recorded',
-                'new_balance'   => number_format($student->fresh()->wallet_balance, 2),
-                'receipt_no'    => 'CANT-' . str_pad((string) $txn->id, 6, '0', STR_PAD_LEFT),
-            ]);
-        } catch (\Throwable $e) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => '❌ ' . $e->getMessage(),
-            ], 200);
-        }
+        return response()->json([
+            'status'  => 'error',
+            'message' => 'This endpoint is no longer supported. Please use the item menu.',
+        ], 410);
     }
 
     public function canteenLogs()
