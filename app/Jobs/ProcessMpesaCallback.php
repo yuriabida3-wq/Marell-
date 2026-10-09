@@ -131,7 +131,7 @@ class ProcessMpesaCallback implements ShouldQueue
             Log::info("M-Pesa payment {$fresh->id} completed.");
 
             if ($phone || $student->parent_phone) {
-                $to = \App\Services\MpesaService::normalizePhone($phone ?: $student->parent_phone);
+                $to = \App\Services\MpesaService::normalizePhone($student->parent_phone);
                 if ($to) {
                     $smsTo  = $to;
                     $smsMsg = sprintf(
@@ -207,7 +207,7 @@ class ProcessMpesaCallback implements ShouldQueue
                 'reference'     => 'MPESA-' . $mpesaReceipt,
             ]);
 
-            $to = \App\Services\MpesaService::normalizePhone($phone ?: $student->parent_phone);
+            $to = \App\Services\MpesaService::normalizePhone($student->parent_phone);
             if ($to) {
                 $smsTo  = $to;
                 $smsMsg = sprintf(
