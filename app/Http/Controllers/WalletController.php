@@ -72,7 +72,7 @@ class WalletController extends Controller
                 'Wallet Top-up'
             );
         } catch (\Throwable $e) {
-            $txn->update(['status' => 'failed', 'description' => 'STK error: ' . $e->getMessage()]);
+            $txn->update(['status' => 'under_reconciliation', 'description' => 'STK error: ' . $e->getMessage() . ' — held for review']);
             return back()->with('error', 'Could not reach M-Pesa. Try again.');
         }
 
@@ -82,7 +82,7 @@ class WalletController extends Controller
         }
 
         $err = $response['errorMessage'] ?? ($response['error'] ?? 'Unknown error');
-        $txn->update(['status' => 'failed', 'description' => 'STK rejected: ' . $err]);
+        $txn->update(['status' => 'under_reconciliation', 'description' => 'STK rejected: ' . $err . ' — held for review']);
         return back()->with('error', 'M-Pesa declined: ' . $err);
     }
 

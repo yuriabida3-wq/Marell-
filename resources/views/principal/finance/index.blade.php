@@ -33,6 +33,7 @@
       <option value="completed" @selected($status === 'completed')>Completed</option>
       <option value="pending"   @selected($status === 'pending')>Pending</option>
       <option value="failed"    @selected($status === 'failed')>Failed</option>
+      <option value="under_reconciliation" @selected($status === 'under_reconciliation')>Under Reconciliation</option>
     </select>
 
     <div class="grid grid-cols-2 gap-2">

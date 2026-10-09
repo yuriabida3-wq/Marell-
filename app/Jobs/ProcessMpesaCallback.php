@@ -60,10 +60,15 @@ class ProcessMpesaCallback implements ShouldQueue
 
         // -------- FAILED / CANCELLED --------
         if ($resultCode !== 0) {
-            $payment->update([
-                'status' => 'failed',
-                'notes'  => "Daraja: {$resultDesc} (code {$resultCode})",
-            ]);
+            DB::transaction(function () use ($payment, $resultDesc, $resultCode) {
+                $fresh = Payment::where('id', $payment->id)->lockForUpdate()->first();
+                if ($fresh && $fresh->status !== 'completed') {
+                    $fresh->update([
+                        'status' => 'failed',
+                        'notes'  => "Daraja: {$resultDesc} (code {$resultCode})",
+                    ]);
+                }
+            });
             Log::info("M-Pesa payment {$payment->id} failed: {$resultDesc}");
             return;
         }
@@ -79,6 +84,15 @@ class ProcessMpesaCallback implements ShouldQueue
 
         if (!$mpesaReceipt) {
             Log::warning("M-Pesa callback: no MpesaReceiptNumber for payment {$payment->id}");
+            DB::transaction(function () use ($payment) {
+                $fresh = Payment::where('id', $payment->id)->lockForUpdate()->first();
+                if ($fresh && $fresh->status !== 'completed') {
+                    $fresh->update([
+                        'status' => 'under_reconciliation',
+                        'notes'  => 'Callback had no MpesaReceiptNumber — held for review',
+                    ]);
+                }
+            });
             return;
         }
 
@@ -89,7 +103,15 @@ class ProcessMpesaCallback implements ShouldQueue
 
         if ($dupe) {
             Log::warning('M-Pesa callback: duplicate transaction_code [redacted]');
-            $payment->update(['status' => 'failed', 'notes' => 'Duplicate transaction code']);
+            DB::transaction(function () use ($payment) {
+                $fresh = Payment::where('id', $payment->id)->lockForUpdate()->first();
+                if ($fresh && $fresh->status !== 'completed') {
+                    $fresh->update([
+                        'status' => 'under_reconciliation',
+                        'notes'  => 'Duplicate M-Pesa receipt — held for review',
+                    ]);
+                }
+            });
             return;
         }
 
@@ -161,7 +183,15 @@ class ProcessMpesaCallback implements ShouldQueue
         if ($wallet->status === 'completed') { return; }
 
         if ($resultCode !== 0) {
-            $wallet->update(['status' => 'failed', 'description' => "M-Pesa: {$resultDesc} (code {$resultCode})"]);
+            DB::transaction(function () use ($wallet, $resultDesc, $resultCode) {
+                $fresh = WalletTransaction::where('id', $wallet->id)->lockForUpdate()->first();
+                if ($fresh && $fresh->status !== 'completed') {
+                    $fresh->update([
+                        'status'      => 'failed',
+                        'description' => "M-Pesa: {$resultDesc} (code {$resultCode})",
+                    ]);
+                }
+            });
             return;
         }
 
@@ -174,13 +204,30 @@ class ProcessMpesaCallback implements ShouldQueue
 
         if (!$mpesaReceipt) {
             Log::warning("Wallet topup {$wallet->id}: no MpesaReceiptNumber");
+            DB::transaction(function () use ($wallet) {
+                $fresh = WalletTransaction::where('id', $wallet->id)->lockForUpdate()->first();
+                if ($fresh && $fresh->status !== 'completed') {
+                    $fresh->update([
+                        'status'      => 'under_reconciliation',
+                        'description' => 'Callback had no MpesaReceiptNumber — held for review',
+                    ]);
+                }
+            });
             return;
         }
 
         $dupe = WalletTransaction::where('mpesa_receipt', $mpesaReceipt)
             ->where('id', '!=', $wallet->id)->where('status', 'completed')->exists();
         if ($dupe) {
-            $wallet->update(['status' => 'failed', 'description' => 'Duplicate M-Pesa receipt']);
+            DB::transaction(function () use ($wallet) {
+                $fresh = WalletTransaction::where('id', $wallet->id)->lockForUpdate()->first();
+                if ($fresh && $fresh->status !== 'completed') {
+                    $fresh->update([
+                        'status'      => 'under_reconciliation',
+                        'description' => 'Duplicate M-Pesa receipt — held for review',
+                    ]);
+                }
+            });
             return;
         }
 

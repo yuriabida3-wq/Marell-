@@ -84,12 +84,12 @@ class PaymentController extends Controller
         $res   = $mpesa->stkPush($phone, (float) $data['amount'], $student->adm_no, 'Fees ' . $student->adm_no);
 
         if (isset($res['error'])) {
-            $payment->update(['status' => 'failed', 'notes' => $res['error']]);
+            $payment->update(['status' => 'under_reconciliation', 'notes' => 'STK error: ' . $res['error'] . ' — held for review']);
             return back()->with('error', 'M-Pesa error: ' . $res['error']);
         }
 
         if (!isset($res['CheckoutRequestID'])) {
-            $payment->update(['status' => 'failed', 'notes' => 'No CheckoutRequestID']);
+            $payment->update(['status' => 'under_reconciliation', 'notes' => 'No CheckoutRequestID — held for review']);
             return back()->with('error', 'Daraja did not return a checkout ID. Please try again.');
         }
 

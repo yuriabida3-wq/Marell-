@@ -49,6 +49,10 @@
         clearInterval(iv);
         alert('Payment failed or was cancelled. Please try again.');
         window.location.href = "{{ route('pay') }}";
+      } else if (data.status === 'under_reconciliation') {
+        clearInterval(iv);
+        alert('Payment received but needs review. The school will contact you shortly.');
+        window.location.href = "{{ route('pay') }}";
       }
 
       if (attempts > maxAttempts) {
