@@ -52,7 +52,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Log::info('Nightly backup checkpoint: ' . now());
         })->dailyAt('02:00')->name('nightly-checkpoint');
 
-        // Every minute during school days — apply late fines (kills no-op days)
+        // Daily 8am EAT — run fee autopilot (fee escalation stages)
         $schedule->command('fees:autopilot')->dailyAt('08:00')->name('fee-autopilot');
 
         $schedule->command('fines:apply')->dailyAt('06:55')->name('auto-late-fines');
