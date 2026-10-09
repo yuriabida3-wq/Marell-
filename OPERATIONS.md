@@ -76,6 +76,27 @@ Adjust `/var/www/marell`, `user=www-data`, `numprocs` in the conf files if your 
 
 ---
 
+## 3b. Database users
+
+The app connects as a **non-privileged user**, not as the schema owner.
+
+| User | Purpose | Grants |
+|---|---|---|
+| `marell_app` | Application runtime | `SELECT, INSERT, UPDATE, DELETE ON marell.*` |
+| `marell` | Schema owner. Migrations and DDL only. | `ALL PRIVILEGES ON marell.*` |
+
+`.env` points the app at `marell_app`. An SQL injection or RCE in the app
+cannot DROP, ALTER, or CREATE tables. Blast radius is data manipulation only,
+and every mutation is already guarded at the app layer (`lockForUpdate`,
+unique indexes, kill switch).
+
+**Running migrations:** `php artisan migrate` needs DDL. Temporarily set
+`DB_USERNAME=marell` and the `marell` password in `.env`, run the migration,
+then swap back to `marell_app`. Do not leave the app running as `marell`.
+
+**Rotating the app user password:** as root,
+`ALTER USER 'marell_app'@'localhost' IDENTIFIED BY '<new>'; FLUSH PRIVILEGES;`
+then update `DB_PASSWORD` in `.env` and restart the workers.
 ## 4. Backups and restore
 
 ### Making a backup

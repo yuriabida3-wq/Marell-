@@ -26,7 +26,7 @@ are all signed off.
 | Stale-pending sweeper running | **OPEN** | Phase 2 item; no CP yet. Rows can sit pending indefinitely if a callback never arrives. |
 | Workers supervised and monitored | **PARTIAL** | CP-19 (71b5494) — supervisor configs and Termux script exist. No external monitoring / alerting on worker death. |
 | Kill switch tested | **MET** | CP-15 (add83eb); manual verification path documented in OPERATIONS.md §9 |
-| Non-privileged DB user | **OPEN** | App connects as `marell@localhost` with ALL PRIVILEGES on `marell`.* — that is scoped but not minimum-privilege. Production must use a user with only the grants the app needs (SELECT/INSERT/UPDATE/DELETE, no DDL). |
+| Non-privileged DB user | **MET** | OPS-DBUSER 2026-10-10. App runs as `marell_app@localhost` with only SELECT, INSERT, UPDATE, DELETE on `marell`.*. DDL refused at DB layer (CREATE returns ERROR 1142). `marell` user retained for migrations only. See OPERATIONS.md §3b. |
 | Restore witnessed | **MET** | Restore drill run 2026-10-10 (CP-33). Backup \`marell_drill_20261010_012121.sql\` restored into \`marell_restore_drill\`; all seven core tables matched row-for-row (students 139, users 21, payments 236, wallet_transactions 242, visitors 17, staff_attendances 660, canteen_items 10). Script: \`deploy/restore_drill.sh\`. |
 | Finance MFA | **OPEN** | No MFA on any login path. Passwords + PINs only. |
 | Debug off in production | **DEPLOY-TIME CHECK** | CP-26 (a1575be) — app refuses to boot if APP_ENV=production and APP_DEBUG=true. Operator must still set APP_DEBUG=false. |
@@ -40,7 +40,7 @@ are all signed off.
 
 These are not code items. They require the owner's decision or an external party.
 
-1. **Non-privileged DB user** — provision a `marell_app` user with SELECT/INSERT/UPDATE/DELETE only, no ALTER/CREATE/DROP. Update `.env`. Test with a real payment in sandbox first.
+1. ~~**Non-privileged DB user** — provision a `marell_app` user with SELECT/INSERT/UPDATE/DELETE only, no ALTER/CREATE/DROP. Update `.env`.~~ **DONE 2026-10-10.** `marell_app` created with four privileges. DDL rejected. `.env` swapped and app verified. See OPERATIONS.md §3b.
 2. ~~**Restore drill** — pick the most recent `$HOME/db_backups/marell_*.sql`, restore into a scratch DB, verify row counts match, delete scratch. Record the drill date.~~ **DONE 2026-10-10.** Script at \`deploy/restore_drill.sh\`. All seven core tables matched. Re-run monthly or after any schema change as an ongoing check.
 3. **Safaricom Daraja account onboarding** — obtain live shortcode, passkey, consumer key/secret for the school's Paybill. Coordinate with the school's Paybill owner.
 4. **Callback URL cutover** — once live credentials are in place: set MPESA_CALLBACK_SECRET, set MPESA_CALLBACK_URL to the new secure path, update the Daraja dashboard, verify a sandbox callback reaches it, then set MPESA_CALLBACK_LEGACY_ENABLED=false.
