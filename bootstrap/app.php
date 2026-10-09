@@ -13,7 +13,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health:   '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->trustProxies(at: '*');
+        // Trust X-Forwarded-For only from explicitly listed proxy IPs.
+        // Empty list = trust no proxy = use the honest TCP peer IP.
+        $trustedProxies = trim((string) env('TRUSTED_PROXIES', ''));
+        if ($trustedProxies !== '') {
+            $middleware->trustProxies(at: array_filter(array_map('trim', explode(',', $trustedProxies))));
+        }
 
         $middleware->validateCsrfTokens(except: [
             'api/mpesa/callback',
