@@ -106,8 +106,8 @@ class PaymentController extends Controller
             'initiated_amount' => $data['amount'],
             'method'     => 'M-Pesa',
             'status'     => 'pending',
-            'term'       => 'Term 1',
-            'year'       => date('Y'),
+            'term'       => (string) config('services.current_term', 'Term 1'),
+            'year'       => (string) (config('services.current_year') ?: date('Y')),
         ]);
 
         $skipStk = config('services.mpesa_skip_stk', false);

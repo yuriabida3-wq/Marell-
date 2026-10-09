@@ -52,6 +52,11 @@ return [
         'sender'   => env('AFRICASTALKING_SENDER', 'MARELL'),
     ],
 
+    // Academic term and year used when a fee payment is initiated.
+    // Change in .env at the start of each term. Explicit beats derived.
+    'current_term' => env('CURRENT_TERM', 'Term 1'),
+    'current_year' => env('CURRENT_YEAR', null),
+
     'mpesa_skip_stk'    => env('MPESA_SKIP_STK', false),
     'mpesa_kill_switch' => env('MPESA_KILL_SWITCH', false),
     'demo_mode'         => env('DEMO_MODE', false),
