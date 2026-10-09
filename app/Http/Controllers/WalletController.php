@@ -52,9 +52,10 @@ class WalletController extends Controller
             ->firstOrFail();
 
         $txn = WalletTransaction::create([
-            'student_id'    => $student->id,
-            'type'          => 'topup',
-            'amount'        => $data['amount'],
+            'student_id'       => $student->id,
+            'type'             => 'topup',
+            'amount'           => $data['amount'],
+            'initiated_amount' => $data['amount'],
             'balance_after' => $student->wallet_balance,
             'category'      => 'mpesa_topup',
             'status'        => 'pending',

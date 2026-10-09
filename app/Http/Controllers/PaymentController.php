@@ -54,8 +54,9 @@ class PaymentController extends Controller
 
         // Create pending payment
         $payment = Payment::create([
-            'student_id' => $student->id,
-            'amount'     => $data['amount'],
+            'student_id'       => $student->id,
+            'amount'           => $data['amount'],
+            'initiated_amount' => $data['amount'],
             'method'     => 'M-Pesa',
             'status'     => 'pending',
             'term'       => 'Term 1',

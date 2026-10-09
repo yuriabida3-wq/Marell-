@@ -10,7 +10,7 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id', 'amount', 'method',
+        'student_id', 'amount', 'initiated_amount', 'method',
         'transaction_code', 'checkout_request_id',
         'status', 'receipt_no', 'exam_id',
         'term', 'year', 'recorded_by', 'notes',
@@ -18,6 +18,7 @@ class Payment extends Model
 
     protected $casts = [
         'amount' => 'decimal:2',
+        'initiated_amount' => 'decimal:2',
     ];
 
     public function student()
