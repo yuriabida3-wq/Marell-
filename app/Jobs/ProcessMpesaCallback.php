@@ -115,6 +115,28 @@ class ProcessMpesaCallback implements ShouldQueue
             return;
         }
 
+        $initiated = (float) ($payment->initiated_amount ?? 0);
+        if ($initiated > 0 && abs($paidAmount - $initiated) > 0.001) {
+            Log::warning("M-Pesa callback: amount mismatch on payment {$payment->id}", [
+                'initiated' => $initiated,
+                'callback'  => $paidAmount,
+            ]);
+            DB::transaction(function () use ($payment, $initiated, $paidAmount) {
+                $fresh = Payment::where('id', $payment->id)->lockForUpdate()->first();
+                if ($fresh && $fresh->status !== 'completed') {
+                    $fresh->update([
+                        'status' => 'under_reconciliation',
+                        'notes'  => sprintf(
+                            'Amount mismatch: initiated %s, callback %s — held for review',
+                            number_format($initiated, 2),
+                            number_format($paidAmount, 2)
+                        ),
+                    ]);
+                }
+            });
+            return;
+        }
+
         $smsTo  = null;
         $smsMsg = null;
 
@@ -225,6 +247,28 @@ class ProcessMpesaCallback implements ShouldQueue
                     $fresh->update([
                         'status'      => 'under_reconciliation',
                         'description' => 'Duplicate M-Pesa receipt — held for review',
+                    ]);
+                }
+            });
+            return;
+        }
+
+        $initiated = (float) ($wallet->initiated_amount ?? 0);
+        if ($initiated > 0 && abs($paidAmount - $initiated) > 0.001) {
+            Log::warning("M-Pesa callback: amount mismatch on wallet {$wallet->id}", [
+                'initiated' => $initiated,
+                'callback'  => $paidAmount,
+            ]);
+            DB::transaction(function () use ($wallet, $initiated, $paidAmount) {
+                $fresh = WalletTransaction::where('id', $wallet->id)->lockForUpdate()->first();
+                if ($fresh && $fresh->status !== 'completed') {
+                    $fresh->update([
+                        'status'      => 'under_reconciliation',
+                        'description' => sprintf(
+                            'Amount mismatch: initiated %s, callback %s — held for review',
+                            number_format($initiated, 2),
+                            number_format($paidAmount, 2)
+                        ),
                     ]);
                 }
             });
