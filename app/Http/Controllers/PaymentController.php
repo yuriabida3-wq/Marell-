@@ -9,6 +9,7 @@ use App\Services\MpesaService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\RateLimiter;
 
 class PaymentController extends Controller
 {
@@ -64,6 +65,31 @@ class PaymentController extends Controller
 
         $phone = MpesaService::normalizePhone($data['phone']);
         if (!$phone) return back()->with('error', 'Invalid phone number. Use format 07XXXXXXXX.');
+
+        // CP-27: three rate limits on an unauthenticated payment endpoint.
+        // - per phone: blocks a single phone being spammed with STK prompts
+        // - per admission: blocks one student's account being spammed
+        // - global: bounds total requests so Africa's Talking / Safaricom
+        //   cost cannot be driven up by a distributed flood.
+        $phoneKey  = 'pay-init:phone:' . $phone;
+        $admKey    = 'pay-init:adm:' . strtoupper(trim($data['adm']));
+        $globalKey = 'pay-init:global';
+
+        if (RateLimiter::tooManyAttempts($globalKey, 200)) {
+            return back()->with('error', 'Payment service is busy. Please try again shortly.');
+        }
+        if (RateLimiter::tooManyAttempts($phoneKey, 5)) {
+            $secs = RateLimiter::availableIn($phoneKey);
+            return back()->with('error', "Too many attempts for this phone. Try again in {$secs} seconds.");
+        }
+        if (RateLimiter::tooManyAttempts($admKey, 5)) {
+            $secs = RateLimiter::availableIn($admKey);
+            return back()->with('error', "Too many attempts for this admission number. Try again in {$secs} seconds.");
+        }
+
+        RateLimiter::hit($globalKey, 3600);
+        RateLimiter::hit($phoneKey, 900);
+        RateLimiter::hit($admKey, 900);
 
         // Prevent double submit
         $recent = Payment::where('student_id', $student->id)

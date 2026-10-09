@@ -51,6 +51,14 @@ class WalletController extends Controller
             ->where('parent_phone', $phone)
             ->firstOrFail();
 
+        // CP-27: per-phone limit on wallet top-up initiation.
+        $rlKey = 'wallet-topup:' . $phone;
+        if (RateLimiter::tooManyAttempts($rlKey, 5)) {
+            $secs = RateLimiter::availableIn($rlKey);
+            return back()->with('error', "Too many top-up attempts. Try again in {$secs} seconds.");
+        }
+        RateLimiter::hit($rlKey, 900);
+
         $txn = WalletTransaction::create([
             'student_id'       => $student->id,
             'type'             => 'topup',
