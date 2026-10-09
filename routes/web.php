@@ -444,7 +444,7 @@ Route::get('/library-catalog', [App\Http\Controllers\LibraryController::class, '
 Route::get('/student-qr/{token}', [App\Http\Controllers\StudentQrController::class, 'show'])->name('student.qr.public');
 
 // ============ CANTEEN (Guard or Admin) ============
-Route::prefix('canteen')->name('canteen.')->group(function () {
+Route::middleware('guard.or.staff')->prefix('canteen')->name('canteen.')->group(function () {
     Route::get('/',              [App\Http\Controllers\WalletController::class, 'canteen'])->name('index');
     Route::get('/logs',          [App\Http\Controllers\WalletController::class, 'canteenLogs'])->name('logs');
     Route::post('/lookup',       [App\Http\Controllers\WalletController::class, 'canteenLookup'])->name('lookup');
@@ -514,10 +514,10 @@ Route::middleware(['auth', 'role:dos|principal'])->prefix('dos')->name('dos.')->
     Route::get('/teacher-performance',             [App\Http\Controllers\TeacherAccountabilityController::class, 'performanceIndex'])->name('teacher-performance.index');
     Route::post('/teacher-performance/compute',    [App\Http\Controllers\TeacherAccountabilityController::class, 'computeAll'])->name('teacher-performance.compute');
 });
-Route::post('gate/console/staff-scan', [App\Http\Controllers\StaffAttendanceController::class, 'scan'])->name('gate.console.staff-scan');
-Route::get('principal/staff-attendance', [App\Http\Controllers\StaffAttendanceController::class, 'index'])->name('principal.staff-attendance');
-Route::get('principal/staff-qrcodes', [App\Http\Controllers\StaffAttendanceController::class, 'qrcodes'])->name('principal.staff-qrcodes');
-Route::get('principal/canteen-report', [App\Http\Controllers\WalletController::class, 'canteenReport'])->name('principal.canteen-report');
+Route::middleware('guard.or.staff')->post('gate/console/staff-scan', [App\Http\Controllers\StaffAttendanceController::class, 'scan'])->name('gate.console.staff-scan');
+Route::middleware(['auth','role:principal|dos'])->get('principal/staff-attendance', [App\Http\Controllers\StaffAttendanceController::class, 'index'])->name('principal.staff-attendance');
+Route::middleware(['auth','role:principal|dos'])->get('principal/staff-qrcodes', [App\Http\Controllers\StaffAttendanceController::class, 'qrcodes'])->name('principal.staff-qrcodes');
+Route::middleware(['auth','role:principal'])->get('principal/canteen-report', [App\Http\Controllers\WalletController::class, 'canteenReport'])->name('principal.canteen-report');
 
 // ============ CANTEEN ITEM MENU + BLOCKED ITEMS ============
 Route::middleware(['auth', 'role:principal|bursar'])->prefix('principal')->name('principal.')->group(function () {
@@ -528,7 +528,7 @@ Route::middleware(['auth', 'role:principal|bursar'])->prefix('principal')->name(
     Route::delete('/canteen-items/{item}',    [App\Http\Controllers\CanteenItemController::class, 'destroy'])->name('canteen-items.destroy');
 });
 
-Route::prefix('canteen')->name('canteen.')->group(function () {
+Route::middleware('guard.or.staff')->prefix('canteen')->name('canteen.')->group(function () {
     Route::get('/menu',     [App\Http\Controllers\CanteenItemController::class, 'menu'])->name('menu');
     Route::post('/lookup',  [App\Http\Controllers\CanteenItemController::class, 'lookup'])->name('item-lookup');
     Route::post('/checkout',[App\Http\Controllers\CanteenItemController::class, 'checkout'])->name('item-checkout');

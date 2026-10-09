@@ -29,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'parent.auth'        => \App\Http\Middleware\ParentAuth::class,
+            'guard.or.staff'     => \App\Http\Middleware\GuardOrStaff::class,
             'role'               => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission'         => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
