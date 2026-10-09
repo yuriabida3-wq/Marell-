@@ -96,6 +96,11 @@ class ProcessMpesaCallback implements ShouldQueue
             return;
         }
 
+        // CP-29: this application-level check is a fast path for UX, not the
+        // load-bearing guarantee. The database unique index on
+        // payments.transaction_code rejects concurrent duplicate writes at
+        // the DB layer; this check catches the common case cleanly so the
+        // job does not have to retry against the unique violation.
         $dupe = Payment::where('transaction_code', $mpesaReceipt)
             ->where('id', '!=', $payment->id)
             ->where('status', 'completed')
@@ -238,6 +243,9 @@ class ProcessMpesaCallback implements ShouldQueue
             return;
         }
 
+        // CP-29: fast-path app check. The load-bearing guarantee is the
+        // database unique index on wallet_transactions.mpesa_receipt (CP-24);
+        // concurrent duplicate writes are rejected at the DB layer.
         $dupe = WalletTransaction::where('mpesa_receipt', $mpesaReceipt)
             ->where('id', '!=', $wallet->id)->where('status', 'completed')->exists();
         if ($dupe) {
