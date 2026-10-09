@@ -17,14 +17,34 @@ class PaymentController extends Controller
         $student = null;
 
         if ($request->filled('adm')) {
-            $student = Student::where('adm_no', trim($request->adm))->first();
-            if (!$student) {
-                return redirect()->route('pay')->with('error', "No student found with admission number {$request->adm}.");
+            $found = Student::where('adm_no', trim($request->adm))->first();
+            if (!$found) {
+                return redirect()->route('pay')->with('error', 'No student found with that admission number.');
             }
-            session(['pay_student_id' => $student->id]);
+            session(['pay_student_id' => $found->id]);
+
+            // Mask everything except what a parent needs to confirm the child.
+            // Full details appear only on the success page after payment.
+            $student = [
+                'adm_no'   => $found->adm_no,
+                'initials' => $this->initials($found->name),
+                'class'    => trim($found->class . ' ' . $found->stream),
+            ];
         }
 
         return view('public.pay', compact('student'));
+    }
+
+    private function initials(string $name): string
+    {
+        $parts = preg_split('/\s+/', trim($name));
+        $out = [];
+        foreach ($parts as $p) {
+            if ($p !== '') {
+                $out[] = strtoupper(substr($p, 0, 1)) . '.';
+            }
+        }
+        return implode(' ', $out);
     }
 
     public function initiate(Request $request)

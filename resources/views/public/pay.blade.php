@@ -6,7 +6,7 @@
   <div class="max-w-7xl mx-auto px-4 text-center" data-aos="fade-up">
     <div class="text-gold font-bold tracking-widest text-sm">PARENT PORTAL</div>
     <h1 class="text-2xl md:text-4xl font-extrabold mt-2">Pay Fees Online</h1>
-    <p class="mt-3 text-white/80 max-w-xl mx-auto text-sm md:text-base">Enter your child's admission number, verify the balance, and pay securely via M-Pesa.</p>
+    <p class="mt-3 text-white/80 max-w-xl mx-auto text-sm md:text-base">Enter your child's admission number and pay securely via M-Pesa.</p>
   </div>
 </section>
 
@@ -24,38 +24,23 @@
     </div>
 
     <form method="GET" action="{{ route('pay') }}" class="flex flex-col sm:flex-row gap-3">
-      <input name="adm" value="{{ old('adm', request('adm', $student->adm_no ?? '')) }}" required placeholder="e.g. MAR-2024-0001"
+      <input name="adm" value="{{ old('adm', request('adm', $student['adm_no'] ?? '')) }}" required placeholder="e.g. MAR-2024-0001"
              class="flex-1 min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none">
-      <button class="btn btn-navy w-full sm:w-auto">🔍 Check Balance</button>
+      <button class="btn btn-navy w-full sm:w-auto">🔍 Find</button>
     </form>
   </div>
 
   @if ($student)
-    {{-- STUDENT SUMMARY --}}
+    {{-- STUDENT SUMMARY (masked) --}}
     <div class="card p-6 mt-6" data-aos="fade-up">
       <div class="flex items-start gap-4">
         <div class="w-14 h-14 rounded-full bg-gold flex items-center justify-center font-bold text-navy text-xl flex-shrink-0">
-          {{ strtoupper(substr($student->name, 0, 1)) }}
+          {{ strtoupper(substr($student['initials'], 0, 1)) }}
         </div>
         <div class="flex-1">
-          <div class="font-bold text-navy text-lg">{{ $student->name }}</div>
-          <div class="text-sm text-gray-600">{{ $student->adm_no }} · {{ $student->class }} {{ $student->stream }}</div>
-          <div class="text-xs text-gray-500 mt-1">Parent: {{ $student->parent_name }}</div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-3 gap-3 mt-5 text-center">
-        <div class="bg-gray-50 rounded-xl p-3">
-          <div class="text-xs text-gray-500">Total Fee</div>
-          <div class="font-bold text-navy text-sm">KES {{ number_format($student->total_fee, 0) }}</div>
-        </div>
-        <div class="bg-green-50 rounded-xl p-3">
-          <div class="text-xs text-gray-500">Paid</div>
-          <div class="font-bold text-green-700 text-sm">KES {{ number_format($student->paid_amount, 0) }}</div>
-        </div>
-        <div class="bg-red-50 rounded-xl p-3">
-          <div class="text-xs text-gray-500">Balance</div>
-          <div class="font-bold text-red-600 text-sm">KES {{ number_format($student->balance, 0) }}</div>
+          <div class="font-bold text-navy text-lg">{{ $student['initials'] }}</div>
+          <div class="text-sm text-gray-600">{{ $student['adm_no'] }} · {{ $student['class'] }}</div>
+          <div class="text-xs text-gray-500 mt-1">Is this your child? Full details appear on your receipt after payment.</div>
         </div>
       </div>
     </div>
@@ -69,22 +54,19 @@
 
       <form method="POST" action="{{ route('pay.initiate') }}" id="payForm" class="space-y-4">
         @csrf
-        <input type="hidden" name="adm" value="{{ $student->adm_no }}">
+        <input type="hidden" name="adm" value="{{ $student['adm_no'] }}">
 
         <div>
           <label class="block text-sm font-semibold text-navy mb-2">Phone Number (M-Pesa) *</label>
-          <input name="phone" value="{{ old('phone', $student->parent_phone ? '0'.substr($student->parent_phone, 3) : '') }}" required placeholder="07XXXXXXXX"
+          <input name="phone" value="{{ old('phone') }}" required placeholder="07XXXXXXXX"
                  class="w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none">
-          <div class="text-xs text-gray-500 mt-1">We'll send an STK Push prompt to this number.</div>
+          <div class="text-xs text-gray-500 mt-1">We'll send an STK Push prompt to this number. The receipt will be sent to the parent number on file.</div>
         </div>
 
         <div>
           <label class="block text-sm font-semibold text-navy mb-2">Amount (KES) *</label>
-          <input name="amount" type="number" min="1" max="500000" step="1" required value="{{ old('amount', $student->balance > 0 ? (int) $student->balance : '') }}"
+          <input name="amount" type="number" min="1" max="500000" step="1" required value="{{ old('amount') }}"
                  class="w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none">
-          @if ($student->balance > 0)
-            <button type="button" onclick="document.querySelector('input[name=amount]').value={{ (int) $student->balance }}" class="text-xs text-navy underline mt-1">Pay full balance (KES {{ number_format($student->balance, 0) }})</button>
-          @endif
         </div>
 
         <button type="submit" id="payBtn" class="btn btn-gold w-full">
