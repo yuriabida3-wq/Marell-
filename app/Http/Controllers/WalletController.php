@@ -148,12 +148,15 @@ class WalletController extends Controller
         return response()->json([
             'status'  => 'ok',
             'student' => [
-                'id'      => $student->id,
-                'name'    => $student->name,
-                'adm_no'  => $student->adm_no,
-                'class'   => $student->class . ' ' . $student->stream,
-                'balance' => number_format((float) $student->wallet_balance, 2),
-                'raw_balance' => (float) $student->wallet_balance,
+                'id'                 => $student->id,
+                'name'               => $student->name,
+                'adm_no'             => $student->adm_no,
+                'class'              => $student->class . ' ' . $student->stream,
+                'balance'            => number_format((float) $student->wallet_balance, 2),
+                'raw_balance'        => (float) $student->wallet_balance,
+                'daily_limit'        => (float) $student->daily_limit,
+                'blocked_items'      => $student->blocked_items ?? [],
+                'blocked_categories' => $student->blocked_categories ?? [],
             ],
         ]);
     }

@@ -10,44 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class CanteenItemController extends Controller
 {
-    /** Guard-facing: menu grid with cart */
-    public function menu(Request $request)
-    {
-        if (!session('guard_id') && !auth()->check()) {
-            return redirect()->route('login');
-        }
-
-        $items = CanteenItem::active()->orderBy('category')->orderBy('name')->get();
-        $categories = $items->pluck('category')->unique()->values();
-
-        return view('canteen.menu', compact('items', 'categories'));
-    }
-
-    /** Guard-facing: lookup student by QR/adm */
-    public function lookup(Request $request)
-    {
-        $data = $request->validate([
-            'student_id' => 'required|exists:students,id',
-        ]);
-
-        $student = Student::findOrFail($data['student_id']);
-
-        return response()->json([
-            'status' => 'ok',
-            'student' => [
-                'id'                => $student->id,
-                'name'              => $student->name,
-                'adm_no'            => $student->adm_no,
-                'class'             => $student->class . ' ' . $student->stream,
-                'balance'           => number_format((float) $student->wallet_balance, 2),
-                'raw_balance'       => (float) $student->wallet_balance,
-                'daily_limit'       => (float) $student->daily_limit,
-                'blocked_items'     => $student->blocked_items ?? [],
-                'blocked_categories'=> $student->blocked_categories ?? [],
-            ],
-        ]);
-    }
-
     /** Guard-facing: checkout cart */
     public function checkout(Request $request)
     {

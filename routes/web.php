@@ -529,8 +529,7 @@ Route::middleware(['auth', 'role:principal|bursar'])->prefix('principal')->name(
 });
 
 Route::middleware('guard.or.staff')->prefix('canteen')->name('canteen.')->group(function () {
-    Route::get('/menu',     [App\Http\Controllers\CanteenItemController::class, 'menu'])->name('menu');
-    Route::post('/lookup',  [App\Http\Controllers\CanteenItemController::class, 'lookup'])->name('item-lookup');
+    Route::get('/menu',     fn () => redirect()->route('canteen.index'))->name('menu');
     Route::post('/checkout',[App\Http\Controllers\CanteenItemController::class, 'checkout'])->name('item-checkout');
 });
 Route::post('parent/wallet/blocked-items', [App\Http\Controllers\WalletController::class, 'saveBlockedItems'])->name('parent.wallet.blocked');

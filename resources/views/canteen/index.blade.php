@@ -151,7 +151,7 @@ function clearCart() {
 async function lookup(token) {
   if (!token || !token.trim()) return;
   try {
-    const r = await fetch('{{ route("canteen.item-lookup") }}', {
+    const r = await fetch('{{ route("canteen.lookup") }}', {
       method: 'POST',
       headers: {'Content-Type':'application/json','Accept':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
       body: JSON.stringify({ token: token.trim() })
@@ -167,7 +167,8 @@ async function lookup(token) {
 
     currentStudent = d.student;
     studentCard.classList.remove('hidden');
-    studentCard.innerHTML = ''
+
+    let info = ''
       + '<div class="flex items-center gap-4">'
       + '<div class="w-16 h-16 rounded-full bg-navy text-white flex items-center justify-center font-bold text-2xl">' + d.student.name.charAt(0) + '</div>'
       + '<div class="flex-1">'
@@ -178,6 +179,17 @@ async function lookup(token) {
       + '<div class="text-xs text-gray-500">WALLET</div>'
       + '<div class="text-2xl font-extrabold ' + (d.student.raw_balance > 100 ? 'text-green-600' : 'text-red-600') + '">KES ' + d.student.balance + '</div>'
       + '</div></div>';
+
+    // Blocked items / categories warning + daily limit
+    const blocked = [].concat(d.student.blocked_items || []).concat((d.student.blocked_categories || []).map(function (c) { return 'ALL ' + c; }));
+    if (blocked.length > 0) {
+      info += '<div class="mt-3 text-xs bg-red-50 text-red-700 border-l-4 border-red-600 p-2 rounded">Blocked: ' + blocked.join(', ') + '</div>';
+    }
+    if (d.student.daily_limit > 0) {
+      info += '<div class="mt-2 text-xs text-gray-600">Daily limit: KES ' + d.student.daily_limit + '</div>';
+    }
+
+    studentCard.innerHTML = info;
 
     cart = {};
     renderCart();
