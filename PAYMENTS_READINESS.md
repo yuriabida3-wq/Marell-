@@ -1,6 +1,6 @@
 # Payments Readiness Assessment
 
-Assessed at CP-32 (commit history up to 23df0f0).
+Assessed at CP-32 (23df0f0). Updated at CP-34 for the DB-user and restore-drill closures.
 Scope: whether the system can be trusted with **real parent money** through a live Safaricom Paybill.
 
 ## 1. Summary verdict
@@ -65,7 +65,7 @@ Items the owner has decided not to close, with the reasoning.
 
 Ordered steps from today to first real payment.
 
-1. Complete section 3 item 1 (non-privileged DB user). Item 2 (restore drill) is done — see §3. Re-run the drill monthly or after schema changes.
+1. Section 3 items 1 and 2 are DONE (2026-10-10). Begin at item 3. Re-run the drill monthly or after schema changes.
 2. Provision the VPS (item 8). Do not point live money at it yet.
 3. Sandbox test on VPS: full payment flow end to end, callback received on the new secret path, wallet credited, SMS sent, receipt verifiable.
 4. Kill switch test: set MPESA_KILL_SWITCH=1, attempt a payment, confirm refusal, unset.
