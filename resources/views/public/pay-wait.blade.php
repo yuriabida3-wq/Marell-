@@ -32,7 +32,7 @@
 
 @push('scripts')
 <script>
-  const checkUrl = "{{ route('pay.check', $payment) }}";
+  const checkUrl = "{{ URL::signedRoute('pay.check', $payment) }}";
   let attempts = 0;
   const maxAttempts = 60; // 2 minutes
 

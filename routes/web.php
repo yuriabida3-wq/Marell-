@@ -34,9 +34,9 @@ Route::post('/contact',    [ContactController::class, 'submit'])->name('contact.
 Route::middleware('throttle:60,1')->group(function () {
 Route::get('/pay',                   [PaymentController::class, 'show'])->name('pay');
 Route::post('/pay',                  [PaymentController::class, 'initiate'])->middleware('throttle:10,1')->name('pay.initiate');
-Route::get('/pay/wait/{payment}',    [PaymentController::class, 'wait'])->name('pay.wait');
-Route::get('/pay/check/{payment}',   [PaymentController::class, 'check'])->name('pay.check');
-Route::get('/pay/success/{payment}', [PaymentController::class, 'success'])->name('pay.success');
+Route::get('/pay/wait/{payment}',    [PaymentController::class, 'wait'])->middleware('signed')->name('pay.wait');
+Route::get('/pay/check/{payment}',   [PaymentController::class, 'check'])->middleware('signed')->name('pay.check');
+Route::get('/pay/success/{payment}', [PaymentController::class, 'success'])->middleware('signed')->name('pay.success');
 Route::get('/pay/receipt/{payment}', [PaymentController::class, 'receipt'])->middleware('signed')->name('pay.receipt');
 });
 

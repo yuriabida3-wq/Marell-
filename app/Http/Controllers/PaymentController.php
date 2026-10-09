@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Services\MpesaService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class PaymentController extends Controller
 {
@@ -76,7 +77,7 @@ class PaymentController extends Controller
                 ->delay(now()->addSeconds(3))
                 ->onQueue('default');
 
-            return redirect()->route('pay.wait', ['payment' => $payment->id]);
+            return redirect()->to(URL::signedRoute('pay.wait', ['payment' => $payment->id]));
         }
 
         // === PRODUCTION MODE — real STK Push ===
@@ -95,7 +96,7 @@ class PaymentController extends Controller
 
         $payment->update(['checkout_request_id' => $res['CheckoutRequestID']]);
 
-        return redirect()->route('pay.wait', ['payment' => $payment->id]);
+        return redirect()->to(URL::signedRoute('pay.wait', ['payment' => $payment->id]));
     }
 
     public function wait(Payment $payment)
@@ -109,7 +110,7 @@ class PaymentController extends Controller
             'status'      => $payment->status,
             'transaction' => $payment->transaction_code,
             'receipt_no'  => $payment->receipt_no,
-            'redirect'    => $payment->status === 'completed' ? route('pay.success', $payment) : null,
+            'redirect'    => $payment->status === 'completed' ? URL::signedRoute('pay.success', $payment) : null,
         ]);
     }
 
