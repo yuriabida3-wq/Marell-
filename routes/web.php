@@ -231,7 +231,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Public receipt verification
-Route::get('/verify-receipt/{receipt_no}', [App\Http\Controllers\VerifyController::class, 'receipt'])->name('verify.receipt');
+Route::get('/verify-receipt/{receipt_no}', [App\Http\Controllers\VerifyController::class, 'receipt'])->middleware('throttle:30,1')->name('verify.receipt');
 
 // Principal — Live Collection Projector
 Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('principal.')->group(function () {

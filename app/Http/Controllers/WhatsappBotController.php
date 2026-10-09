@@ -147,7 +147,7 @@ class WhatsappBotController extends Controller
             . "Amount:  KES " . number_format($last->amount, 2) . "\n"
             . "Method:  {$last->method}\n"
             . "Date:    {$last->created_at->format('d M Y H:i')}\n"
-            . "Verify:  " . url('/verify-receipt/' . $last->receipt_no);
+            . "Verify:  " . \Illuminate\Support\Facades\URL::signedRoute('verify.receipt', ['receipt_no' => $last->receipt_no]);
     }
 
     protected function resultsReply($students, string $arg): string

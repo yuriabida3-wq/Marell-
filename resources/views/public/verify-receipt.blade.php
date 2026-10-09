@@ -24,14 +24,23 @@
 
       <table class="w-full text-sm">
         <tr class="border-b"><td class="py-2 text-gray-500">Receipt No</td><td class="py-2 text-right font-mono font-bold text-navy">{{ $payment->receipt_no }}</td></tr>
-        <tr class="border-b"><td class="py-2 text-gray-500">Student</td><td class="py-2 text-right font-semibold">{{ $payment->student->name ?? '—' }}</td></tr>
-        <tr class="border-b"><td class="py-2 text-gray-500">ADM No</td><td class="py-2 text-right font-mono">{{ $payment->student->adm_no ?? '—' }}</td></tr>
         <tr class="border-b"><td class="py-2 text-gray-500">Amount</td><td class="py-2 text-right font-bold text-green-700 text-lg">KES {{ number_format($payment->amount, 2) }}</td></tr>
-        <tr class="border-b"><td class="py-2 text-gray-500">Method</td><td class="py-2 text-right">{{ $payment->method }}</td></tr>
-        <tr class="border-b"><td class="py-2 text-gray-500">Transaction Code</td><td class="py-2 text-right font-mono text-xs">{{ $payment->transaction_code ?: '—' }}</td></tr>
         <tr class="border-b"><td class="py-2 text-gray-500">Date Issued</td><td class="py-2 text-right">{{ $payment->created_at->format('d M Y H:i') }}</td></tr>
-        <tr><td class="py-2 text-gray-500">Recorded By</td><td class="py-2 text-right">{{ $payment->recorded_by ? 'Staff #'.$payment->recorded_by : 'System (M-Pesa)' }}</td></tr>
+
+        @if ($full)
+          <tr class="border-b"><td class="py-2 text-gray-500">Student</td><td class="py-2 text-right font-semibold">{{ $payment->student->name ?? '—' }}</td></tr>
+          <tr class="border-b"><td class="py-2 text-gray-500">ADM No</td><td class="py-2 text-right font-mono">{{ $payment->student->adm_no ?? '—' }}</td></tr>
+          <tr class="border-b"><td class="py-2 text-gray-500">Method</td><td class="py-2 text-right">{{ $payment->method }}</td></tr>
+          <tr class="border-b"><td class="py-2 text-gray-500">Transaction Code</td><td class="py-2 text-right font-mono text-xs">{{ $payment->transaction_code ?: '—' }}</td></tr>
+          <tr><td class="py-2 text-gray-500">Recorded By</td><td class="py-2 text-right">{{ $payment->recorded_by ? 'Staff #'.$payment->recorded_by : 'System (M-Pesa)' }}</td></tr>
+        @endif
       </table>
+
+      @unless ($full)
+        <div class="mt-4 text-xs text-gray-500">
+          Student details are hidden to protect privacy. Open this page from your own receipt link to see full details.
+        </div>
+      @endunless
 
       <div class="mt-6 bg-green-50 border-l-4 border-green-600 p-3 text-xs text-green-800 rounded">
         This receipt is registered in Marell Academy's official database. If you suspect fraud, call <a href="tel:+254700000000" class="font-semibold underline">+254 700 000 000</a>.

@@ -59,15 +59,15 @@
       <div class="font-extrabold text-navy text-lg mb-1">KES {{ number_format($payment->amount, 0) }}</div>
       <div class="text-xs text-gray-500 mb-4">{{ $payment->receipt_no }}</div>
 
-      <img src="https://quickchart.io/qr?text={{ urlencode(url('/verify-receipt/' . $payment->receipt_no)) }}&size=250&margin=1" class="mx-auto mb-4 rounded-xl border-4 border-green-600" style="width:250px;height:250px;">
+      <img src="https://quickchart.io/qr?text={{ urlencode(\Illuminate\Support\Facades\URL::signedRoute('verify.receipt', ['receipt_no' => $payment->receipt_no])) }}&size=250&margin=1" class="mx-auto mb-4 rounded-xl border-4 border-green-600" style="width:250px;height:250px;">
 
-      <div class="text-xs text-gray-500 mb-4 break-all">{{ url('/verify-receipt/' . $payment->receipt_no) }}</div>
+      <div class="text-xs text-gray-500 mb-4 break-all">{{ \Illuminate\Support\Facades\URL::signedRoute('verify.receipt', ['receipt_no' => $payment->receipt_no]) }}</div>
 
       <div class="text-xs text-green-700 bg-green-50 rounded-lg p-2 mb-3">
         <strong>Used at:</strong> Receipt verification (kills fake receipts)
       </div>
 
-      <a href="{{ url('/verify-receipt/' . $payment->receipt_no) }}" target="_blank" class="block text-xs py-2 px-4 rounded-lg bg-green-600 text-white font-semibold">Verify Now →</a>
+      <a href="{{ \Illuminate\Support\Facades\URL::signedRoute('verify.receipt', ['receipt_no' => $payment->receipt_no]) }}" target="_blank" class="block text-xs py-2 px-4 rounded-lg bg-green-600 text-white font-semibold">Verify Now →</a>
     </div>
   @endif
 
