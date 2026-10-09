@@ -43,7 +43,7 @@ class Cp32ReadinessDocTest extends TestCase
     public function test_names_open_gates(): void
     {
         $src = $this->doc();
-        foreach (['Stale-pending sweeper', 'Non-privileged DB user', 'Restore witnessed', 'Finance MFA'] as $gate) {
+        foreach (['Stale-pending sweeper', 'Non-privileged DB user', 'Finance MFA'] as $gate) {
             $this->assertStringContainsString($gate, $src, "Missing gate: {$gate}");
         }
     }
