@@ -35,6 +35,10 @@ class WalletController extends Controller
 
     public function parentTopUp(Request $request)
     {
+        if (!\App\Support\PaymentSafety::paymentsAllowed()) {
+            return back()->with('error', \App\Support\PaymentSafety::blockReason());
+        }
+
         $phone = session('parent_phone');
         if (!$phone) return redirect()->route('parent.login');
 

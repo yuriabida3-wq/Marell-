@@ -52,7 +52,9 @@ return [
         'sender'   => env('AFRICASTALKING_SENDER', 'MARELL'),
     ],
 
-    'mpesa_skip_stk' => env('MPESA_SKIP_STK', false),
+    'mpesa_skip_stk'    => env('MPESA_SKIP_STK', false),
+    'mpesa_kill_switch' => env('MPESA_KILL_SWITCH', false),
+    'demo_mode'         => env('DEMO_MODE', false),
 
     'mpesa' => [
         'env'             => env('MPESA_ENV', 'sandbox'),

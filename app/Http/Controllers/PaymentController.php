@@ -28,6 +28,10 @@ class PaymentController extends Controller
 
     public function initiate(Request $request)
     {
+        if (!\App\Support\PaymentSafety::paymentsAllowed()) {
+            return back()->with('error', \App\Support\PaymentSafety::blockReason());
+        }
+
         $data = $request->validate([
             'adm'    => 'required|string',
             'amount' => 'required|numeric|min:1|max:500000',
@@ -89,13 +93,6 @@ class PaymentController extends Controller
         }
 
         $payment->update(['checkout_request_id' => $res['CheckoutRequestID']]);
-
-        // In demo mode, still auto-complete even when real STK fired
-        if (config('services.demo_mode', false)) {
-            DemoAutoCompletePayment::dispatch($payment)
-                ->delay(now()->addSeconds(3))
-                ->onQueue('default');
-        }
 
         return redirect()->route('pay.wait', ['payment' => $payment->id]);
     }

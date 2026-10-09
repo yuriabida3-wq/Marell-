@@ -20,7 +20,14 @@ class DemoAutoCompletePayment implements ShouldQueue
 
     public function handle(): void
     {
+        // Fail-closed: demo auto-complete only fires when all three are true.
         if (!config('services.demo_mode', false)) {
+            return;
+        }
+        if (!config('services.mpesa_skip_stk', false)) {
+            return;
+        }
+        if (config('services.mpesa.env', 'sandbox') !== 'sandbox') {
             return;
         }
 
