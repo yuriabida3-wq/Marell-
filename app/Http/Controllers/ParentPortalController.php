@@ -84,6 +84,7 @@ class ParentPortalController extends Controller
         // Success: log in
         Cache::forget("parent_otp:{$phone}");
         session()->forget('parent_pending_phone');
+        $request->session()->regenerate();
         session(['parent_phone' => $phone]);
 
         return redirect()->route('parent.dashboard');
@@ -92,6 +93,8 @@ class ParentPortalController extends Controller
     public function logout(Request $request)
     {
         session()->forget('parent_phone');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('parent.login')->with('success', 'You have been logged out.');
     }
 

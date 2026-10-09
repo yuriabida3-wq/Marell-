@@ -46,6 +46,8 @@ class SecurityGuardController extends Controller
             return back()->withErrors(['pin' => 'Invalid PIN.'])->withInput();
         }
 
+        $request->session()->regenerate();
+
         session([
             'guard_id'   => $user->id,
             'guard_name' => $user->name,
@@ -57,6 +59,8 @@ class SecurityGuardController extends Controller
     public function logout(Request $request)
     {
         $request->session()->forget(['guard_id', 'guard_name']);
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('security.login');
     }
 

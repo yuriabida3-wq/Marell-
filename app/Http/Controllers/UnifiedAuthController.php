@@ -93,6 +93,8 @@ class UnifiedAuthController extends Controller
             return back()->withErrors(['guard_pin' => 'Invalid PIN.'])->withInput();
         }
 
+        $request->session()->regenerate();
+
         session([
             'guard_id'   => $user->id,
             'guard_name' => $user->name,
@@ -163,6 +165,7 @@ class UnifiedAuthController extends Controller
 
         Cache::forget("parent_otp:{$phone}");
         session()->forget('parent_pending_phone');
+        $request->session()->regenerate();
         session(['parent_phone' => $phone]);
 
         return redirect()->route('parent.dashboard');
