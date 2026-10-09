@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ProcessMpesaCallback;
+use App\Support\LogRedactor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -46,10 +47,12 @@ class MpesaCallbackController extends Controller
             return response()->json(['ResultCode' => 1, 'ResultDesc' => 'Not found'], 404);
         }
 
+        // Optional IP allowlist (disabled by default).
         if (!$this->ipAllowed($request)) {
             return response()->json(['ResultCode' => 1, 'ResultDesc' => 'Forbidden'], 403);
         }
 
+        // Shape validation — cheap reject before queueing.
         if (!$this->looksLikeStkCallback($request)) {
             return response()->json(['ResultCode' => 1, 'ResultDesc' => 'Bad request'], 400);
         }
@@ -65,7 +68,7 @@ class MpesaCallbackController extends Controller
     {
         $payload = $request->all();
 
-        Log::info('M-Pesa callback received', $payload);
+        Log::info('M-Pesa callback received', LogRedactor::redact($payload));
 
         ProcessMpesaCallback::dispatch($payload)->onQueue('mpesa');
 

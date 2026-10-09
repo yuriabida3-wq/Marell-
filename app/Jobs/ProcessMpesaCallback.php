@@ -28,7 +28,7 @@ class ProcessMpesaCallback implements ShouldQueue
     {
         $stk = $this->payload['Body']['stkCallback'] ?? null;
         if (!$stk) {
-            Log::warning('M-Pesa callback: missing stkCallback', $this->payload);
+            Log::warning('M-Pesa callback: missing stkCallback', \App\Support\LogRedactor::redact($this->payload));
             return;
         }
 
@@ -49,7 +49,7 @@ class ProcessMpesaCallback implements ShouldQueue
                 $this->handleWalletTopup($wallet, $stk, $resultCode, $resultDesc);
                 return;
             }
-            Log::warning("M-Pesa callback: no payment/wallet matches checkout {$checkoutId}");
+            Log::warning('M-Pesa callback: no payment/wallet matches checkout [redacted]');
             return;
         }
 
@@ -88,7 +88,7 @@ class ProcessMpesaCallback implements ShouldQueue
             ->exists();
 
         if ($dupe) {
-            Log::warning("M-Pesa callback: duplicate transaction_code {$mpesaReceipt}");
+            Log::warning('M-Pesa callback: duplicate transaction_code [redacted]');
             $payment->update(['status' => 'failed', 'notes' => 'Duplicate transaction code']);
             return;
         }
@@ -125,7 +125,7 @@ class ProcessMpesaCallback implements ShouldQueue
                 'balance'     => $newBalance,
             ]);
 
-            Log::info("M-Pesa payment {$fresh->id} completed. Receipt {$receiptNo}. New balance: {$newBalance}");
+            Log::info("M-Pesa payment {$fresh->id} completed.");
 
             if ($phone || $student->parent_phone) {
                 $to = \App\Services\MpesaService::normalizePhone($phone ?: $student->parent_phone);
@@ -142,7 +142,7 @@ class ProcessMpesaCallback implements ShouldQueue
                     try {
                         app(SmsService::class)->send($to, $msg);
                     } catch (\Throwable $e) {
-                        Log::warning('SMS receipt failed: ' . $e->getMessage());
+                        Log::warning('SMS receipt failed: ' . \App\Support\LogRedactor::maskPhonesInString($e->getMessage()));
                     }
                 }
             }

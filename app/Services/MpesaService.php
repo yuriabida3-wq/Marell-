@@ -44,13 +44,13 @@ class MpesaService
                     ->get($this->baseUrl() . '/oauth/v1/generate?grant_type=client_credentials');
 
                 if (!$res->successful()) {
-                    Log::error('M-Pesa OAuth failed: ' . $res->body());
+                    Log::error('M-Pesa OAuth failed: body_len=' . strlen($res->body()));
                     return null;
                 }
 
                 return $res->json('access_token');
             } catch (\Throwable $e) {
-                Log::error('M-Pesa OAuth exception: ' . $e->getMessage());
+                Log::error('M-Pesa OAuth exception: ' . \App\Support\LogRedactor::maskPhonesInString($e->getMessage()));
                 return null;
             }
         });
@@ -91,11 +91,11 @@ class MpesaService
 
             $json = $res->json() ?: ['error' => $res->body()];
 
-            Log::info('STK Push request', ['phone' => $phone, 'amount' => $amount, 'response' => $json]);
+            Log::info('STK Push request', \App\Support\LogRedactor::redact(['phone' => $phone, 'amount' => $amount, 'response' => $json]));
 
             return $json;
         } catch (\Throwable $e) {
-            Log::error('STK Push exception: ' . $e->getMessage());
+            Log::error('STK Push exception: ' . \App\Support\LogRedactor::maskPhonesInString($e->getMessage()));
             return ['error' => 'Network error contacting Daraja.'];
         }
     }

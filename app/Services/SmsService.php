@@ -15,7 +15,7 @@ class SmsService
 
         // Skip if not configured (dev)
         if (!$username || !$apiKey || $apiKey === 'your_api_key_here') {
-            Log::info("[SMS-STUB] to {$phone}: {$message}");
+            Log::info('[SMS-STUB] to ' . \App\Support\LogRedactor::maskPhonesInString($phone) . ' msg_len=' . strlen($message));
             return true;
         }
 
@@ -36,13 +36,13 @@ class SmsService
             ]);
 
             if (!$response->successful()) {
-                Log::warning("SMS failed to {$phone}: " . $response->body());
+                Log::warning('SMS failed to ' . \App\Support\LogRedactor::maskPhonesInString($phone) . ' body_len=' . strlen($response->body()));
                 return false;
             }
 
             return true;
         } catch (\Throwable $e) {
-            Log::error("SMS exception: " . $e->getMessage());
+            Log::error('SMS exception: ' . \App\Support\LogRedactor::maskPhonesInString($e->getMessage()));
             return false;
         }
     }
