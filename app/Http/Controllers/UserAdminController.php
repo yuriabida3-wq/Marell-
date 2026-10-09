@@ -11,6 +11,13 @@ use Spatie\Permission\Models\Role;
 
 class UserAdminController extends Controller
 {
+    /**
+     * Roles that may be assigned through this admin UI.
+     * 'parent' is intentionally excluded — parents log in via the parent
+     * portal OTP flow and have no users-table record.
+     */
+    private const ALLOWED_ROLES = ['principal', 'dos', 'bursar', 'teacher', 'security'];
+
     public function index(Request $request)
     {
         $q    = trim($request->get('q', ''));
@@ -45,7 +52,7 @@ class UserAdminController extends Controller
             'email'    => 'required|email|unique:users,email',
             'phone'    => 'nullable|string|max:20|unique:users,phone',
             'password' => ['required', 'string', new StrongPassword],
-            'role'     => 'required|string|exists:roles,name',
+            'role'     => 'required|string|in:' . implode(',', self::ALLOWED_ROLES),
         ]);
 
         $user = User::create([
@@ -58,6 +65,13 @@ class UserAdminController extends Controller
         ]);
 
         $user->assignRole($data['role']);
+
+        AuditLog::log('user.created', $user, [], [
+            'name'  => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'role'  => $data['role'],
+        ], 'Admin created user');
 
         return redirect()->route('principal.users.index')->with('success', "User {$user->name} created with role {$data['role']}.");
     }
@@ -74,7 +88,7 @@ class UserAdminController extends Controller
             'name'     => 'required|string|max:120',
             'email'    => 'required|email|unique:users,email,' . $user->id,
             'phone'    => 'nullable|string|max:20|unique:users,phone,' . $user->id,
-            'role'     => 'required|string|exists:roles,name',
+            'role'     => 'required|string|in:' . implode(',', self::ALLOWED_ROLES),
         ]);
 
         $user->update([
@@ -84,7 +98,17 @@ class UserAdminController extends Controller
             'role_label' => $data['role'],
         ]);
 
+        $oldRole = $user->getRoleNames()->first();
+
         $user->syncRoles([$data['role']]);
+
+        AuditLog::log('user.updated', $user, [], [
+            'name'      => $user->name,
+            'email'     => $user->email,
+            'phone'     => $user->phone,
+            'role_old'  => $oldRole,
+            'role_new'  => $data['role'],
+        ], 'Admin updated user');
 
         return redirect()->route('principal.users.index')->with('success', 'User updated.');
     }
