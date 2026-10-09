@@ -9,6 +9,7 @@ use App\Services\MpesaService;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\RateLimiter;
 
 class ParentPortalController extends Controller
 {
@@ -29,31 +30,36 @@ class ParentPortalController extends Controller
             return back()->with('error', 'Invalid phone number format. Use 07XXXXXXXX.');
         }
 
-        // Check if phone belongs to any student's parent
+        // Per-phone send limit, applied BEFORE any registration check so the
+        // response shape is uniform. 3 requests per 5 minutes.
+        $sendKey = 'parent-otp-send:' . $phone;
+        if (RateLimiter::tooManyAttempts($sendKey, 3)) {
+            $secs = RateLimiter::availableIn($sendKey);
+            return back()->with('error', "Too many requests. Please try again in {$secs} seconds.");
+        }
+        RateLimiter::hit($sendKey, 300);
+
         $studentExists = Student::where('parent_phone', $phone)->exists();
-        if (!$studentExists) {
-            return back()->with('error', 'No student is registered with that phone number. Please contact the school office.');
+
+        if ($studentExists) {
+            $otp = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            Cache::put("parent_otp:{$phone}", $otp, now()->addMinutes(5));
+
+            try {
+                app(SmsService::class)->send(
+                    $phone,
+                    "Your Marell Parent Portal code is: {$otp}\nValid for 5 minutes. Do not share."
+                );
+            } catch (\Throwable $e) {
+                \Log::warning('OTP SMS failed: ' . \App\Support\LogRedactor::maskPhonesInString($e->getMessage()));
+            }
         }
 
-        // Generate 6-digit OTP
-        $otp = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-
-        // Cache for 5 minutes
-        Cache::put("parent_otp:{$phone}", $otp, now()->addMinutes(5));
-
-        // Send via SMS
-        try {
-            app(SmsService::class)->send(
-                $phone,
-                "Your Marell Parent Portal code is: {$otp}\nValid for 5 minutes. Do not share."
-            );
-        } catch (\Throwable $e) {
-            \Log::warning('OTP SMS failed: ' . $e->getMessage());
-        }
-
+        // Set the pending session for BOTH branches so the verify page renders
+        // identically whether or not the number is registered.
         session(['parent_pending_phone' => $phone]);
 
-        return redirect()->route('parent.verify')->with('success', 'We sent a 6-digit code to ' . $phone);
+        return redirect()->route('parent.verify')->with('success', 'If that number is registered, an OTP has been sent.');
     }
 
     // ---------- VERIFY OTP ----------
@@ -76,12 +82,20 @@ class ParentPortalController extends Controller
             return redirect()->route('parent.login')->with('error', 'Session expired. Please try again.');
         }
 
+        // Per-phone verify limit: 5 failed attempts per 15 minutes.
+        $verifyKey = 'parent-otp-verify:' . $phone;
+        if (RateLimiter::tooManyAttempts($verifyKey, 5)) {
+            Cache::forget("parent_otp:{$phone}");
+            return back()->with('error', 'Too many attempts. Please request a new code.');
+        }
+
         $cached = Cache::get("parent_otp:{$phone}");
-        if (!$cached || $cached !== $data['otp']) {
+        if (!$cached || !hash_equals((string) $cached, (string) $data['otp'])) {
+            RateLimiter::hit($verifyKey, 900);
             return back()->with('error', 'Invalid or expired code. Please try again.');
         }
 
-        // Success: log in
+        RateLimiter::clear($verifyKey);
         Cache::forget("parent_otp:{$phone}");
         session()->forget('parent_pending_phone');
         $request->session()->regenerate();

@@ -115,32 +115,32 @@ class UnifiedAuthController extends Controller
             return back()->withErrors(['parent_phone' => 'Invalid phone number format.'])->withInput();
         }
 
-        // Check if phone belongs to any student
-        $studentExists = Student::where('parent_phone', $phone)->exists();
-        if (!$studentExists) {
-            return back()->withErrors(['parent_phone' => 'No student is registered with that phone number.'])->withInput();
-        }
-
-        // Rate limit
-        $key = 'parent-otp:' . $phone;
+        // Per-phone send limit, applied BEFORE the registration check so the
+        // response shape is uniform. 3 requests per 5 minutes.
+        $key = 'parent-otp-send:' . $phone;
         if (RateLimiter::tooManyAttempts($key, 3)) {
             $secs = RateLimiter::availableIn($key);
             return back()->withErrors(['parent_phone' => "Too many requests. Try again in {$secs} seconds."])->withInput();
         }
         RateLimiter::hit($key, 300);
 
-        $otp = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        Cache::put("parent_otp:{$phone}", $otp, now()->addMinutes(5));
+        $studentExists = Student::where('parent_phone', $phone)->exists();
 
-        try {
-            app(SmsService::class)->send(
-                $phone,
-                "Your Marell Parent Portal code is: {$otp}\nValid for 5 minutes. Do not share."
-            );
-        } catch (\Throwable $e) {
-            \Log::warning('OTP SMS failed: ' . $e->getMessage());
+        if ($studentExists) {
+            $otp = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            Cache::put("parent_otp:{$phone}", $otp, now()->addMinutes(5));
+
+            try {
+                app(SmsService::class)->send(
+                    $phone,
+                    "Your Marell Parent Portal code is: {$otp}\nValid for 5 minutes. Do not share."
+                );
+            } catch (\Throwable $e) {
+                \Log::warning('OTP SMS failed: ' . \App\Support\LogRedactor::maskPhonesInString($e->getMessage()));
+            }
         }
 
+        // Pending session for both branches so the verify page renders the same.
         session(['parent_pending_phone' => $phone]);
 
         return redirect()->route('login.hub')->with('otp_sent', true);
@@ -158,11 +158,20 @@ class UnifiedAuthController extends Controller
             return back()->withErrors(['otp' => 'Session expired. Try again.'])->withInput();
         }
 
+        // Per-phone verify limit: 5 failed attempts per 15 minutes.
+        $verifyKey = 'parent-otp-verify:' . $phone;
+        if (RateLimiter::tooManyAttempts($verifyKey, 5)) {
+            Cache::forget("parent_otp:{$phone}");
+            return back()->withErrors(['otp' => 'Too many attempts. Please request a new code.'])->withInput();
+        }
+
         $cached = Cache::get("parent_otp:{$phone}");
-        if (!$cached || $cached !== $data['otp']) {
+        if (!$cached || !hash_equals((string) $cached, (string) $data['otp'])) {
+            RateLimiter::hit($verifyKey, 900);
             return back()->withErrors(['otp' => 'Invalid or expired code.'])->withInput();
         }
 
+        RateLimiter::clear($verifyKey);
         Cache::forget("parent_otp:{$phone}");
         session()->forget('parent_pending_phone');
         $request->session()->regenerate();
