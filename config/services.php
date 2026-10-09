@@ -61,6 +61,9 @@ return [
         'shortcode'       => env('MPESA_SHORTCODE'),
         'passkey'         => env('MPESA_PASSKEY'),
         'callback_url'    => env('MPESA_CALLBACK_URL'),
+        'callback_secret'         => env('MPESA_CALLBACK_SECRET', ''),
+        'callback_legacy_enabled' => env('MPESA_CALLBACK_LEGACY_ENABLED', true),
+        'callback_ip_allowlist'   => env('MPESA_CALLBACK_IP_ALLOWLIST', ''),
     ],
 
 ];
