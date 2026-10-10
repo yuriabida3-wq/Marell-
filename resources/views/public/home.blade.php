@@ -155,7 +155,15 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     @forelse ($news as $item)
       <article class="card overflow-hidden hover:shadow-2xl transition" data-aos="fade-up">
-        <img src="{{ $item->image ?: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600' }}" class="w-full h-48 object-cover">
+        @if ($item->image)
+          <img src="{{ $item->image }}" alt="{{ $item->title }}" class="w-full h-48 object-cover">
+        @else
+          <div class="w-full h-48 bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 flex items-center justify-center" aria-hidden="true">
+            <svg class="w-10 h-10 text-white/30" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A1.5 1.5 0 0021.75 19.5V4.5A1.5 1.5 0 0020.25 3H3.75A1.5 1.5 0 002.25 4.5v15A1.5 1.5 0 003.75 21z"/>
+            </svg>
+          </div>
+        @endif
         <div class="p-5">
           <div class="text-xs text-gold font-semibold mb-1">{{ $item->created_at->format('d M Y') }}</div>
           <h3 class="font-bold text-navy text-lg mb-2">{{ $item->title }}</h3>
