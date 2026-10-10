@@ -12,9 +12,9 @@
       Quality CBC education in the heart of Kenya. Nurturing discipline, excellence, and integrity since 2005.
     </p>
     <div class="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
-      <a href="/pay" class="btn btn-gold">💳 Pay Fees Online</a>
-      <a href="/admissions" class="btn btn-outline">📝 Admissions</a>
-      <a href="/results" class="btn btn-outline">📊 Check Results</a>
+      <x-button variant="gold"          size="lg" icon="credit-card"   href="/pay">Pay Fees Online</x-button>
+      <x-button variant="outline-light" size="lg" icon="pencil-square" href="/admissions">Admissions</x-button>
+      <x-button variant="outline-light" size="lg" icon="chart-bar"     href="/results">Check Results</x-button>
     </div>
   </div>
 </section>
