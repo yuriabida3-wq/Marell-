@@ -78,7 +78,7 @@
       </form>
 
       <div class="mt-4 text-xs text-gray-500 text-center">
-        🔒 Secure payment processed by Safaricom Daraja. You'll receive an SMS receipt from Marell Academy.
+        <x-icon name="lock-closed" size="sm" class="align-text-bottom" /> Secure payment processed by Safaricom Daraja. You'll receive an SMS receipt from {{ setting('school_name') }}.
       </div>
     </div>
   @endif
