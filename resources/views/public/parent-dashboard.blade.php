@@ -8,11 +8,13 @@
       <div>
         <div class="text-gold font-bold tracking-widest text-xs">PARENT PORTAL</div>
         <h1 class="text-2xl md:text-3xl font-extrabold mt-1">Welcome, {{ $selected->parent_name }}</h1>
-        <div class="text-white/70 text-sm mt-1">📱 {{ $phone }}</div>
+        <div class="text-white/70 text-sm mt-1 inline-flex items-center gap-1">
+        <x-icon name="phone" size="sm" /> {{ $phone }}
+      </div>
       </div>
       <form method="POST" action="{{ route('parent.logout') }}">
         @csrf
-        <button class="btn btn-outline text-sm !min-h-[42px]">Log Out</button>
+        <x-button variant="outline-light" size="sm" type="submit">Log Out</x-button>
       </form>
     </div>
   </div>
