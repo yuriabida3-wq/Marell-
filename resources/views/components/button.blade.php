@@ -35,6 +35,7 @@
         'gold'    => 'bg-accent text-navy hover:brightness-110 active:brightness-95 shadow-sm',
         'navy'    => 'bg-navy text-white hover:opacity-90 active:opacity-80 shadow-sm',
         'outline' => 'border-2 border-current text-navy bg-transparent hover:bg-navy hover:text-white',
+        'outline-light' => 'border-2 border-white text-white bg-transparent hover:bg-white hover:text-navy',
         'ghost'   => 'text-navy bg-transparent hover:bg-gray-100',
         'danger'  => 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
         default   => 'bg-navy text-white hover:opacity-90',
