@@ -89,6 +89,7 @@ Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('princi
 
     // Skuli360 settings
     Route::get('/settings',  [SettingsController::class, 'index'])->name('settings');
+    Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
 });
 
 // DOS Academic
