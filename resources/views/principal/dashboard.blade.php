@@ -8,8 +8,8 @@
     <p class="text-sm text-gray-500 mt-1">Welcome back, {{ auth()->user()->name }}. Here's your school at a glance.</p>
   </div>
   <div class="flex flex-wrap gap-2">
-    <a href="{{ route('principal.export-students') }}" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold hover:scale-105 transition">📊 Export Excel</a>
-    <a href="/principal/sms" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold hover:scale-105 transition">📱 Send SMS</a>
+    <x-button variant="outline" size="sm" icon="document-arrow-down" href="{{ route('principal.export-students') }}">Export Excel</x-button>
+    <x-button variant="navy" size="sm" icon="megaphone" href="/principal/sms">Send SMS</x-button>
   </div>
 </div>
 
