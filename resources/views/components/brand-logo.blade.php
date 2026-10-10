@@ -55,27 +55,21 @@
         </svg>
     @endif
 
-    @if ($logo)
-        <div class="min-w-0">
-            <div class="font-bold truncate" style="font-size: {{ $wordPx }}px;">
-                {{ $line1 }}
+    <div class="min-w-0">
+        <div class="font-bold truncate" style="font-size: {{ $wordPx }}px;">
+            {{ $line1 }}
+        </div>
+        @if ($line2 !== '')
+            <div class="truncate uppercase tracking-widest text-accent"
+                 style="font-size: {{ $tagPx }}px;">
+                {{ $line2 }}
             </div>
-            @if ($line2 !== '')
-                <div class="truncate uppercase tracking-widest opacity-80"
-                     style="font-size: {{ $tagPx }}px;">
-                    {{ $line2 }}
-                </div>
-            @elseif ($motto !== '')
-                <div class="truncate uppercase tracking-widest opacity-80"
-                     style="font-size: {{ $tagPx }}px;">
-                    {{ $motto }}
-                </div>
-            @endif
-        </div>
-    @else
-        <div class="font-extrabold" style="font-size: {{ $wordPx }}px;">
-            <span>Skuli</span><span style="color: rgb(var(--c-accent));">360</span>
-        </div>
-    @endif
+        @elseif ($motto !== '')
+            <div class="truncate uppercase tracking-widest text-accent"
+                 style="font-size: {{ $tagPx }}px;">
+                {{ $motto }}
+            </div>
+        @endif
+    </div>
 
 </div>

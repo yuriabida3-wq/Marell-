@@ -36,12 +36,8 @@
 {{-- HEADER --}}
 <header class="fixed top-0 left-0 right-0 z-40 blur-nav text-white shadow-lg">
   <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-2">
-      <div class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-bold text-navy text-lg">M</div>
-      <div class="leading-tight">
-        <div class="font-poppins font-extrabold text-lg">MARELL</div>
-        <div class="text-[10px] tracking-widest text-gold">ACADEMY</div>
-      </div>
+    <a href="/" class="flex items-center">
+      <x-brand-logo size="md" />
     </a>
 
     <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
