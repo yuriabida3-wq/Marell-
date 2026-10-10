@@ -55,27 +55,60 @@
 </div>
 
 {{-- CHARTS ROW --}}
+@php
+$feesDatasets = [[
+    'label' => 'Collection (KES)',
+    'data' => $series,
+    'tension' => 0.4,
+    'fill' => true,
+    'borderWidth' => 3,
+    'pointRadius' => 5,
+    'pointHoverRadius' => 8,
+]];
+$classDatasets = [[
+    'data' => $classDist->pluck('total')->all(),
+    'borderWidth' => 0,
+]];
+@endphp
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
-  {{-- FEES TREND --}}
-  <div class="lg:col-span-2 bg-white rounded-2xl p-5 shadow">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="font-extrabold text-navy">💹 Fees Trend — Last 7 Days</h2>
-      <span class="text-xs text-gray-500">KES</span>
-    </div>
-    <div style="height: 260px;">
-      <canvas id="feesTrend"></canvas>
-    </div>
-  </div>
+    <x-card title="Fees Trend — Last 7 Days" subtitle="KES" padding="md" class="lg:col-span-2">
+        <x-chart id="feesTrend" type="line" :labels="$labels" :datasets="$feesDatasets">
+            <x-slot:script>
+var c = window.skuliChartColors();
+var ds = cfg.data.datasets[0];
+ds.borderColor = c.primary;
+ds.backgroundColor = c.primary.replace('rgb(', 'rgba(').replace(')', ', 0.1)');
+ds.pointBackgroundColor = c.accent;
+cfg.options.plugins = cfg.options.plugins || {};
+cfg.options.plugins.legend = { display: false };
+cfg.options.plugins.tooltip = {
+    callbacks: {
+        label: function (ctx) { return 'KES ' + Number(ctx.parsed.y).toLocaleString(); }
+    }
+};
+cfg.options.scales = {
+    y: {
+        beginAtZero: true,
+        ticks: { callback: function (v) { return 'KES ' + Number(v).toLocaleString(); }, font: { size: 10 } },
+        grid: { color: c.border }
+    },
+    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+};
+            </x-slot:script>
+        </x-chart>
+    </x-card>
 
-  {{-- CLASS DISTRIBUTION --}}
-  <div class="bg-white rounded-2xl p-5 shadow">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="font-extrabold text-navy">🎓 Class Distribution</h2>
-    </div>
-    <div style="height: 260px;">
-      <canvas id="classDist"></canvas>
-    </div>
-  </div>
+    <x-card title="Class Distribution" padding="md">
+        <x-chart id="classDist" type="doughnut" :labels="$classDist->pluck('class')->all()" :datasets="$classDatasets">
+            <x-slot:script>
+var c = window.skuliChartColors();
+cfg.data.datasets[0].backgroundColor = [c.primary, c.accent, c.info, c.success, c.warning, c.danger, c.primaryDark, c.muted, c.text, c.border];
+cfg.options.plugins = cfg.options.plugins || {};
+cfg.options.plugins.legend = { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12, padding: 8 } };
+cfg.options.cutout = '60%';
+            </x-slot:script>
+        </x-chart>
+    </x-card>
 </div>
 
 {{-- RECENT PAYMENTS --}}
@@ -152,69 +185,6 @@
   </a>
 </div>
 
-@push('scripts')
-<script>
-// FEES TREND (Line)
-new Chart(document.getElementById('feesTrend'), {
-  type: 'line',
-  data: {
-    labels: @json($labels),
-    datasets: [{
-      label: 'Collection (KES)',
-      data: @json($series),
-      borderColor: '#0B3D91',
-      backgroundColor: 'rgba(11,61,145,0.1)',
-      tension: 0.4,
-      fill: true,
-      pointBackgroundColor: '#D4AF37',
-      pointRadius: 5,
-      pointHoverRadius: 8,
-      borderWidth: 3,
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: (ctx) => 'KES ' + Number(ctx.parsed.y).toLocaleString()
-        }
-      }
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: { callback: (v) => 'KES ' + Number(v).toLocaleString(), font: { size: 10 } },
-        grid: { color: '#f1f5f9' }
-      },
-      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
-    }
-  }
-});
 
-// CLASS DISTRIBUTION (Doughnut)
-new Chart(document.getElementById('classDist'), {
-  type: 'doughnut',
-  data: {
-    labels: @json($classDist->pluck('class')),
-    datasets: [{
-      data: @json($classDist->pluck('total')),
-      backgroundColor: ['#0B3D91','#D4AF37','#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899','#6b7280'],
-      borderWidth: 0,
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12, padding: 8 } }
-    },
-    cutout: '60%'
-  }
-});
-</script>
-@endpush
 
 @endsection
