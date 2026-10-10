@@ -61,11 +61,9 @@
                  :value="old('phone')" required placeholder="07XXXXXXXX"
                  hint="We'll send an STK Push prompt to this number. The receipt will be sent to the parent number on file." />
 
-        <div>
-          <label class="block text-sm font-semibold text-navy mb-2">Amount (KES) *</label>
-          <input name="amount" type="number" min="1" max="500000" step="1" required value="{{ old('amount') }}"
-                 class="w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none">
-        </div>
+        <x-input name="amount" type="number" label="Amount (KES)"
+                 :value="old('amount')" required
+                 min="1" max="500000" step="1" />
 
         <button type="submit" id="payBtn" class="btn btn-gold w-full">
           <span id="btnText">💳 Pay via M-Pesa</span>
