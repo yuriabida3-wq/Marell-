@@ -12,6 +12,11 @@
  |   height        (int, default 260) fixed canvas container height in px
  |   emptyMessage  (string, default 'No data yet')
  |
+ | Slot:
+ |   script — raw JS, runs inside the IIFE with `cfg` in scope, before
+ |            new Chart(canvas, cfg). Use for JS-only options (callbacks,
+ |            formatters) that cannot pass through @json.
+ |
  | Behaviour:
  |   - Reads theme colours at runtime via CSS variables (light + dark aware)
  |   - window.skuliChartColors() exposes the palette for callers that want it
@@ -88,6 +93,9 @@
         } else if (!cfg.options.animation) {
             cfg.options.animation = { duration: 600, easing: 'easeOutQuart' };
         }
+@isset($script)
+        {!! $script !!}
+@endisset
         new Chart(canvas, cfg);
     })();
     </script>
