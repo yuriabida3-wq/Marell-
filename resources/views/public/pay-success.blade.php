@@ -45,12 +45,12 @@
 
     {{-- ACTIONS --}}
     <div class="mt-6 space-y-3">
-      <a href="{{ URL::signedRoute('pay.receipt', ['payment' => $payment->id]) }}" class="btn btn-gold w-full">📄 Download Receipt (PDF)</a>
+      <x-button variant="gold" icon="document-arrow-down" href="{{ URL::signedRoute('pay.receipt', ['payment' => $payment->id]) }}" class="w-full">Download Receipt (PDF)</x-button>
 
       <div class="flex gap-3">
         <a href="https://wa.me/254700000000?text={{ urlencode('Hello Marell. I just paid KES '.number_format($payment->amount).' for '.$payment->student->name.'. Receipt '.$payment->receipt_no) }}"
            target="_blank" class="btn bg-green-600 text-white flex-1 text-sm">💬 WhatsApp</a>
-        <a href="{{ route('pay') }}" class="btn btn-navy flex-1 text-sm">💳 Pay Another</a>
+        <x-button variant="navy" icon="credit-card" href="{{ route('pay') }}" class="flex-1">Pay Another</x-button>
       </div>
     </div>
 
