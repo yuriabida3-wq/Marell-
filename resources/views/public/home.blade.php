@@ -3,8 +3,7 @@
 @section('content')
 
 {{-- HERO --}}
-<section class="relative bg-navy text-white overflow-hidden">
-  <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600')] bg-cover bg-center"></div>
+<section class="relative bg-navy bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 text-white overflow-hidden">
   <div class="relative max-w-7xl mx-auto px-4 py-20 md:py-32 text-center">
     <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight" data-aos="fade-up">
       Empowering <span class="text-gold">Tomorrow's Leaders</span>
@@ -73,7 +72,12 @@
 {{-- DIRECTOR --}}
 <section class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
   <div data-aos="fade-up">
-    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800" alt="Director" class="rounded-2xl shadow-xl w-full h-80 object-cover">
+    <div class="rounded-2xl shadow-xl w-full h-80 bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 flex items-center justify-center text-white" role="img" aria-label="Monogram for Director">
+      <div class="text-center">
+        <div class="text-8xl font-extrabold leading-none tracking-tight">JW</div>
+        <div class="mt-4 text-xs tracking-widest uppercase opacity-80">Director &amp; Principal</div>
+      </div>
+    </div>
   </div>
   <div data-aos="fade-up" data-aos-delay="100">
     <div class="text-gold font-bold tracking-widest text-sm mb-2">WELCOME MESSAGE</div>
