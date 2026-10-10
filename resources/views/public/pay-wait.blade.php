@@ -3,7 +3,7 @@
 @section('content')
 
 <section class="max-w-lg mx-auto px-4 py-16 text-center">
-  <div class="card p-8" data-aos="fade-up">
+  <x-card data-aos="fade-up">
     <div class="flex justify-center mb-6">
       <div class="w-20 h-20 rounded-full bg-gold/20 flex items-center justify-center">
         <svg class="animate-spin h-10 w-10 text-gold" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg>
@@ -27,7 +27,7 @@
       <a href="{{ route('pay') }}" class="text-sm text-navy underline">Cancel and try another payment</a>
       <div class="mt-3 text-xs text-gray-500">Something wrong? <a href="/contact" class="text-navy underline">Contact us</a> or <a href="/report" class="text-navy underline">report a concern</a>.</div>
     </div>
-  </div>
+  </x-card>
 </section>
 
 @push('scripts')
