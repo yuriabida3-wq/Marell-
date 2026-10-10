@@ -36,7 +36,7 @@
   @endif
 
   {{-- CHILD OVERVIEW CARD --}}
-  <div class="card p-6 mb-6" data-aos="fade-up">
+  <x-card class="mb-6" data-aos="fade-up">
     <div class="flex flex-col sm:flex-row sm:items-center gap-4">
       <div class="w-16 h-16 rounded-full bg-gold flex items-center justify-center font-bold text-navy text-2xl flex-shrink-0">
         {{ strtoupper(substr($selected->name, 0, 1)) }}
@@ -90,12 +90,12 @@
       <a href="/timetable" class="btn bg-gray-200 text-navy text-sm">📅 Timetable</a>
       <a href="/report" class="btn bg-gray-200 text-navy text-sm">🕊️ Report Concern</a>
     </div>
-  </div>
+  </x-card>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
     {{-- RESULTS --}}
-    <div id="results" class="card p-6" data-aos="fade-up">
+    <x-card id="results" data-aos="fade-up">
       <div class="flex items-center justify-between mb-4">
         <h2 class="font-extrabold text-navy text-lg">📊 Recent Results</h2>
         <span class="text-xs text-gray-500">{{ $results->count() }} subjects</span>
@@ -130,10 +130,10 @@
           No results published yet.
         </div>
       @endif
-    </div>
+    </x-card>
 
     {{-- PAYMENT HISTORY --}}
-    <div id="payments" class="card p-6" data-aos="fade-up" data-aos-delay="100">
+    <x-card id="payments" data-aos="fade-up" data-aos-delay="100">
       <div class="flex items-center justify-between mb-4">
         <h2 class="font-extrabold text-navy text-lg">📄 Recent Payments</h2>
         <span class="text-xs text-gray-500">Last 5</span>
@@ -157,7 +157,7 @@
           No payments yet.
         </div>
       @endif
-    </div>
+    </x-card>
 
   </div>
 
