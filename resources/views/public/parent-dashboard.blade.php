@@ -204,37 +204,37 @@
 <div class="max-w-6xl mx-auto px-4 pb-8">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
     <x-card padding="sm" :hover="true" href="#attendance" class="text-center border-2 border-green-300">
-      <div class="text-2xl">✅</div>
+      <div class="mb-1 flex justify-center"><x-icon name="check-circle" size="lg" class="text-green-600" /></div>
       <div class="text-sm font-semibold text-navy mt-1">Mark Excused</div>
       <div class="text-xs text-gray-500">Notify school of absence</div>
     </x-card>
     <x-card padding="sm" :hover="true" href="{{ route('parent.wallet') }}" class="text-center border-2 border-gold">
-      <div class="text-2xl">💰</div>
+      <div class="mb-1 flex justify-center"><x-icon name="banknotes" size="lg" class="text-navy" /></div>
       <div class="text-sm font-semibold text-navy mt-1">Canteen Wallet</div>
       <div class="text-xs text-gray-500">Load money for food</div>
     </x-card>
     <x-card padding="sm" :hover="true" href="{{ route('parent.library') }}" class="text-center border-2 border-navy">
-      <div class="text-2xl">📚</div>
+      <div class="mb-1 flex justify-center"><x-icon name="book-open" size="lg" class="text-navy" /></div>
       <div class="text-sm font-semibold text-navy mt-1">Library Books</div>
       <div class="text-xs text-gray-500">See what kids borrowed</div>
     </x-card>
     <x-card padding="sm" :hover="true" href="{{ route('parent.pickups') }}" class="text-center border-2 border-gold">
-      <div class="text-2xl">👥</div>
+      <div class="mb-1 flex justify-center"><x-icon name="users" size="lg" class="text-navy" /></div>
       <div class="text-sm font-semibold text-navy mt-1">Approved Pickups</div>
       <div class="text-xs text-gray-500">Who can collect</div>
     </x-card>
     <x-card padding="sm" :hover="true" href="/report" class="text-center">
-      <div class="text-2xl">🕊️</div>
+      <div class="mb-1 flex justify-center"><x-icon name="shield-check" size="lg" class="text-navy" /></div>
       <div class="text-sm font-semibold text-navy mt-1">Report a Concern</div>
       <div class="text-xs text-gray-500">Anonymous to Director</div>
     </x-card>
     <x-card padding="sm" :hover="true" href="/verify-receipt/REC-2026-00003" class="text-center">
-      <div class="text-2xl">✓</div>
+      <div class="mb-1 flex justify-center"><x-icon name="check-circle" size="lg" class="text-navy" /></div>
       <div class="text-sm font-semibold text-navy mt-1">Verify a Receipt</div>
       <div class="text-xs text-gray-500">Scan any receipt QR</div>
     </x-card>
     <x-card padding="sm" :hover="true" href="/contact" class="text-center">
-      <div class="text-2xl">📞</div>
+      <div class="mb-1 flex justify-center"><x-icon name="phone" size="lg" class="text-navy" /></div>
       <div class="text-sm font-semibold text-navy mt-1">Contact School</div>
       <div class="text-xs text-gray-500">Call, email, or message</div>
     </x-card>
