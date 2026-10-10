@@ -99,7 +99,10 @@
     {{-- RESULTS --}}
     <x-card id="results" data-aos="fade-up">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="font-extrabold text-navy text-lg">📊 Recent Results</h2>
+        <h2 class="font-extrabold text-navy text-lg inline-flex items-center gap-2">
+          <x-icon name="chart-bar" />
+          Recent Results
+        </h2>
         <span class="text-xs text-gray-500">{{ $results->count() }} subjects</span>
       </div>
 
@@ -128,7 +131,9 @@
         </div>
       @else
         <div class="text-center py-8 text-gray-500 text-sm">
-          <div class="text-3xl mb-2">📭</div>
+          <div class="flex justify-center mb-2">
+            <x-icon name="inbox" size="lg" class="text-gray-300" />
+          </div>
           No results published yet.
         </div>
       @endif
@@ -137,7 +142,10 @@
     {{-- PAYMENT HISTORY --}}
     <x-card id="payments" data-aos="fade-up" data-aos-delay="100">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="font-extrabold text-navy text-lg">📄 Recent Payments</h2>
+        <h2 class="font-extrabold text-navy text-lg inline-flex items-center gap-2">
+          <x-icon name="banknotes" />
+          Recent Payments
+        </h2>
         <span class="text-xs text-gray-500">Last 5</span>
       </div>
 
@@ -149,13 +157,18 @@
                 <div class="font-semibold text-navy text-sm">KES {{ number_format((float) $p->amount, 2) }}</div>
                 <div class="text-xs text-gray-500">{{ $p->created_at->format('d M Y') }} · {{ $p->transaction_code ?: $p->method }}</div>
               </div>
-              <a href="{{ URL::signedRoute('pay.receipt', ['payment' => $p->id]) }}" class="text-xs font-semibold text-navy hover:text-gold">📥 Receipt</a>
+              <a href="{{ URL::signedRoute('pay.receipt', ['payment' => $p->id]) }}" class="text-xs font-semibold text-navy hover:text-gold inline-flex items-center gap-1">
+                <x-icon name="arrow-down-tray" size="sm" />
+                Receipt
+              </a>
             </div>
           @endforeach
         </div>
       @else
         <div class="text-center py-8 text-gray-500 text-sm">
-          <div class="text-3xl mb-2">💸</div>
+          <div class="flex justify-center mb-2">
+            <x-icon name="inbox" size="lg" class="text-gray-300" />
+          </div>
           No payments yet.
         </div>
       @endif
