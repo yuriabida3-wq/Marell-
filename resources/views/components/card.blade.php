@@ -23,6 +23,7 @@
     'padding'     => 'md',
     'variant'     => 'default',
     'hover'       => false,
+    'href'        => null,
 ])
 
 @php
@@ -48,7 +49,11 @@
     );
 @endphp
 
+@if ($href)
+<a href="{{ $href }}" {{ $attributes->merge(['class' => $classes . ' block']) }}>
+@else
 <div {{ $attributes->merge(['class' => $classes]) }}>
+@endif
 
     @if ($title || $action || isset($actions))
         <div class="{{ $padding === 'none' ? 'p-4 md:p-6 pb-0' : 'pb-3 md:pb-4' }} flex items-start gap-3">
@@ -87,4 +92,8 @@
         </div>
     @endisset
 
+@if ($href)
+</a>
+@else
 </div>
+@endif
