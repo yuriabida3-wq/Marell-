@@ -11,6 +11,7 @@ use App\Http\Controllers\StudentAdminController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\SmsCenterController;
 use App\Http\Controllers\UserAdminController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DosController;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -85,6 +86,9 @@ Route::middleware(['auth', 'role:principal'])->prefix('principal')->name('princi
     Route::put('/users/{user}',                [UserAdminController::class, 'update'])->name('users.update');
     Route::post('/users/{user}/reset-password',[UserAdminController::class, 'resetPassword'])->name('users.reset-password');
     Route::post('/users/{user}/toggle',        [UserAdminController::class, 'toggle'])->name('users.toggle');
+
+    // Skuli360 settings
+    Route::get('/settings',  [SettingsController::class, 'index'])->name('settings');
 });
 
 // DOS Academic
