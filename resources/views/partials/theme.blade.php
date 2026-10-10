@@ -98,6 +98,8 @@ tailwind.config = {
         accent:    'rgb(var(--c-accent) / <alpha-value>)',
         navy:      '#0B3D91',  // legacy alias -- child views not yet migrated
         gold:      '#D4AF37',  // legacy alias -- child views not yet migrated
+        sidebar:   '#051937',  // legacy alias -- staff layouts not yet migrated
+        dark:      '#0a1128',  // legacy alias -- admin layout not yet migrated
         surface:   'rgb(var(--c-surface) / <alpha-value>)',
         'surface-2': 'rgb(var(--c-surface-2) / <alpha-value>)',
         bordersoft: 'rgb(var(--c-border) / <alpha-value>)',
