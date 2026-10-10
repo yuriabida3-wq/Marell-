@@ -18,7 +18,7 @@
         </div>
         <div>
           <div class="text-2xl font-extrabold text-green-700">VERIFIED</div>
-          <div class="text-sm text-gray-500">This is a genuine Marell Academy receipt</div>
+          <div class="text-sm text-gray-500">This is a genuine {{ setting('school_name') }} receipt</div>
         </div>
       </div>
 
@@ -43,7 +43,7 @@
       @endunless
 
       <div class="mt-6 bg-green-50 border-l-4 border-green-600 p-3 text-xs text-green-800 rounded">
-        This receipt is registered in Marell Academy's official database. If you suspect fraud, call <a href="tel:+254700000000" class="font-semibold underline">+254 700 000 000</a>.
+        This receipt is registered in {{ setting('school_name') }}'s official database. If you suspect fraud, call <a href="tel:+254700000000" class="font-semibold underline">+254 700 000 000</a>.
       </div>
     </x-card>
   @else
