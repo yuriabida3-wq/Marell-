@@ -18,6 +18,10 @@
       <div class="font-bold text-navy text-xl">KES {{ number_format($payment->amount, 0) }}</div>
     </div>
 
+    <p class="mt-4 text-xs text-gray-500">
+      Keep this page open — we will update it automatically when your payment confirms.
+    </p>
+
     <div class="mt-6 flex items-center justify-center gap-2 text-xs text-gray-500">
       <svg class="animate-spin h-4 w-4 text-navy/60" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
