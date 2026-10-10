@@ -3,16 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#0B3D91">
-
-<title>@yield('title', 'Admin') — Marell Admin</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37', dark:'#0a1128', sidebar:'#051937' }, fontFamily: { poppins:['Poppins','sans-serif'], inter:['Inter','sans-serif'] } } } }
-</script>
+<title>@yield('title', 'Admin')</title>
+@include('partials.theme')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   body { font-family: 'Inter', sans-serif; }
   h1,h2,h3 { font-family: 'Poppins', sans-serif; }
@@ -32,11 +25,7 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
 <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-sidebar text-white z-50 -translate-x-full lg:translate-x-0 transition-transform duration-300 overflow-y-auto">
   <div class="p-4 border-b border-white/10">
     <a href="/principal" class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-bold text-navy text-lg">M</div>
-      <div>
-        <div class="font-extrabold text-lg leading-none" style="font-family:Poppins">MARELL</div>
-        <div class="text-[9px] tracking-[0.25em] text-gold mt-1">ADMIN OS</div>
-      </div>
+      <x-brand-logo size="md" />
     </a>
   </div>
 
@@ -185,7 +174,7 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
   </main>
 
   <footer class="px-6 py-4 text-center text-xs text-gray-400">
-    Jenga Web School OS · v1.0 · Marell Academy {{ date('Y') }}
+    {{ setting('school_name') }} · Admin · {{ date('Y') }} · {{ config('skuli.product.footer_text') }}
   </footer>
 </div>
 
