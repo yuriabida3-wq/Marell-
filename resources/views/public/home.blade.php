@@ -154,7 +154,7 @@
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     @forelse ($news as $item)
-      <article class="card overflow-hidden hover:shadow-2xl transition" data-aos="fade-up">
+      <x-card padding="none" :hover="true" data-aos="fade-up">
         @if ($item->image)
           <img src="{{ $item->image }}" alt="{{ $item->title }}" class="w-full h-48 object-cover">
         @else
@@ -165,12 +165,12 @@
           </div>
         @endif
         <div class="p-5">
-          <div class="text-xs text-gold font-semibold mb-1">{{ $item->created_at->format('d M Y') }}</div>
+          <div class="text-xs text-accent font-semibold mb-1">{{ $item->created_at->format('d M Y') }}</div>
           <h3 class="font-bold text-navy text-lg mb-2">{{ $item->title }}</h3>
           <p class="text-sm text-gray-600 line-clamp-2">{{ $item->excerpt }}</p>
-          <a href="/news/{{ $item->slug }}" class="inline-block mt-3 text-navy font-semibold hover:text-gold">Read more →</a>
+          <a href="/news/{{ $item->slug }}" class="inline-block mt-3 text-navy font-semibold hover:text-accent">Read more →</a>
         </div>
-      </article>
+      </x-card>
     @empty
       <div class="md:col-span-3 text-center py-12 text-gray-400">No news yet</div>
     @endforelse
