@@ -3,12 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>@yield('title', 'Bursar') — Marell Finance</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37', sidebar:'#051937' }, fontFamily: { poppins:['Poppins','sans-serif'], inter:['Inter','sans-serif'] } } } }
-</script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>@yield('title', 'Bursar')</title>
+@include('partials.theme')
 <style>
   body { font-family: 'Inter', sans-serif; }
   h1,h2,h3 { font-family: 'Poppins', sans-serif; }
@@ -25,13 +21,7 @@ tailwind.config = { theme: { extend: { colors: { navy:'#0B3D91', gold:'#D4AF37',
 
 <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-sidebar text-white z-50 -translate-x-full lg:translate-x-0 transition-transform overflow-y-auto">
   <div class="p-4 border-b border-white/10">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-bold text-navy text-lg">M</div>
-      <div>
-        <div class="font-extrabold text-lg leading-none">MARELL</div>
-        <div class="text-[9px] tracking-[0.25em] text-gold mt-1">BURSAR · FINANCE</div>
-      </div>
-    </div>
+    <x-brand-logo size="md" />
   </div>
 
   <nav class="p-3">
