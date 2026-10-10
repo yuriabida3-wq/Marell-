@@ -3,7 +3,7 @@
 @section('content')
 
 <section class="max-w-lg mx-auto px-4 py-12">
-  <div class="card p-8 text-center" data-aos="fade-up" id="successCard">
+  <x-card class="text-center" data-aos="fade-up" id="successCard">
 
     {{-- GREEN TICK --}}
     <div class="flex justify-center mb-6">
@@ -61,7 +61,7 @@
 <div class="mt-6 text-xs text-gray-500">
       An SMS receipt has been sent to {{ $payment->student->parent_phone }}.
     </div>
-  </div>
+  </x-card>
 </section>
 
 @push('scripts')
