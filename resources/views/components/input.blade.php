@@ -21,9 +21,10 @@
     'placeholder' => null,
     'required'    => false,
     'hint'        => null,
-    'min'         => null,
-    'max'         => null,
-    'step'        => null,
+    'min'          => null,
+    'max'          => null,
+    'step'         => null,
+    'wrapperClass' => '',
 ])
 
 @php
@@ -36,7 +37,7 @@
     $baseClasses = 'w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none';
 @endphp
 
-<div>
+<div class="{{ $wrapperClass }}">
     @if ($label)
         <label for="{{ $name }}" class="block text-sm font-semibold text-navy mb-2">
             {{ $label }}@if ($required) <span class="text-red-600">*</span>@endif
