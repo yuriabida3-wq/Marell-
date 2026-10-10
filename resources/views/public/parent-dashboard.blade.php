@@ -85,12 +85,12 @@
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-6">
-      <a href="{{ route('pay') }}?adm={{ $selected->adm_no }}" class="btn btn-gold text-sm">💳 Pay Fees</a>
-      <a href="#results" class="btn btn-navy text-sm">📊 View Results</a>
-      <a href="#payments" class="btn bg-gray-200 text-navy text-sm">📄 Receipts</a>
-      <a href="{{ route('bursar.statement', $selected) }}" class="btn bg-gray-200 text-navy text-sm">📋 Full Statement</a>
-      <a href="/timetable" class="btn bg-gray-200 text-navy text-sm">📅 Timetable</a>
-      <a href="/report" class="btn bg-gray-200 text-navy text-sm">🕊️ Report Concern</a>
+      <x-button variant="gold"   size="md" icon="credit-card"        href="{{ route('pay') }}?adm={{ $selected->adm_no }}">Pay Fees</x-button>
+      <x-button variant="navy"   size="md" icon="chart-bar"          href="#results">View Results</x-button>
+      <x-button variant="subtle" size="md" icon="arrow-down-tray"    href="#payments">Receipts</x-button>
+      <x-button variant="subtle" size="md" icon="document-arrow-down" href="{{ route('bursar.statement', $selected) }}">Full Statement</x-button>
+      <x-button variant="subtle" size="md" icon="calendar"           href="/timetable">Timetable</x-button>
+      <x-button variant="subtle" size="md" icon="shield-check"       href="/report">Report Concern</x-button>
     </div>
   </x-card>
 
