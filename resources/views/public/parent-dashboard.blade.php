@@ -179,22 +179,22 @@
   {{-- QUICK INFO --}}
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
     <x-card padding="sm" class="text-center" data-aos="fade-up">
-      <div class="text-2xl mb-1">📅</div>
+      <div class="mb-1 flex justify-center"><x-icon name="calendar" size="lg" class="text-navy" /></div>
       <div class="text-xs text-gray-500">Timetable</div>
       <div class="text-xs font-bold text-navy mt-1">Coming soon</div>
     </x-card>
     <x-card padding="sm" class="text-center" data-aos="fade-up">
-      <div class="text-2xl mb-1">📚</div>
+      <div class="mb-1 flex justify-center"><x-icon name="book-open" size="lg" class="text-navy" /></div>
       <div class="text-xs text-gray-500">Homework</div>
       <div class="text-xs font-bold text-navy mt-1">Coming soon</div>
     </x-card>
     <x-card padding="sm" class="text-center" data-aos="fade-up">
-      <div class="text-2xl mb-1">📢</div>
+      <div class="mb-1 flex justify-center"><x-icon name="megaphone" size="lg" class="text-navy" /></div>
       <div class="text-xs text-gray-500">News &amp; Events</div>
       <div class="text-xs font-bold text-navy mt-1"><a href="/news" class="text-navy underline">View all</a></div>
     </x-card>
     <x-card padding="sm" class="text-center" data-aos="fade-up">
-      <div class="text-2xl mb-1">💰</div>
+      <div class="mb-1 flex justify-center"><x-icon name="banknotes" size="lg" class="text-navy" /></div>
       <div class="text-xs text-gray-500">Fee Statement</div>
       <div class="text-xs font-bold text-navy mt-1">Coming soon</div>
     </x-card>
