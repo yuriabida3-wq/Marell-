@@ -65,13 +65,16 @@
                  :value="old('amount')" required
                  min="1" max="500000" step="1" />
 
-        <button type="submit" id="payBtn" class="btn btn-gold w-full">
-          <span id="btnText">💳 Pay via M-Pesa</span>
+        <x-button variant="gold" type="submit" id="payBtn" class="w-full">
+          <span id="btnText" class="inline-flex items-center gap-2">
+            <x-icon name="credit-card" size="sm" />
+            Pay via M-Pesa
+          </span>
           <span id="btnSpinner" class="hidden items-center gap-2">
             <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg>
             Sending prompt...
           </span>
-        </button>
+        </x-button>
       </form>
 
       <div class="mt-4 text-xs text-gray-500 text-center">
