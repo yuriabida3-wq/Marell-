@@ -54,7 +54,7 @@
       <div class="text-2xl font-extrabold text-red-700">NOT VERIFIED</div>
       <p class="text-sm text-gray-600 mt-3">No receipt with number <strong class="font-mono">{{ $receiptNo }}</strong> exists in our records.</p>
       <p class="text-xs text-gray-500 mt-4">This may be a fake receipt. Please contact the school immediately.</p>
-      <a href="tel:+254700000000" class="btn btn-navy mt-6">Report Fraud</a>
+      <x-button variant="navy" href="tel:+254700000000" class="mt-6">Report Fraud</x-button>
     </x-card>
   @endif
 </section>
