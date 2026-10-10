@@ -24,9 +24,10 @@
     </div>
 
     <form method="GET" action="{{ route('pay') }}" class="flex flex-col sm:flex-row gap-3">
-      <input name="adm" value="{{ old('adm', request('adm', $student['adm_no'] ?? '')) }}" required placeholder="e.g. MAR-2024-0001"
-             class="flex-1 min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none">
-      <button class="btn btn-navy w-full sm:w-auto">🔍 Find</button>
+      <x-input name="adm" wrapper-class="flex-1"
+               value="{{ old('adm', request('adm', $student['adm_no'] ?? '')) }}"
+               required placeholder="e.g. MAR-2024-0001" />
+      <x-button variant="navy" type="submit" icon="magnifying-glass" class="w-full sm:w-auto">Find</x-button>
     </form>
   </div>
 
