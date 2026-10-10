@@ -37,7 +37,7 @@
       <div class="font-extrabold text-2xl">Recovered KES 340,000 in 7 days</div>
       <div class="text-sm font-semibold">Using M-Pesa STK Push + automated SMS reminders</div>
     </div>
-    <a href="/pay" class="btn btn-navy">Try it →</a>
+    <x-button variant="navy" icon="arrow-right" href="/pay">Try it</x-button>
   </div>
 </section>
 
@@ -130,7 +130,7 @@
       <div data-aos="fade-up" data-aos-delay="160"><div class="w-16 h-16 mx-auto rounded-full bg-gold text-navy flex items-center justify-center text-2xl font-extrabold mb-4">3</div><div class="font-bold">Approve M-Pesa</div><div class="text-sm text-white/70 mt-1">Enter your PIN</div></div>
       <div data-aos="fade-up" data-aos-delay="240"><div class="w-16 h-16 mx-auto rounded-full bg-gold text-navy flex items-center justify-center text-2xl font-extrabold mb-4">4</div><div class="font-bold">Instant Receipt</div><div class="text-sm text-white/70 mt-1">SMS + PDF</div></div>
     </div>
-    <div class="text-center mt-10"><a href="/pay" class="btn btn-gold">💳 Pay Fees Now</a></div>
+    <div class="text-center mt-10"><x-button variant="gold" size="lg" icon="credit-card" href="/pay">Pay Fees Now</x-button></div>
   </div>
 </section>
 
@@ -141,7 +141,7 @@
     <p class="text-gray-600 mb-6">Enter your child's admission number.</p>
     <form action="/pay" method="GET" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
       <input name="adm" placeholder="e.g. MAR-2024-0001" required class="flex-1 min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:outline-none focus:border-gold">
-      <button class="btn btn-gold">Check Now</button>
+      <x-button variant="gold" type="submit">Check Now</x-button>
     </form>
   </div>
 </section>
