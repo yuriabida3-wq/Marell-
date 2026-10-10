@@ -15,35 +15,43 @@
 
 {{-- KPI CARDS --}}
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-  <div class="bg-gradient-to-br from-navy to-[#082f6f] rounded-2xl p-5 shadow-lg text-white">
-    <div class="text-[10px] tracking-widest font-bold text-gold">TODAY'S COLLECTION</div>
-    <div class="text-2xl md:text-3xl font-extrabold mt-2">KES {{ number_format($todayCollection, 0) }}</div>
-    <div class="text-xs text-white/70 mt-1">
-      Yesterday: KES {{ number_format($yesterdayCollection, 0) }}
-      @if ($yesterdayCollection > 0)
-        @php $delta = round((($todayCollection - $yesterdayCollection) / max(1, $yesterdayCollection)) * 100, 1); @endphp
-        <span class="{{ $delta >= 0 ? 'text-green-300' : 'text-red-300' }}">{{ $delta >= 0 ? '↑' : '↓' }} {{ abs($delta) }}%</span>
-      @endif
-    </div>
-  </div>
+    <x-stat-card
+        label="Today's Collection"
+        :value="'KES ' . number_format($todayCollection, 0)"
+        :count="$todayCollection"
+        icon="banknotes"
+        tint="primary"
+        :caption="'Yesterday: KES ' . number_format($yesterdayCollection, 0)"
+        :trend="$yesterdayCollection > 0 ? ($todayCollection >= $yesterdayCollection ? 'up' : 'down') : null"
+        :trendValue="$yesterdayCollection > 0 ? abs(round((($todayCollection - $yesterdayCollection) / max(1, $yesterdayCollection)) * 100, 1)) . '%' : null"
+    />
 
-  <div class="bg-white rounded-2xl p-5 shadow">
-    <div class="text-[10px] tracking-widest font-bold text-red-600">FEE DEFAULTERS</div>
-    <div class="text-2xl md:text-3xl font-extrabold text-red-600 mt-2">{{ $defaulters }}</div>
-    <div class="text-xs text-gray-500 mt-1">Students with balance</div>
-  </div>
+    <x-stat-card
+        label="Fee Defaulters"
+        :value="$defaulters"
+        :count="$defaulters"
+        icon="exclamation-triangle"
+        tint="danger"
+        caption="Students with balance"
+    />
 
-  <div class="bg-white rounded-2xl p-5 shadow">
-    <div class="text-[10px] tracking-widest font-bold text-navy">ACTIVE STUDENTS</div>
-    <div class="text-2xl md:text-3xl font-extrabold text-navy mt-2">{{ $activeStudents }}</div>
-    <div class="text-xs text-gray-500 mt-1">Currently enrolled</div>
-  </div>
+    <x-stat-card
+        label="Active Students"
+        :value="$activeStudents"
+        :count="$activeStudents"
+        icon="users"
+        tint="primary"
+        caption="Currently enrolled"
+    />
 
-  <div class="bg-white rounded-2xl p-5 shadow">
-    <div class="text-[10px] tracking-widest font-bold text-gold">TEACHERS</div>
-    <div class="text-2xl md:text-3xl font-extrabold text-navy mt-2">{{ $teachers }}</div>
-    <div class="text-xs text-gray-500 mt-1">On payroll</div>
-  </div>
+    <x-stat-card
+        label="Teachers"
+        :value="$teachers"
+        :count="$teachers"
+        icon="book-open"
+        tint="accent"
+        caption="On payroll"
+    />
 </div>
 
 {{-- CHARTS ROW --}}
