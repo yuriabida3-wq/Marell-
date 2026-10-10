@@ -3,27 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#0B3D91">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Marell">
 
-<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title', 'Marell Academy') — Empowering Tomorrow's Leaders</title>
 <meta name="description" content="@yield('meta_description', 'Marell Academy — Quality CBC education in Kenya. Pay fees online, check results, apply online.')">
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: { navy: '#0B3D91', gold: '#D4AF37' },
-      fontFamily: { poppins: ['Poppins','sans-serif'], inter: ['Inter','sans-serif'] }
-    }
-  }
-}
-</script>
+@include('partials.theme')
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
