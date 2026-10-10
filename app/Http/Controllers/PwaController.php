@@ -30,7 +30,7 @@ class PwaController extends Controller
     public function serviceWorker()
     {
         $js = <<<'JS'
-const CACHE = 'marell-v1';
+const CACHE = 'marell-v2';
 const OFFLINE_URLS = ['/', '/parent/login'];
 
 self.addEventListener('install', e => {
@@ -49,8 +49,12 @@ self.addEventListener('fetch', e => {
     if (e.request.method !== 'GET') return;
     if (e.request.url.includes('/api/') || e.request.url.includes('/pay/')) return;
 
+    // Documents bypass the browser HTTP cache so dev edits are visible
+    // immediately. Static assets keep normal caching.
+    const init = e.request.destination === 'document' ? { cache: 'no-store' } : {};
+
     e.respondWith(
-        fetch(e.request).catch(() =>
+        fetch(e.request, init).catch(() =>
             caches.match(e.request).then(r => r || caches.match('/'))
         )
     );
