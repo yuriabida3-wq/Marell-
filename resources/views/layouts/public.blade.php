@@ -114,8 +114,7 @@
   <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
     <div>
       <div class="flex items-center gap-2 mb-4">
-        <div class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-bold text-navy">M</div>
-        <div><div class="font-poppins font-extrabold">MARELL</div><div class="text-[10px] tracking-widest text-gold">ACADEMY</div></div>
+        <x-brand-logo size="md" />
       </div>
       <p class="text-sm text-white/80">Empowering Tomorrow's Leaders — Quality CBC education rooted in discipline, excellence, and integrity.</p>
     </div>
