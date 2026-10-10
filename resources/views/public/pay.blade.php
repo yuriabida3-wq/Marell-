@@ -57,12 +57,9 @@
         @csrf
         <input type="hidden" name="adm" value="{{ $student['adm_no'] }}">
 
-        <div>
-          <label class="block text-sm font-semibold text-navy mb-2">Phone Number (M-Pesa) *</label>
-          <input name="phone" value="{{ old('phone') }}" required placeholder="07XXXXXXXX"
-                 class="w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none">
-          <div class="text-xs text-gray-500 mt-1">We'll send an STK Push prompt to this number. The receipt will be sent to the parent number on file.</div>
-        </div>
+        <x-input name="phone" label="Phone Number (M-Pesa)"
+                 :value="old('phone')" required placeholder="07XXXXXXXX"
+                 hint="We'll send an STK Push prompt to this number. The receipt will be sent to the parent number on file." />
 
         <div>
           <label class="block text-sm font-semibold text-navy mb-2">Amount (KES) *</label>
