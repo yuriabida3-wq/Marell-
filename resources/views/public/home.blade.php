@@ -98,21 +98,21 @@
       <h2 class="text-2xl md:text-3xl font-extrabold text-navy mt-1">Trusted by 300+ Families</h2>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="card p-6" data-aos="fade-up">
-        <div class="text-gold text-2xl mb-2">★★★★★</div>
+      <x-card data-aos="fade-up">
+        <div class="text-accent text-2xl mb-2">★★★★★</div>
         <p class="text-sm text-gray-700 italic">"I pay from Nairobi at 10pm. Receipt on WhatsApp in 5 seconds. No more calling the bursar."</p>
         <div class="mt-4 text-sm font-bold text-navy">Mrs. Faith W., Parent</div>
-      </div>
-      <div class="card p-6" data-aos="fade-up" data-aos-delay="80">
-        <div class="text-gold text-2xl mb-2">★★★★★</div>
+      </x-card>
+      <x-card data-aos="fade-up" data-aos-delay="80">
+        <div class="text-accent text-2xl mb-2">★★★★★</div>
         <p class="text-sm text-gray-700 italic">"As Director, I now see every shilling live. Defaulters no longer hidden until closing day."</p>
         <div class="mt-4 text-sm font-bold text-navy">Mr. James W., Director</div>
-      </div>
-      <div class="card p-6" data-aos="fade-up" data-aos-delay="160">
-        <div class="text-gold text-2xl mb-2">★★★★★</div>
+      </x-card>
+      <x-card data-aos="fade-up" data-aos-delay="160">
+        <div class="text-accent text-2xl mb-2">★★★★★</div>
         <p class="text-sm text-gray-700 italic">"Report cards in 1 click. My teachers used to spend 2 days — now it takes 5 seconds."</p>
         <div class="mt-4 text-sm font-bold text-navy">Mrs. Mary N., DOS</div>
-      </div>
+      </x-card>
     </div>
   </div>
 </section>
