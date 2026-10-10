@@ -37,6 +37,7 @@
         'outline' => 'border-2 border-current text-navy bg-transparent hover:bg-navy hover:text-white',
         'outline-light' => 'border-2 border-white text-white bg-transparent hover:bg-white hover:text-navy',
         'ghost'   => 'text-navy bg-transparent hover:bg-gray-100',
+        'subtle'  => 'bg-gray-200 text-navy hover:bg-gray-300 active:bg-gray-400',
         'danger'  => 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
         default   => 'bg-navy text-white hover:opacity-90',
     };
