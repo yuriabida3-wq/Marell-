@@ -112,26 +112,21 @@ cfg.options.cutout = '60%';
 </div>
 
 {{-- RECENT PAYMENTS --}}
-<div class="mt-6 bg-white rounded-2xl shadow overflow-hidden">
-  <div class="p-5 border-b flex items-center justify-between">
-    <h2 class="font-extrabold text-navy">💳 Recent Payments</h2>
-    <a href="/principal/finance" class="text-xs text-navy hover:text-gold font-semibold">View all →</a>
-  </div>
-
-  <div class="overflow-x-auto">
-    <table class="w-full text-sm">
-      <thead class="bg-gray-50">
-        <tr class="text-left text-xs text-gray-500 tracking-widest">
-          <th class="p-3">PAYMENT ID</th>
-          <th class="p-3">STUDENT</th>
-          <th class="p-3">CLASS</th>
-          <th class="p-3 text-right">AMOUNT</th>
-          <th class="p-3">DATE</th>
-          <th class="p-3 text-center">STATUS</th>
-          <th class="p-3 text-right">ACTION</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y">
+<x-card title="Recent Payments" action="View all" action-href="/principal/finance" padding="none" class="mt-6">
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-50">
+                <tr class="text-left text-xs text-gray-500 tracking-widest">
+                    <th class="p-3">PAYMENT ID</th>
+                    <th class="p-3">STUDENT</th>
+                    <th class="p-3">CLASS</th>
+                    <th class="p-3 text-right">AMOUNT</th>
+                    <th class="p-3">DATE</th>
+                    <th class="p-3 text-center">STATUS</th>
+                    <th class="p-3 text-right">ACTION</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y">
         @forelse ($recentPayments as $p)
           <tr class="hover:bg-gray-50">
             <td class="p-3 font-mono text-xs">#{{ $p->id }}</td>
@@ -141,17 +136,17 @@ cfg.options.cutout = '60%';
             <td class="p-3 text-gray-500 text-xs">{{ $p->created_at->format('d M Y H:i') }}</td>
             <td class="p-3 text-center">
               @php
-                $cls = match($p->status) {
-                  'completed' => 'bg-green-100 text-green-700',
-                  'pending'   => 'bg-yellow-100 text-yellow-700',
-                  default     => 'bg-red-100 text-red-700',
+                $badgeVariant = match($p->status) {
+                  'completed' => 'success',
+                  'pending'   => 'warning',
+                  default     => 'danger',
                 };
               @endphp
-              <span class="px-2 py-1 rounded-full text-xs font-bold {{ $cls }}">{{ ucfirst($p->status) }}</span>
+              <x-badge :variant="$badgeVariant">{{ ucfirst($p->status) }}</x-badge>
             </td>
             <td class="p-3 text-right">
               @if ($p->status === 'completed')
-                <a href="{{ URL::signedRoute('pay.receipt', ['payment' => $p->id]) }}" class="text-xs font-semibold text-navy hover:text-gold">📄 Receipt</a>
+                <a href="{{ URL::signedRoute('pay.receipt', ['payment' => $p->id]) }}" class="text-xs font-semibold text-navy hover:text-gold">Receipt</a>
               @elseif ($p->status === 'pending')
                 <button class="text-xs font-semibold text-gray-500">Resend SMS</button>
               @endif
@@ -160,10 +155,10 @@ cfg.options.cutout = '60%';
         @empty
           <tr><td colspan="7" class="p-8 text-center text-gray-400 text-sm">No payments yet</td></tr>
         @endforelse
-      </tbody>
-    </table>
-  </div>
-</div>
+            </tbody>
+        </table>
+    </div>
+</x-card>
 
 {{-- QUICK LINKS --}}
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
