@@ -55,7 +55,10 @@
     </div>
 
     <div class="mt-4 text-xs">
-      <a href="{{ \Illuminate\Support\Facades\URL::signedRoute('verify.receipt', ['receipt_no' => $payment->receipt_no]) }}" class="text-navy underline">✓ Verify this receipt online</a>
+      <a href="{{ \Illuminate\Support\Facades\URL::signedRoute('verify.receipt', ['receipt_no' => $payment->receipt_no]) }}" class="text-navy underline inline-flex items-center gap-1">
+        <x-icon name="check-circle" size="sm" />
+        Verify this receipt online
+      </a>
     </div>
 
 <div class="mt-6 text-xs text-gray-500">
