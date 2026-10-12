@@ -4,14 +4,14 @@
 
 <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
   <div>
-    <h1 class="text-2xl md:text-3xl font-extrabold text-navy">📈 Results Overview</h1>
+    <h1 class="text-2xl md:text-3xl font-extrabold text-navy"><x-icon name="arrow-trending-up" size="sm" class="mr-1" />Results Overview</h1>
     <p class="text-sm text-gray-500 mt-1">All exams, entry progress, top performers, class means</p>
   </div>
 </div>
 
 @if ($exams->isEmpty())
   <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded text-sm">
-    ⚠️ No exams created yet. Ask the DOS to create one.
+    <x-icon name="exclamation-triangle" size="sm" class="mr-1" />No exams created yet. Ask the DOS to create one.
   </div>
 @else
 
@@ -26,7 +26,7 @@
     </select>
     <button class="px-6 min-h-[42px] rounded-xl bg-navy text-white font-semibold text-sm">Load</button>
     @if ($exam)
-      <a href="{{ route('principal.results.export', $exam) }}" class="px-6 min-h-[42px] rounded-xl bg-green-600 text-white font-semibold text-sm text-center leading-[42px]">📊 Export CSV</a>
+      <a href="{{ route('principal.results.export', $exam) }}" class="px-6 min-h-[42px] rounded-xl bg-green-600 text-white font-semibold text-sm text-center leading-[42px]"><x-icon name="arrow-down-tray" size="sm" />Export CSV</a>
     @endif
   </form>
 </div>
@@ -75,7 +75,7 @@
   {{-- CLASS BREAKDOWN --}}
   <div class="bg-white rounded-2xl shadow overflow-hidden mb-6">
     <div class="p-5 border-b">
-      <div class="font-extrabold text-navy">📊 Class Performance</div>
+      <div class="font-extrabold text-navy"><x-icon name="chart-bar" size="sm" class="mr-1" />Class Performance</div>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
@@ -126,7 +126,7 @@
   @if (count($topStudents))
     <div class="bg-white rounded-2xl shadow overflow-hidden">
       <div class="p-5 border-b">
-        <div class="font-extrabold text-navy">🏆 Top 10 Performers</div>
+        <div class="font-extrabold text-navy"><x-icon name="trophy" size="sm" class="mr-1" />Top 10 Performers</div>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -143,9 +143,9 @@
             @foreach ($topStudents as $i => $t)
               <tr class="hover:bg-gray-50">
                 <td class="p-3 font-bold text-navy">
-                  @if ($i === 0) 🥇
-                  @elseif ($i === 1) 🥈
-                  @elseif ($i === 2) 🥉
+                  @if ($i === 0) 1
+                  @elseif ($i === 1) 2
+                  @elseif ($i === 2) 3
                   @else {{ $i + 1 }}
                   @endif
                 </td>

@@ -3,9 +3,9 @@
 @section('content')
 <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
   <div><h1 class="text-2xl md:text-3xl font-extrabold text-navy">Expenses</h1><p class="text-sm text-gray-500 mt-1">Track school expenditures</p></div>
-  <a href="{{ route('principal.expenses.export', ['from'=>$from,'to'=>$to]) }}" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold">📊 Export CSV</a>
+  <a href="{{ route('principal.expenses.export', ['from'=>$from,'to'=>$to]) }}" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold"><x-icon name="arrow-down-tray" size="sm" />Export CSV</a>
 </div>
-@if (session('success'))<div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700">✅ {{ session('success') }}</div></div>@endif
+@if (session('success'))<div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700"><x-icon name="check-circle" size="sm" class="mr-1" />{{ session('success') }}</div></div>@endif
 
 <div class="grid grid-cols-3 gap-3 mb-4">
   <div class="bg-green-50 rounded-2xl p-4 shadow"><div class="text-[10px] text-gray-600 tracking-widest font-bold">INCOME</div><div class="text-xl md:text-2xl font-extrabold text-green-700 mt-1">KES {{ number_format($totalIncome, 0) }}</div></div>
@@ -32,7 +32,7 @@
               <td class="p-3"><span class="px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-navy">{{ $e->category }}</span></td>
               <td class="p-3 text-navy">{{ $e->description }}<div class="text-xs text-gray-500">{{ $e->method }} · {{ $e->recorder->name ?? '—' }}</div></td>
               <td class="p-3 text-right font-bold text-red-600">KES {{ number_format($e->amount, 0) }}</td>
-              <td class="p-3 text-right"><form method="POST" action="{{ route('principal.expenses.destroy', $e) }}" class="inline" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button class="text-xs text-red-600 hover:underline">✕</button></form></td>
+              <td class="p-3 text-right"><form method="POST" action="{{ route('principal.expenses.destroy', $e) }}" class="inline" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button class="text-xs text-red-600 hover:underline"><x-icon name="x-mark" size="sm" /></button></form></td>
             </tr>
           @empty
             <tr><td colspan="5" class="p-12 text-center text-gray-400">No expenses in this period</td></tr>
@@ -44,7 +44,7 @@
   </div>
 
   <div class="bg-white rounded-2xl p-6 shadow h-fit">
-    <h2 class="font-extrabold text-navy mb-4">➕ Record Expense</h2>
+    <h2 class="font-extrabold text-navy mb-4"><x-icon name="plus-circle" size="sm" class="mr-1" />Record Expense</h2>
     <form method="POST" action="{{ route('principal.expenses.store') }}" class="space-y-3">
       @csrf
       <div><label class="block text-xs font-semibold text-navy mb-2 tracking-widest">CATEGORY *</label>
@@ -57,7 +57,7 @@
       <div><label class="block text-xs font-semibold text-navy mb-2 tracking-widest">METHOD</label><select name="method" class="w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4"><option>Cash</option><option>Bank</option><option>M-Pesa</option></select></div>
       <div><label class="block text-xs font-semibold text-navy mb-2 tracking-widest">DATE *</label><input type="date" name="expense_date" value="{{ date('Y-m-d') }}" required class="w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4"></div>
       <div><label class="block text-xs font-semibold text-navy mb-2 tracking-widest">NOTES</label><textarea name="notes" rows="2" class="w-full rounded-xl border-2 border-gray-200 px-4 py-2"></textarea></div>
-      <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold">💾 Save</button>
+      <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold"><x-icon name="arrow-down-tray" size="sm" />Save</button>
     </form>
   </div>
 </div>

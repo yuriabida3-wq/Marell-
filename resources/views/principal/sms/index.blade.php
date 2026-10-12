@@ -8,7 +8,7 @@
 </div>
 
 @if (session('success'))
-  <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700">✅ {{ session('success') }}</div></div>
+  <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700"><x-icon name="check-circle" size="sm" class="mr-1" />{{ session('success') }}</div></div>
 @endif
 @if (session('error'))
   <div class="bg-red-50 border-l-4 border-red-600 p-4 rounded-lg mb-4"><div class="font-bold text-red-700">{{ session('error') }}</div></div>
@@ -35,7 +35,7 @@
 
   {{-- COMPOSE --}}
   <div class="bg-white rounded-2xl p-6 md:p-8 shadow">
-    <h2 class="font-extrabold text-navy mb-4">📤 Compose SMS</h2>
+    <h2 class="font-extrabold text-navy mb-4"><x-icon name="arrow-up-tray" size="sm" class="mr-1" />Compose SMS</h2>
 
     <form method="POST" action="{{ route('principal.sms.send') }}" class="space-y-4" id="smsForm">
       @csrf
@@ -43,10 +43,10 @@
       <div>
         <label class="block text-xs font-semibold text-navy mb-2 tracking-widest">AUDIENCE *</label>
         <select name="audience" id="audience" required class="w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none">
-          <option value="parents">👨‍👩‍👧 All Parents ({{ $parentCount }})</option>
-          <option value="teachers">👩‍🏫 All Teachers ({{ $teacherCount }})</option>
-          <option value="defaulters">⚠️ Fee Defaulters ({{ $defaulterCount }})</option>
-          <option value="custom">✏️ Custom Numbers</option>
+          <option value="parents">All Parents ({{ $parentCount }})</option>
+          <option value="teachers">All Teachers ({{ $teacherCount }})</option>
+          <option value="defaulters">Fee Defaulters ({{ $defaulterCount }})</option>
+          <option value="custom">Custom Numbers</option>
         </select>
       </div>
 
@@ -65,17 +65,17 @@
         </div>
       </div>
 
-      <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition">📱 Send SMS</button>
+      <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition"><x-icon name="device-phone" size="sm" />Send SMS</button>
     </form>
   </div>
 
   {{-- RECENT --}}
   <div class="bg-white rounded-2xl p-6 shadow">
-    <h2 class="font-extrabold text-navy mb-4">📋 Recent Broadcasts (this session)</h2>
+    <h2 class="font-extrabold text-navy mb-4"><x-icon name="clipboard-list" size="sm" class="mr-1" />Recent Broadcasts (this session)</h2>
 
     @if (empty($recent))
       <div class="text-center py-10 text-gray-400 text-sm">
-        <div class="text-4xl mb-2">📭</div>
+        <div class="text-4xl mb-2"><x-icon name="inbox" size="lg" /></div>
         No broadcasts yet this session
       </div>
     @else
@@ -88,8 +88,8 @@
             </div>
             <div class="text-sm text-gray-700 mt-1">{{ $r['preview'] }}...</div>
             <div class="text-xs mt-1">
-              <span class="text-green-600 font-bold">✓ {{ $r['sent'] }}</span>
-              <span class="text-red-600 font-bold ml-2">✗ {{ $r['failed'] }}</span>
+              <span class="text-green-600 font-bold"><x-icon name="check-circle" size="sm" class="mr-1" />{{ $r['sent'] }}</span>
+              <span class="text-red-600 font-bold ml-2"><x-icon name="x-mark" size="sm" class="mr-1" />{{ $r['failed'] }}</span>
             </div>
           </div>
         @endforeach

@@ -33,15 +33,15 @@
 <div class="flex flex-wrap gap-2 mb-4">
   <form method="POST" action="{{ route('principal.fee-autopilot.trigger', $student) }}" class="inline">
     @csrf
-    <button class="px-4 py-2 rounded-xl bg-gold text-navy font-bold text-sm">⚡ Trigger Next Stage</button>
+    <button class="px-4 py-2 rounded-xl bg-gold text-navy font-bold text-sm"><x-icon name="bolt" size="sm" />Trigger Next Stage</button>
   </form>
-  <a href="tel:{{ $student->parent_phone }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold">📞 Call Parent</a>
-  <a href="https://wa.me/{{ preg_replace('/\D/','',$student->parent_phone) }}" target="_blank" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold">💬 WhatsApp</a>
+  <a href="tel:{{ $student->parent_phone }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold"><x-icon name="phone" size="sm" />Call Parent</a>
+  <a href="https://wa.me/{{ preg_replace('/\D/','',$student->parent_phone) }}" target="_blank" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold"><x-icon name="chat-bubble" size="sm" />WhatsApp</a>
 </div>
 
 <div class="bg-white rounded-2xl shadow overflow-hidden">
   <div class="p-5 border-b">
-    <div class="font-extrabold text-navy">📋 Escalation Timeline</div>
+    <div class="font-extrabold text-navy"><x-icon name="clipboard-list" size="sm" class="mr-1" />Escalation Timeline</div>
   </div>
   <div class="p-5">
     @forelse ($escalations->sortBy('stage') as $e)

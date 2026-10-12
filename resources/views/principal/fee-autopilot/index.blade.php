@@ -4,14 +4,14 @@
 
 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
   <div>
-    <h1 class="text-2xl md:text-3xl font-extrabold text-navy">🤖 Fee Autopilot</h1>
+    <h1 class="text-2xl md:text-3xl font-extrabold text-navy"><x-icon name="cpu-chip" size="sm" class="mr-1" />Fee Autopilot</h1>
     <p class="text-sm text-gray-500 mt-1">Auto-escalating reminders for unpaid fees. Runs daily at 8am.</p>
   </div>
   <div class="flex flex-wrap gap-2">
-    <a href="{{ route('principal.fee-autopilot.settings') }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold">⚙️ Settings</a>
+    <a href="{{ route('principal.fee-autopilot.settings') }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold"><x-icon name="cog-6-tooth" size="sm" />Settings</a>
     <form method="POST" action="{{ route('principal.fee-autopilot.run') }}" class="inline">
       @csrf
-      <button class="px-4 py-2 rounded-xl bg-gold text-navy text-sm font-bold">⚡ Run Now</button>
+      <button class="px-4 py-2 rounded-xl bg-gold text-navy text-sm font-bold"><x-icon name="bolt" size="sm" />Run Now</button>
     </form>
   </div>
 </div>
@@ -35,7 +35,7 @@
 {{-- STAGE BREAKDOWN --}}
 <div class="bg-white rounded-2xl shadow overflow-hidden mb-6">
   <div class="p-5 border-b">
-    <div class="font-extrabold text-navy">📊 Escalation Stages</div>
+    <div class="font-extrabold text-navy"><x-icon name="chart-bar" size="sm" class="mr-1" />Escalation Stages</div>
   </div>
   <div class="overflow-x-auto">
     <table class="w-full text-sm">
@@ -78,7 +78,7 @@
 {{-- RECENT ESCALATIONS --}}
 <div class="bg-white rounded-2xl shadow overflow-hidden">
   <div class="p-5 border-b flex items-center justify-between">
-    <div class="font-extrabold text-navy">📋 Recent Escalations</div>
+    <div class="font-extrabold text-navy"><x-icon name="clipboard-list" size="sm" class="mr-1" />Recent Escalations</div>
     @if ($stage)
       <a href="{{ route('principal.fee-autopilot.index') }}" class="text-xs text-gray-500">Clear filter</a>
     @endif

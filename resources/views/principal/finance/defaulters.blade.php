@@ -8,7 +8,7 @@
     <p class="text-sm text-gray-500 mt-1">{{ $defaulters->total() }} students · Total owed: <span class="font-bold text-red-600">KES {{ number_format($totalOwed, 0) }}</span></p>
   </div>
   <a href="{{ route('principal.finance.export-defaulters') }}?{{ http_build_query(request()->only(['min_balance','class'])) }}"
-     class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold hover:scale-105 transition">📊 Export CSV</a>
+     class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold hover:scale-105 transition"><x-icon name="arrow-down-tray" size="sm" />Export CSV</a>
 </div>
 
 {{-- FILTERS --}}
@@ -57,7 +57,7 @@
             </td>
           </tr>
         @empty
-          <tr><td colspan="8" class="p-12 text-center text-gray-400 text-sm">🎉 No defaulters match the filter</td></tr>
+          <tr><td colspan="8" class="p-12 text-center text-gray-400 text-sm"><x-icon name="check-circle" size="sm" class="mr-1" />No defaulters match the filter</td></tr>
         @endforelse
       </tbody>
     </table>

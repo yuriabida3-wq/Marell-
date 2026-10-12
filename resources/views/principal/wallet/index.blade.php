@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="mb-6">
-  <h1 class="text-2xl md:text-3xl font-extrabold text-navy">💰 Canteen Wallet</h1>
+  <h1 class="text-2xl md:text-3xl font-extrabold text-navy"><x-icon name="wallet" size="sm" class="mr-1" />Canteen Wallet</h1>
   <p class="text-sm text-gray-500 mt-1">Manage student wallets, print QR cards, monitor cashless canteen</p>
 </div>
 
@@ -29,7 +29,7 @@
 
   <div class="lg:col-span-1">
     <div class="bg-white rounded-2xl p-6 shadow sticky top-20">
-      <h2 class="font-extrabold text-navy mb-4">➕ Manual Load</h2>
+      <h2 class="font-extrabold text-navy mb-4"><x-icon name="plus-circle" size="sm" class="mr-1" />Manual Load</h2>
       <form method="POST" action="{{ route('principal.wallet.load') }}" class="space-y-3">
         @csrf
         <div>
@@ -46,7 +46,7 @@
           <label class="block text-xs font-semibold text-navy mb-2 tracking-widest">NOTES</label>
           <input name="notes" placeholder="Cash received at office" class="w-full min-h-[42px] rounded-xl border-2 border-gray-200 px-3 text-sm">
         </div>
-        <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold">💰 Load Wallet</button>
+        <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold"><x-icon name="wallet" size="sm" />Load Wallet</button>
       </form>
     </div>
   </div>
@@ -54,8 +54,8 @@
   <div class="lg:col-span-2">
     <div class="bg-white rounded-2xl shadow overflow-hidden">
       <div class="p-5 border-b flex items-center justify-between">
-        <div class="font-extrabold text-navy">📋 Students & Balances</div>
-        <a href="{{ route('canteen.index') }}" class="text-xs bg-green-600 text-white px-3 py-1.5 rounded-lg font-semibold">🍔 Open Canteen</a>
+        <div class="font-extrabold text-navy"><x-icon name="clipboard-list" size="sm" class="mr-1" />Students & Balances</div>
+        <a href="{{ route('canteen.index') }}" class="text-xs bg-green-600 text-white px-3 py-1.5 rounded-lg font-semibold"><x-icon name="shopping-cart" size="sm" />Open Canteen</a>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -76,7 +76,7 @@
                 <td class="p-3 text-gray-600">{{ $s->class }}</td>
                 <td class="p-3 text-right font-bold {{ $s->wallet_balance > 0 ? 'text-green-600' : 'text-gray-400' }}">KES {{ number_format((float) $s->wallet_balance, 0) }}</td>
                 <td class="p-3 text-right">
-                  <a href="{{ route('student-qr-cards.card', $s) }}" class="text-xs font-semibold text-navy hover:text-gold">📱 Card</a>
+                  <a href="{{ route('student-qr-cards.card', $s) }}" class="text-xs font-semibold text-navy hover:text-gold"><x-icon name="device-phone" size="sm" />Card</a>
                 </td>
               </tr>
             @empty
@@ -89,12 +89,12 @@
     <div class="mt-4">{{ $students->links() }}</div>
 
     <div class="bg-white rounded-2xl p-5 shadow mt-4">
-      <h3 class="font-extrabold text-navy mb-3">🖨️ Bulk Print QR Cards</h3>
+      <h3 class="font-extrabold text-navy mb-3"><x-icon name="printer" size="sm" class="mr-1" />Bulk Print QR Cards</h3>
       <form method="POST" action="{{ route('student-qr-cards.bulk-pdf') }}" class="flex flex-wrap gap-2">
         @csrf
         <input name="class" placeholder="Class name e.g. Class 6" required class="flex-1 min-h-[42px] rounded-xl border-2 border-gray-200 px-3 text-sm">
         <input name="stream" placeholder="Stream (optional)" class="min-h-[42px] rounded-xl border-2 border-gray-200 px-3 text-sm">
-        <button class="px-4 min-h-[42px] rounded-xl bg-navy text-white font-semibold text-sm">📄 Generate PDF</button>
+        <button class="px-4 min-h-[42px] rounded-xl bg-navy text-white font-semibold text-sm"><x-icon name="document-text" size="sm" />Generate PDF</button>
       </form>
     </div>
   </div>

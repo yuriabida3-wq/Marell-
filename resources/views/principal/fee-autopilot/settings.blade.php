@@ -4,7 +4,7 @@
 
 <div class="mb-6">
   <a href="{{ route('principal.fee-autopilot.index') }}" class="text-xs text-gray-500">← Fee Autopilot</a>
-  <h1 class="text-2xl md:text-3xl font-extrabold text-navy mt-1">⚙️ Autopilot Settings</h1>
+  <h1 class="text-2xl md:text-3xl font-extrabold text-navy mt-1"><x-icon name="cog-6-tooth" size="sm" class="mr-1" />Autopilot Settings</h1>
   <p class="text-sm text-gray-500">Customize each reminder stage. Use {student}, {balance}, {due_date}, {parent}, {adm_no} as placeholders.</p>
 </div>
 
@@ -38,6 +38,6 @@
     @endforeach
   </div>
 
-  <button class="mt-6 w-full min-h-[52px] rounded-xl bg-gold text-navy font-bold shadow-lg sticky bottom-4">💾 Save Settings</button>
+  <button class="mt-6 w-full min-h-[52px] rounded-xl bg-gold text-navy font-bold shadow-lg sticky bottom-4"><x-icon name="arrow-down-tray" size="sm" />Save Settings</button>
 </form>
 @endsection

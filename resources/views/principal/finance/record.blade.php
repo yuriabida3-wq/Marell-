@@ -9,7 +9,7 @@
 </div>
 
 @if (session('success'))
-  <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700">✅ {{ session('success') }}</div></div>
+  <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700"><x-icon name="check-circle" size="sm" class="mr-1" />{{ session('success') }}</div></div>
 @endif
 @if (session('error'))
   <div class="bg-red-50 border-l-4 border-red-600 p-4 rounded-lg mb-4"><div class="font-bold text-red-700">{{ session('error') }}</div></div>
@@ -20,7 +20,7 @@
   <form method="GET" class="flex flex-col sm:flex-row gap-3">
     <input name="adm" value="{{ request('adm') }}" placeholder="Enter ADM number..." required
            class="flex-1 min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none">
-    <button class="btn btn-navy w-full sm:w-auto">🔍 Find Student</button>
+    <button class="btn btn-navy w-full sm:w-auto"><x-icon name="magnifying-glass" size="sm" />Find Student</button>
   </form>
 </div>
 
@@ -76,7 +76,7 @@
         <textarea name="notes" rows="2" class="w-full rounded-xl border-2 border-gray-200 px-4 py-3 focus:border-gold focus:outline-none">{{ old('notes') }}</textarea>
       </div>
 
-      <button class="md:col-span-2 min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition">💾 Record Payment</button>
+      <button class="md:col-span-2 min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition"><x-icon name="arrow-down-tray" size="sm" />Record Payment</button>
     </form>
   </div>
 @endif
