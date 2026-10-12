@@ -32,93 +32,93 @@
   <nav class="p-3">
     <div class="sidebar-group-title">Overview</div>
     <a href="/principal/predictions" class="sidebar-link {{ request()->is('principal/predictions*') ? 'active' : '' }}">
-      <span>🤖</span> AI Predictions
+      <x-icon name="cpu-chip" size="sm" /> AI Predictions
     </a>
     <a href="/principal/live-collection" class="sidebar-link {{ request()->is('principal/live-collection*') ? 'active' : '' }}">
-      <span>🎥</span> Live Collection
+      <x-icon name="video-camera" size="sm" /> Live Collection
     </a>
     <a href="/principal" class="sidebar-link {{ request()->is('principal') ? 'active' : '' }}">
-      <span>📊</span> Dashboard
+      <x-icon name="squares-2x2" size="sm" /> Dashboard
     </a>
 
     <div class="sidebar-group-title mt-3">Academics</div>
     <a href="/principal/attendance" class="sidebar-link {{ request()->is('principal/attendance*') ? 'active' : '' }}">
-      <span>✅</span> Attendance
+      <x-icon name="check-circle" size="sm" /> Attendance
     </a>
     <a href="/principal/students" class="sidebar-link {{ request()->is('principal/students*') ? 'active' : '' }}">
-      <span>🎓</span> Students
+      <x-icon name="academic-cap" size="sm" /> Students
     </a>
     <a href="/principal/results" class="sidebar-link {{ request()->is('principal/results*') ? 'active' : '' }}">
-      <span>📈</span> Results
+      <x-icon name="arrow-trending-up" size="sm" /> Results
     </a>
     <a href="/principal/teachers" class="sidebar-link {{ request()->is('principal/teachers*') ? 'active' : '' }}">
-      <span>👨‍🏫</span> Teachers
+      <x-icon name="user-circle" size="sm" /> Teachers
     </a>
 
     <div class="sidebar-group-title mt-3">Finance</div>
     <a href="/principal/fee-autopilot" class="sidebar-link {{ request()->is('principal/fee-autopilot*') ? 'active' : '' }}">
-      <span>🤖</span> Fee Autopilot
+      <x-icon name="cog-6-tooth" size="sm" /> Fee Autopilot
     </a>
     <a href="/principal/finance" class="sidebar-link {{ request()->is('principal/finance*') ? 'active' : '' }}">
-      <span>💰</span> Payments
+      <x-icon name="banknotes" size="sm" /> Payments
     </a>
     <a href="/principal/fines" class="sidebar-link {{ request()->is('principal/fines*') ? 'active' : '' }}">
-      <span>⚠️</span> Late Fines
+      <x-icon name="exclamation-triangle" size="sm" /> Late Fines
     </a>
     <a href="/principal/board-report" class="sidebar-link {{ request()->is('principal/board-report*') ? 'active' : '' }}">
-      <span>📊</span> Board Report
+      <x-icon name="document-text" size="sm" /> Board Report
     </a>
     <a href="/visitors/gate" class="sidebar-link {{ request()->is('visitors*') ? 'active' : '' }}">
-      <span>🚪</span> Gate
+      <x-icon name="door-open" size="sm" /> Gate
     </a>
     <a href="/library" class="sidebar-link {{ request()->is('library*') ? 'active' : '' }}">
-      <span>📚</span> Library
+      <x-icon name="book-open" size="sm" /> Library
     </a>
     <a href="/principal/wallet" class="sidebar-link {{ request()->is('principal/wallet*') ? 'active' : '' }}">
-      <span>💰</span> Canteen Wallet
+      <x-icon name="wallet" size="sm" /> Canteen Wallet
     </a>
     <a href="/canteen" class="sidebar-link {{ request()->is('canteen*') ? 'active' : '' }}">
-      <span>🍔</span> Canteen
+      <x-icon name="shopping-cart" size="sm" /> Canteen
     </a>
     <a href="/principal/expenses" class="sidebar-link {{ request()->is('principal/expenses*') ? 'active' : '' }}">
-      <span>💸</span> Expenses
+      <x-icon name="arrow-trending-down" size="sm" /> Expenses
     </a>
     <a href="/principal/finance/defaulters" class="sidebar-link {{ request()->is('principal/finance/defaulters*') ? 'active' : '' }}">
-      <span>⚠️</span> Defaulters
+      <x-icon name="exclamation-triangle" size="sm" /> Defaulters
     </a>
 
     <div class="sidebar-group-title mt-3">Communication</div>
     <a href="/principal/voice-sms" class="sidebar-link {{ request()->is('principal/voice-sms*') ? 'active' : '' }}">
-      <span>🎙️</span> Voice SMS
+      <x-icon name="microphone" size="sm" /> Voice SMS
     </a>
     <a href="/principal/emergency" class="sidebar-link {{ request()->is('principal/emergency*') ? 'active' : '' }}">
-      <span>🚨</span> Emergency Alert
+      <x-icon name="bell-alert" size="sm" /> Emergency Alert
     </a>
     <a href="/principal/sms" class="sidebar-link {{ request()->is('principal/sms*') ? 'active' : '' }}">
-      <span>📱</span> SMS Center
+      <x-icon name="device-phone" size="sm" /> SMS Center
     </a>
     <a href="/principal/news" class="sidebar-link {{ request()->is('principal/news*') ? 'active' : '' }}">
-      <span>📰</span> Website CMS
+      <x-icon name="newspaper" size="sm" /> Website CMS
     </a>
 
     <div class="sidebar-group-title mt-3">System</div>
     <a href="/qr-scanner" class="sidebar-link {{ request()->is('qr-scanner*') ? 'active' : '' }}">
-      <span>📷</span> QR Scanner
+      <x-icon name="camera" size="sm" /> QR Scanner
     </a>
     <a href="/principal/audit" class="sidebar-link {{ request()->is('principal/audit*') ? 'active' : '' }}">
-      <span>🔍</span> Audit Log
+      <x-icon name="document-magnifying-glass" size="sm" /> Audit Log
     </a>
     <a href="/principal/users" class="sidebar-link {{ request()->is('principal/users*') ? 'active' : '' }}">
-      <span>👥</span> Users
+      <x-icon name="users" size="sm" /> Users
     </a>
     <a href="/principal/confessions" class="sidebar-link {{ request()->is('principal/confessions*') ? 'active' : '' }}">
-      <span>🔒</span> Anonymous Reports
+      <x-icon name="lock-closed" size="sm" /> Anonymous Reports
     </a>
     <a href="/principal/contacts" class="sidebar-link {{ request()->is('principal/contacts*') ? 'active' : '' }}">
-      <span>✉️</span> Messages
+      <x-icon name="envelope" size="sm" /> Messages
     </a>
     <a href="/principal/admissions" class="sidebar-link {{ request()->is('principal/admissions*') ? 'active' : '' }}">
-      <span>📥</span> Applications
+      <x-icon name="inbox" size="sm" /> Applications
     </a>
   </nav>
 </aside>
@@ -134,7 +134,7 @@
 
       <div class="hidden md:flex items-center flex-1 max-w-md">
         <div class="relative w-full">
-          <input id="masterSearch" type="text" placeholder="🔍 Search student, phone, receipt..."
+          <input id="masterSearch" type="text" placeholder="Search student, phone, receipt..."
                  class="w-full min-h-[42px] rounded-xl bg-gray-100 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-gold">
           <div id="searchResults" class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border max-h-96 overflow-y-auto hidden z-50"></div>
         </div>
@@ -142,15 +142,15 @@
 
       <div class="ml-auto flex items-center gap-3">
       <div class="relative" id="quickJump">
-        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200">⚡ Quick Jump ▾</button>
+        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200"><x-icon name="bolt" size="sm" class="mr-1" />Quick Jump ▾</button>
         <div id="qjMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border py-2 min-w-[200px] z-50">
-          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50">👑 Principal</a>
-          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50">📚 DOS</a>
-          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50">💰 Bursar</a>
-          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50">👨‍🏫 Teacher</a>
+          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="crown" size="sm" class="mr-1" />Principal</a>
+          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="academic-cap" size="sm" class="mr-1" />DOS</a>
+          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="banknotes" size="sm" class="mr-1" />Bursar</a>
+          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="user-circle" size="sm" class="mr-1" />Teacher</a>
           <div class="border-t my-1"></div>
-          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500">🌐 Public Website</a>
-          <a href="/logout" onclick="event.preventDefault(); document.getElementById('logoutForm')?.submit();" class="block px-4 py-2 text-sm hover:bg-gray-50 text-red-600">🚪 Logout</a>
+          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500"><x-icon name="globe-alt" size="sm" class="mr-1" />Public Website</a>
+          <a href="/logout" onclick="event.preventDefault(); document.getElementById('logoutForm')?.submit();" class="block px-4 py-2 text-sm hover:bg-gray-50 text-red-600"><x-icon name="arrow-right-on-rectangle" size="sm" class="mr-1" />Logout</a>
         </div>
       </div>
       
