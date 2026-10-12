@@ -58,7 +58,7 @@
   function open(){
     p.classList.add('flex');
     if(!greeted){greeted=true;bubble("Hi! I'm Marell Helper. Ask me about fees, results, timetable, admissions, or anything else.",'b');
-      actions([{label:'💰 Pay Fees',url:'/pay'},{label:'📊 Results',url:'/results'},{label:'📅 Timetable',url:'/timetable'},{label:'📝 Admissions',url:'/admissions'}]);}
+      actions([{label:'Pay Fees',url:'/pay'},{label:'Results',url:'/results'},{label:'Timetable',url:'/timetable'},{label:'Admissions',url:'/admissions'}]);}
     setTimeout(function(){inp.focus()},200);
   }
   function close(){p.classList.remove('flex');}
