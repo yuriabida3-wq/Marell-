@@ -24,16 +24,16 @@
   </div>
 
   <nav class="p-3">
-    <a href="/teacher" class="sl {{ request()->is('teacher') ? 'active' : '' }}"><span>📊</span> Dashboard</a>
-    <a href="/teacher/classes" class="sl {{ request()->is('teacher/classes*') ? 'active' : '' }}"><span>🎓</span> My Classes</a>
-    <a href="/teacher/timetable" class="sl {{ request()->is('teacher/timetable*') ? 'active' : '' }}"><span>📅</span> My Timetable</a>
-    <a href="/teacher/lesson-plans" class="sl {{ request()->is('teacher/lesson-plans*') ? 'active' : '' }}"><span>📋</span> Lesson Plans</a>
-    <a href="/teacher/performance" class="sl {{ request()->is('teacher/performance*') ? 'active' : '' }}"><span>🏆</span> My Performance</a>
-    <a href="/teacher/attendance" class="sl {{ request()->is('teacher/attendance*') ? 'active' : '' }}"><span>✅</span> Attendance</a>
-    <a href="/teacher/marks" class="sl {{ request()->is('teacher/marks*') ? 'active' : '' }}"><span>✍️</span> Enter Marks</a>
-    <a href="/teacher/homework" class="sl {{ request()->is('teacher/homework*') ? 'active' : '' }}"><span>📚</span> Homework</a>
-    <a href="/library" class="sl {{ request()->is('library*') ? 'active' : '' }}"><span>📚</span> Library</a>
-    <a href="/visitors/gate" class="sl {{ request()->is('visitors*') ? 'active' : '' }}"><span>🚪</span> Gate</a>
+    <a href="/teacher" class="sl {{ request()->is('teacher') ? 'active' : '' }}"><x-icon name="squares-2x2" size="sm" /> Dashboard</a>
+    <a href="/teacher/classes" class="sl {{ request()->is('teacher/classes*') ? 'active' : '' }}"><x-icon name="academic-cap" size="sm" /> My Classes</a>
+    <a href="/teacher/timetable" class="sl {{ request()->is('teacher/timetable*') ? 'active' : '' }}"><x-icon name="calendar" size="sm" /> My Timetable</a>
+    <a href="/teacher/lesson-plans" class="sl {{ request()->is('teacher/lesson-plans*') ? 'active' : '' }}"><x-icon name="clipboard-list" size="sm" /> Lesson Plans</a>
+    <a href="/teacher/performance" class="sl {{ request()->is('teacher/performance*') ? 'active' : '' }}"><x-icon name="trophy" size="sm" /> My Performance</a>
+    <a href="/teacher/attendance" class="sl {{ request()->is('teacher/attendance*') ? 'active' : '' }}"><x-icon name="check-circle" size="sm" /> Attendance</a>
+    <a href="/teacher/marks" class="sl {{ request()->is('teacher/marks*') ? 'active' : '' }}"><x-icon name="pencil-square" size="sm" /> Enter Marks</a>
+    <a href="/teacher/homework" class="sl {{ request()->is('teacher/homework*') ? 'active' : '' }}"><x-icon name="book-open" size="sm" /> Homework</a>
+    <a href="/library" class="sl {{ request()->is('library*') ? 'active' : '' }}"><x-icon name="book-open" size="sm" /> Library</a>
+    <a href="/visitors/gate" class="sl {{ request()->is('visitors*') ? 'active' : '' }}"><x-icon name="door-open" size="sm" /> Gate</a>
   </nav>
 </aside>
 
@@ -45,14 +45,14 @@
       </button>
       <div class="font-bold text-navy flex-1 text-sm">{{ auth()->user()->name }}</div>
       <div class="relative" id="quickJump">
-        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200">⚡ Jump ▾</button>
+        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200"><x-icon name="bolt" size="sm" class="mr-1" />Jump ▾</button>
         <div id="qjMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border py-2 min-w-[200px] z-50">
-          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50">👑 Principal</a>
-          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50">📚 DOS</a>
-          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50">💰 Bursar</a>
-          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50">👨‍🏫 Teacher</a>
+          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="crown" size="sm" class="mr-1" />Principal</a>
+          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="academic-cap" size="sm" class="mr-1" />DOS</a>
+          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="banknotes" size="sm" class="mr-1" />Bursar</a>
+          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="user-circle" size="sm" class="mr-1" />Teacher</a>
           <div class="border-t my-1"></div>
-          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500">🌐 Website</a>
+          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500"><x-icon name="globe-alt" size="sm" class="mr-1" />Website</a>
         </div>
       </div>
       <form method="POST" action="/logout">@csrf<a href="/password" class="text-xs text-gray-500 hover:text-gold px-2 py-1">Password</a><button class="text-xs text-gray-500 hover:text-red-600 px-2 py-1">Logout</button></form>
@@ -63,9 +63,9 @@
 </div>
 
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl p-2 flex gap-2 lg:hidden z-30">
-  <a href="/teacher/timetable" class="quick flex-1 bg-navy text-white text-xs">📅 Today</a>
-  <a href="/teacher/marks" class="quick flex-1 bg-gold text-navy text-xs">✍️ Marks</a>
-  <a href="/teacher/homework" class="quick flex-1 bg-gray-100 text-navy text-xs">📚 HW</a>
+  <a href="/teacher/timetable" class="quick flex-1 bg-navy text-white text-xs"><x-icon name="calendar" size="sm" />Today</a>
+  <a href="/teacher/marks" class="quick flex-1 bg-gold text-navy text-xs"><x-icon name="pencil-square" size="sm" />Marks</a>
+  <a href="/teacher/homework" class="quick flex-1 bg-gray-100 text-navy text-xs"><x-icon name="book-open" size="sm" />HW</a>
 </div>
 
 <script>
