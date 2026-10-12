@@ -7,20 +7,32 @@
   <p class="text-sm text-gray-500 mt-1">Welcome back, {{ auth()->user()->name }}</p>
 </div>
 
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-  <div class="bg-gradient-to-br from-navy to-[#082f6f] rounded-2xl p-5 text-white shadow-lg">
-    <div class="text-[10px] tracking-widest font-bold text-gold">TODAY</div>
-    <div class="text-2xl md:text-3xl font-extrabold mt-2">KES {{ number_format($todayTotal, 0) }}</div>
-    <div class="text-xs text-white/70 mt-1">{{ $todayCount }} payments</div>
-  </div>
-  <div class="bg-white rounded-2xl p-5 shadow">
-    <div class="text-[10px] tracking-widest font-bold text-red-600">DEFAULTERS</div>
-    <div class="text-2xl md:text-3xl font-extrabold text-red-600 mt-2">{{ $defaulters }}</div>
-  </div>
-  <div class="bg-white rounded-2xl p-5 shadow col-span-2">
-    <div class="text-[10px] tracking-widest font-bold text-gold">TOTAL OUTSTANDING</div>
-    <div class="text-2xl md:text-3xl font-extrabold text-navy mt-2">KES {{ number_format($totalOutstanding, 0) }}</div>
-  </div>
+{{-- KPI CARDS --}}
+<div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+    <x-stat-card
+        label="Today"
+        :value="'KES ' . number_format($todayTotal, 0)"
+        :count="$todayTotal"
+        icon="banknotes"
+        tint="primary"
+        :caption="$todayCount . ' payments'"
+    />
+    <x-stat-card
+        label="Defaulters"
+        :value="$defaulters"
+        :count="$defaulters"
+        icon="exclamation-triangle"
+        tint="danger"
+        caption="Students with balance"
+    />
+    <x-stat-card
+        label="Total Outstanding"
+        :value="'KES ' . number_format($totalOutstanding, 0)"
+        :count="$totalOutstanding"
+        icon="banknotes"
+        tint="warning"
+        caption="Fees owed"
+    />
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
