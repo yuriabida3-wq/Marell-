@@ -25,18 +25,18 @@
   </div>
 
   <nav class="p-3">
-    <a href="/bursar" class="sl {{ request()->is('bursar') ? 'active' : '' }}"><span>📊</span> Dashboard</a>
-    <a href="/bursar/students" class="sl {{ request()->is('bursar/students*') ? 'active' : '' }}"><span>🔍</span> Find Student</a>
-    <a href="/bursar/record" class="sl {{ request()->is('bursar/record*') ? 'active' : '' }}"><span>➕</span> Record Payment</a>
-    <a href="/bursar/payments" class="sl {{ request()->is('bursar/payments*') ? 'active' : '' }}"><span>💳</span> All Payments</a>
-    <a href="/bursar/balances" class="sl {{ request()->is('bursar/balances*') ? 'active' : '' }}"><span>📊</span> Fee Balances</a>
-    <a href="/bursar/daily" class="sl {{ request()->is('bursar/daily*') ? 'active' : '' }}"><span>📅</span> Daily Report</a>
-    <a href="/qr-scanner" class="sl {{ request()->is('qr-scanner*') ? 'active' : '' }}"><span>📷</span> QR Scanner</a>
-    <a href="/principal/wallet" class="sl {{ request()->is('principal/wallet*') ? 'active' : '' }}"><span>💰</span> Canteen Wallet</a>
-    <a href="/canteen" class="sl {{ request()->is('canteen*') ? 'active' : '' }}"><span>🍔</span> Canteen</a>
-    <a href="/library" class="sl {{ request()->is('library*') ? 'active' : '' }}"><span>📚</span> Library</a>
-    <a href="/visitors/gate" class="sl {{ request()->is('visitors*') ? 'active' : '' }}"><span>🚪</span> Gate</a>
-    <a href="/bursar/bulk" class="sl {{ request()->is('bursar/bulk*') ? 'active' : '' }}"><span>📥</span> Bulk Cash Upload</a>
+    <a href="/bursar" class="sl {{ request()->is('bursar') ? 'active' : '' }}"><x-icon name="chart-bar" size="sm" /> Dashboard</a>
+    <a href="/bursar/students" class="sl {{ request()->is('bursar/students*') ? 'active' : '' }}"><x-icon name="magnifying-glass" size="sm" /> Find Student</a>
+    <a href="/bursar/record" class="sl {{ request()->is('bursar/record*') ? 'active' : '' }}"><x-icon name="plus-circle" size="sm" /> Record Payment</a>
+    <a href="/bursar/payments" class="sl {{ request()->is('bursar/payments*') ? 'active' : '' }}"><x-icon name="credit-card" size="sm" /> All Payments</a>
+    <a href="/bursar/balances" class="sl {{ request()->is('bursar/balances*') ? 'active' : '' }}"><x-icon name="banknotes" size="sm" /> Fee Balances</a>
+    <a href="/bursar/daily" class="sl {{ request()->is('bursar/daily*') ? 'active' : '' }}"><x-icon name="calendar" size="sm" /> Daily Report</a>
+    <a href="/qr-scanner" class="sl {{ request()->is('qr-scanner*') ? 'active' : '' }}"><x-icon name="camera" size="sm" /> QR Scanner</a>
+    <a href="/principal/wallet" class="sl {{ request()->is('principal/wallet*') ? 'active' : '' }}"><x-icon name="banknotes" size="sm" /> Canteen Wallet</a>
+    <a href="/canteen" class="sl {{ request()->is('canteen*') ? 'active' : '' }}"><x-icon name="shopping-cart" size="sm" /> Canteen</a>
+    <a href="/library" class="sl {{ request()->is('library*') ? 'active' : '' }}"><x-icon name="book-open" size="sm" /> Library</a>
+    <a href="/visitors/gate" class="sl {{ request()->is('visitors*') ? 'active' : '' }}"><x-icon name="door-open" size="sm" /> Gate</a>
+    <a href="/bursar/bulk" class="sl {{ request()->is('bursar/bulk*') ? 'active' : '' }}"><x-icon name="arrow-down-tray" size="sm" /> Bulk Cash Upload</a>
   </nav>
 </aside>
 
@@ -48,14 +48,14 @@
       </button>
       <div class="font-bold text-navy flex-1">{{ auth()->user()->name }}</div>
       <div class="relative" id="quickJump">
-        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200">⚡ Jump ▾</button>
+        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200"><x-icon name="bolt" size="sm" class="mr-1" />Jump ▾</button>
         <div id="qjMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border py-2 min-w-[200px] z-50">
-          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50">👑 Principal</a>
-          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50">📚 DOS</a>
-          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50">💰 Bursar</a>
-          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50">👨‍🏫 Teacher</a>
+          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="crown" size="sm" class="mr-1" />Principal</a>
+          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="academic-cap" size="sm" class="mr-1" />DOS</a>
+          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="banknotes" size="sm" class="mr-1" />Bursar</a>
+          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="user-circle" size="sm" class="mr-1" />Teacher</a>
           <div class="border-t my-1"></div>
-          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500">🌐 Website</a>
+          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500"><x-icon name="globe-alt" size="sm" class="mr-1" />Website</a>
         </div>
       </div>
       <form method="POST" action="/logout">
@@ -70,9 +70,9 @@
 
 {{-- MOBILE STICKY BOTTOM --}}
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl p-2 flex gap-2 lg:hidden z-30">
-  <a href="/bursar/students" class="quick-btn flex-1 bg-navy text-white text-xs">🔍 Search</a>
-  <a href="/bursar/record" class="quick-btn flex-1 bg-gold text-navy text-xs">➕ Record</a>
-  <a href="/bursar/daily" class="quick-btn flex-1 bg-gray-100 text-navy text-xs">📅 Daily</a>
+  <a href="/bursar/students" class="quick-btn flex-1 bg-navy text-white text-xs"><x-icon name="magnifying-glass" size="sm" />Search</a>
+  <a href="/bursar/record" class="quick-btn flex-1 bg-gold text-navy text-xs"><x-icon name="plus-circle" size="sm" />Record</a>
+  <a href="/bursar/daily" class="quick-btn flex-1 bg-gray-100 text-navy text-xs"><x-icon name="calendar" size="sm" />Daily</a>
 </div>
 
 <script>
