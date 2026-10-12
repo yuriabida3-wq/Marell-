@@ -29,7 +29,7 @@
     <a href="/bursar/students" class="sl {{ request()->is('bursar/students*') ? 'active' : '' }}"><x-icon name="magnifying-glass" size="sm" /> Find Student</a>
     <a href="/bursar/record" class="sl {{ request()->is('bursar/record*') ? 'active' : '' }}"><x-icon name="plus-circle" size="sm" /> Record Payment</a>
     <a href="/bursar/payments" class="sl {{ request()->is('bursar/payments*') ? 'active' : '' }}"><x-icon name="credit-card" size="sm" /> All Payments</a>
-    <a href="/bursar/balances" class="sl {{ request()->is('bursar/balances*') ? 'active' : '' }}"><x-icon name="banknotes" size="sm" /> Fee Balances</a>
+    <a href="/bursar/balances" class="sl {{ request()->is('bursar/balances*') ? 'active' : '' }}"><x-icon name="clipboard-list" size="sm" /> Fee Balances</a>
     <a href="/bursar/daily" class="sl {{ request()->is('bursar/daily*') ? 'active' : '' }}"><x-icon name="calendar" size="sm" /> Daily Report</a>
     <a href="/qr-scanner" class="sl {{ request()->is('qr-scanner*') ? 'active' : '' }}"><x-icon name="camera" size="sm" /> QR Scanner</a>
     <a href="/principal/wallet" class="sl {{ request()->is('principal/wallet*') ? 'active' : '' }}"><x-icon name="banknotes" size="sm" /> Canteen Wallet</a>
