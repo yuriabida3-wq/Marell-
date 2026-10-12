@@ -9,15 +9,15 @@
   </div>
   <div class="flex flex-wrap gap-2">
     <a href="{{ route('principal.students.create') }}" class="px-4 py-2 rounded-xl bg-gold text-navy font-bold text-sm hover:scale-105 transition">+ Add Student</a>
-    <a href="{{ route('principal.students.import') }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold hover:scale-105 transition">📥 Import CSV</a>
-    <a href="{{ route('principal.export-students', ['class' => $class]) }}" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold hover:scale-105 transition">📊 Export CSV</a>
+    <a href="{{ route('principal.students.import') }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold hover:scale-105 transition"><x-icon name="arrow-up-tray" size="sm" />Import CSV</a>
+    <a href="{{ route('principal.export-students', ['class' => $class]) }}" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold hover:scale-105 transition"><x-icon name="arrow-down-tray" size="sm" />Export CSV</a>
   </div>
 </div>
 
 {{-- FILTERS --}}
 <div class="bg-white rounded-2xl p-4 shadow mb-4">
   <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-3">
-    <input name="q" value="{{ $q }}" placeholder="🔍 Search name, ADM, phone..."
+    <input name="q" value="{{ $q }}" placeholder="Search name, ADM, phone..."
            class="md:col-span-2 min-h-[42px] rounded-xl border-2 border-gray-200 px-4 text-sm focus:border-gold focus:outline-none">
 
     <select name="class" class="min-h-[42px] rounded-xl border-2 border-gray-200 px-4 text-sm focus:border-gold focus:outline-none">

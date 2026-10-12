@@ -13,7 +13,7 @@
 @endif
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
   <div class="bg-white rounded-2xl p-6 shadow">
-    <h2 class="font-extrabold text-navy mb-4">👤 Profile</h2>
+    <h2 class="font-extrabold text-navy mb-4"><x-icon name="user-circle" size="sm" class="mr-1" />Profile</h2>
     <form method="POST" action="{{ route('principal.teachers.update', $teacher) }}" class="space-y-4">
       @csrf @method('PUT')
       <div>
@@ -32,11 +32,11 @@
         <input type="checkbox" name="active" value="1" {{ $teacher->active ? 'checked' : '' }} class="w-5 h-5">
         Active
       </label>
-      <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold">💾 Save Changes</button>
+      <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold"><x-icon name="arrow-down-tray" size="sm" />Save Changes</button>
     </form>
   </div>
   <div class="bg-white rounded-2xl p-6 shadow h-fit">
-    <h2 class="font-extrabold text-navy mb-4">🔐 Reset Password</h2>
+    <h2 class="font-extrabold text-navy mb-4"><x-icon name="key" size="sm" class="mr-1" />Reset Password</h2>
     <form method="POST" action="{{ route('principal.teachers.reset-password', $teacher) }}" class="space-y-4">
       @csrf
       <div>

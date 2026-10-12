@@ -4,7 +4,7 @@
 
 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
   <div>
-    <h1 class="text-2xl md:text-3xl font-extrabold text-navy">👨‍🏫 Teachers</h1>
+    <h1 class="text-2xl md:text-3xl font-extrabold text-navy"><x-icon name="user-circle" size="lg" class="mr-2" />Teachers</h1>
     <p class="text-sm text-gray-500 mt-1">{{ $totalTeachers }} teachers · {{ $totalAssign }} assignments · {{ $totalSlots }} timetable slots</p>
   </div>
   <a href="{{ route('principal.teachers.create') }}" class="px-4 py-2 rounded-xl bg-gold text-navy font-bold text-sm hover:scale-105 transition">+ Add Teacher</a>
@@ -79,7 +79,7 @@
     </div>
   @empty
     <div class="md:col-span-3 bg-white rounded-2xl p-12 text-center text-gray-400 shadow">
-      <div class="text-4xl mb-2">👨‍🏫</div>
+      <div class="text-4xl mb-2"><x-icon name="user-circle" size="lg" /></div>
       No teachers registered yet
     </div>
   @endforelse

@@ -11,7 +11,7 @@
 </div>
 
 @if (session('success'))
-  <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700">✅ {{ session('success') }}</div></div>
+  <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700"><x-icon name="check-circle" size="sm" class="mr-1" />{{ session('success') }}</div></div>
 @endif
 @if (session('error'))
   <div class="bg-red-50 border-l-4 border-red-600 p-4 rounded-lg mb-4"><div class="font-bold text-red-700">{{ session('error') }}</div></div>
@@ -19,7 +19,7 @@
 
 <div class="bg-white rounded-2xl p-4 shadow mb-4">
   <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-    <input name="q" value="{{ $q }}" placeholder="🔍 Name, email, phone..."
+    <input name="q" value="{{ $q }}" placeholder="Name, email, phone..."
            class="md:col-span-2 min-h-[42px] rounded-xl border-2 border-gray-200 px-4 text-sm focus:border-gold focus:outline-none">
     <select name="role" class="min-h-[42px] rounded-xl border-2 border-gray-200 px-4 text-sm focus:border-gold focus:outline-none">
       <option value="">All Roles</option>

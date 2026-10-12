@@ -27,7 +27,7 @@
       <label class="block text-xs font-semibold text-navy mb-2 tracking-widest">PASSWORD * (min 6 chars)</label>
       <input name="password" type="text" required minlength="6" class="w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4">
     </div>
-    <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition">✅ Register Teacher</button>
+    <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition"><x-icon name="check-circle" size="sm" />Register Teacher</button>
   </form>
 </div>
 @endsection

@@ -49,7 +49,7 @@
     </div>
 
     <div class="md:col-span-2 flex gap-3">
-      <button class="flex-1 min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition">✅ Create User</button>
+      <button class="flex-1 min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition"><x-icon name="check-circle" size="sm" />Create User</button>
       <a href="{{ route('principal.users.index') }}" class="flex-1 min-h-[48px] rounded-xl bg-gray-100 text-gray-700 font-semibold text-center leading-[48px] hover:bg-gray-200 transition">Cancel</a>
     </div>
   </form>

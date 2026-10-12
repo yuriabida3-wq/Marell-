@@ -9,7 +9,7 @@
 </div>
 
 <div class="flex flex-wrap gap-2 mb-4">
-  <a href="{{ route('principal.teachers.edit', $teacher) }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold">✏️ Edit</a>
+  <a href="{{ route('principal.teachers.edit', $teacher) }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold"><x-icon name="pencil-square" size="sm" />Edit</a>
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -31,7 +31,7 @@
   {{-- SUBJECT ASSIGNMENTS --}}
   <div class="bg-white rounded-2xl shadow overflow-hidden">
     <div class="p-5 border-b">
-      <div class="font-extrabold text-navy">📋 Subject Assignments</div>
+      <div class="font-extrabold text-navy"><x-icon name="clipboard-list" size="sm" class="mr-1" />Subject Assignments</div>
     </div>
     @if ($subjects->count())
       <table class="w-full text-sm">
@@ -60,7 +60,7 @@
   {{-- CLASSES --}}
   <div class="bg-white rounded-2xl shadow overflow-hidden">
     <div class="p-5 border-b">
-      <div class="font-extrabold text-navy">🎓 Classes</div>
+      <div class="font-extrabold text-navy"><x-icon name="academic-cap" size="sm" class="mr-1" />Classes</div>
     </div>
     @if ($myClasses->count())
       <div class="p-4 space-y-2">
@@ -81,7 +81,7 @@
 @if ($timetable->count())
 <div class="bg-white rounded-2xl shadow overflow-hidden mt-6">
   <div class="p-5 border-b">
-    <div class="font-extrabold text-navy">📅 Weekly Timetable ({{ $timetable->count() }} slots)</div>
+    <div class="font-extrabold text-navy"><x-icon name="calendar" size="sm" class="mr-1" />Weekly Timetable ({{ $timetable->count() }} slots)</div>
   </div>
   <div class="overflow-x-auto">
     <table class="w-full text-xs">

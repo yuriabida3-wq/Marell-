@@ -8,7 +8,7 @@
 </div>
 
 @if (session('success'))
-  <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700">✅ {{ session('success') }}</div></div>
+  <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700"><x-icon name="check-circle" size="sm" class="mr-1" />{{ session('success') }}</div></div>
 @endif
 
 @if ($errors->any())
@@ -23,7 +23,7 @@
 
   {{-- PROFILE --}}
   <div class="bg-white rounded-2xl p-6 md:p-8 shadow">
-    <h2 class="font-extrabold text-navy mb-4">👤 Profile</h2>
+    <h2 class="font-extrabold text-navy mb-4"><x-icon name="user-circle" size="sm" class="mr-1" />Profile</h2>
     <form method="POST" action="{{ route('principal.users.update', $user) }}" class="grid grid-cols-1 gap-4">
       @csrf
       @method('PUT')
@@ -52,13 +52,13 @@
         </select>
       </div>
 
-      <button class="min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition">💾 Save Changes</button>
+      <button class="min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition"><x-icon name="arrow-down-tray" size="sm" />Save Changes</button>
     </form>
   </div>
 
   {{-- PASSWORD RESET --}}
   <div class="bg-white rounded-2xl p-6 md:p-8 shadow h-fit">
-    <h2 class="font-extrabold text-navy mb-4">🔐 Reset Password</h2>
+    <h2 class="font-extrabold text-navy mb-4"><x-icon name="key" size="sm" class="mr-1" />Reset Password</h2>
     <form method="POST" action="{{ route('principal.users.reset-password', $user) }}" class="space-y-4">
       @csrf
       <div>
