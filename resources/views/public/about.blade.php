@@ -47,17 +47,17 @@
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="card p-8 text-center hover:shadow-2xl transition" data-aos="fade-up">
-        <div class="w-16 h-16 mx-auto rounded-full bg-navy/10 flex items-center justify-center mb-4 text-3xl">🎯</div>
+        <div class="w-16 h-16 mx-auto rounded-full bg-navy/10 flex items-center justify-center mb-4 text-navy"><x-icon name="target" size="lg" /></div>
         <h3 class="font-bold text-navy text-xl mb-3">Our Mission</h3>
         <p class="text-sm text-gray-600 leading-relaxed">To provide holistic, learner-centered CBC education that develops competent, confident, and ethical citizens ready to serve Kenya and the world.</p>
       </div>
       <div class="card p-8 text-center hover:shadow-2xl transition" data-aos="fade-up" data-aos-delay="100">
-        <div class="w-16 h-16 mx-auto rounded-full bg-gold/20 flex items-center justify-center mb-4 text-3xl">🌟</div>
+        <div class="w-16 h-16 mx-auto rounded-full bg-gold/20 flex items-center justify-center mb-4 text-gold"><x-icon name="sparkles" size="lg" /></div>
         <h3 class="font-bold text-navy text-xl mb-3">Our Vision</h3>
         <p class="text-sm text-gray-600 leading-relaxed">To be the leading private school in Western Kenya — a beacon of academic excellence, innovation, and character formation.</p>
       </div>
       <div class="card p-8 text-center hover:shadow-2xl transition" data-aos="fade-up" data-aos-delay="200">
-        <div class="w-16 h-16 mx-auto rounded-full bg-navy/10 flex items-center justify-center mb-4 text-3xl">💎</div>
+        <div class="w-16 h-16 mx-auto rounded-full bg-navy/10 flex items-center justify-center mb-4 text-navy"><x-icon name="shield-check" size="lg" /></div>
         <h3 class="font-bold text-navy text-xl mb-3">Our Core Values</h3>
         <p class="text-sm text-gray-600 leading-relaxed">Discipline · Integrity · Excellence · Respect · Service · Innovation</p>
       </div>
