@@ -9,11 +9,11 @@
     <p class="text-sm text-gray-500">{{ $student->adm_no }} · {{ $student->class }} {{ $student->stream }}</p>
   </div>
   <div class="flex flex-wrap gap-2">
-    <a href="{{ route('principal.students.edit', $student) }}" class="px-4 py-2 rounded-xl bg-navy text-white font-semibold text-sm hover:scale-105 transition">✏️ Edit</a>
+    <a href="{{ route('principal.students.edit', $student) }}" class="px-4 py-2 rounded-xl bg-navy text-white font-semibold text-sm hover:scale-105 transition"><x-icon name="pencil-square" size="sm" />Edit</a>
     <form method="POST" action="{{ route('principal.students.toggle', $student) }}">
       @csrf
       <button class="px-4 py-2 rounded-xl {{ $student->status === 'active' ? 'bg-red-600' : 'bg-green-600' }} text-white font-semibold text-sm hover:scale-105 transition">
-        {{ $student->status === 'active' ? '🚫 Suspend' : '✅ Activate' }}
+        {{ $student->status === 'active' ? 'Suspend' : 'Activate' }}
       </button>
     </form>
   </div>
@@ -44,7 +44,7 @@
 
   {{-- PROFILE --}}
   <div class="bg-white rounded-2xl p-6 shadow">
-    <h2 class="font-extrabold text-navy mb-4">👤 Profile</h2>
+    <h2 class="font-extrabold text-navy mb-4"><x-icon name="user-circle" size="sm" class="mr-1" />Profile</h2>
     <table class="w-full text-sm">
       <tr class="border-b"><td class="py-2 text-gray-500">ADM No</td><td class="py-2 font-semibold text-navy text-right">{{ $student->adm_no }}</td></tr>
       <tr class="border-b"><td class="py-2 text-gray-500">Class</td><td class="py-2 text-right">{{ $student->class }} {{ $student->stream }}</td></tr>
@@ -58,7 +58,7 @@
   {{-- RESULTS --}}
   <div class="bg-white rounded-2xl p-6 shadow">
     <div class="flex items-center justify-between mb-4">
-      <h2 class="font-extrabold text-navy">📊 Results</h2>
+      <h2 class="font-extrabold text-navy"><x-icon name="chart-bar" size="sm" class="mr-1" />Results</h2>
       <span class="text-xs text-gray-500">{{ $results->count() }} subjects</span>
     </div>
     @if ($results->count())
@@ -85,7 +85,7 @@
 {{-- PAYMENTS --}}
 <div class="bg-white rounded-2xl shadow mt-6 overflow-hidden">
   <div class="p-5 border-b flex items-center justify-between">
-    <h2 class="font-extrabold text-navy">💳 Payment History</h2>
+    <h2 class="font-extrabold text-navy"><x-icon name="credit-card" size="sm" class="mr-1" />Payment History</h2>
     <span class="text-xs text-gray-500">{{ $payments->count() }} records</span>
   </div>
   <div class="overflow-x-auto">
@@ -115,7 +115,7 @@
             </td>
             <td class="p-3 text-right">
               @if ($p->status === 'completed')
-                <a href="{{ URL::signedRoute('pay.receipt', ['payment' => $p->id]) }}" class="text-xs font-semibold text-navy hover:text-gold">📄 PDF</a>
+                <a href="{{ URL::signedRoute('pay.receipt', ['payment' => $p->id]) }}" class="text-xs font-semibold text-navy hover:text-gold"><x-icon name="document-text" size="sm" />PDF</a>
               @else
                 —
               @endif

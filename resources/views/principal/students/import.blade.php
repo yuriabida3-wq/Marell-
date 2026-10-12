@@ -15,7 +15,7 @@
 
   {{-- UPLOAD --}}
   <div class="bg-white rounded-2xl p-6 shadow">
-    <h2 class="font-extrabold text-navy mb-4">📥 Upload CSV</h2>
+    <h2 class="font-extrabold text-navy mb-4"><x-icon name="arrow-up-tray" size="sm" class="mr-1" />Upload CSV</h2>
 
     <form method="POST" action="{{ route('principal.students.import.store') }}" enctype="multipart/form-data" class="space-y-4">
       @csrf
@@ -25,7 +25,7 @@
         <input type="file" name="csv" accept=".csv,.txt" required class="w-full text-sm">
       </div>
 
-      <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition">📤 Upload & Import</button>
+      <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition"><x-icon name="arrow-up-tray" size="sm" />Upload & Import</button>
     </form>
 
     <div class="mt-6 text-xs text-gray-500">
@@ -37,14 +37,14 @@
 
   {{-- TEMPLATE --}}
   <div class="bg-white rounded-2xl p-6 shadow">
-    <h2 class="font-extrabold text-navy mb-4">📋 Sample Template</h2>
+    <h2 class="font-extrabold text-navy mb-4"><x-icon name="clipboard-list" size="sm" class="mr-1" />Sample Template</h2>
     <pre class="text-xs bg-gray-50 rounded-xl p-4 overflow-x-auto">name,class,stream,parent_name,parent_phone,total_fee,parent_email
 John Kamau,Grade 5,Blue,Peter Kamau,0712345678,45000,peter@example.com
 Mary Achieng,Grade 4,Green,Alice Achieng,0723456789,40000,</pre>
     <a href="data:text/csv;charset=utf-8,name%2Cclass%2Cstream%2Cparent_name%2Cparent_phone%2Ctotal_fee%2Cparent_email%0AJohn%20Kamau%2CGrade%205%2CBlue%2CPeter%20Kamau%2C0712345678%2C45000%2Cpeter%40example.com%0AMary%20Achieng%2CGrade%204%2CGreen%2CAlice%20Achieng%2C0723456789%2C40000%2C"
        download="students-template.csv"
        class="inline-block mt-4 px-4 py-2 rounded-xl bg-navy text-white text-xs font-semibold hover:scale-105 transition">
-      ⬇️ Download Template
+      <x-icon name="arrow-down-tray" size="sm" class="mr-1" />Download Template
     </a>
   </div>
 
