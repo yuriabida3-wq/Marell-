@@ -2,7 +2,7 @@
 @section('title', 'Applications')
 @section('content')
 <div class="mb-6"><h1 class="text-2xl md:text-3xl font-extrabold text-navy">Admission Applications</h1></div>
-@if (session('success'))<div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700">✅ {{ session('success') }}</div></div>@endif
+@if (session('success'))<div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700"><x-icon name="check-circle" size="sm" class="mr-1" />{{ session('success') }}</div></div>@endif
 <div class="grid grid-cols-4 gap-3 mb-4">
   <a href="?status=new" class="bg-white rounded-2xl p-4 shadow text-center {{ $status==='new'?'ring-2 ring-gold':'' }}"><div class="text-[10px] text-gray-500 tracking-widest font-bold">NEW</div><div class="text-2xl font-extrabold text-navy mt-1">{{ $counts['new'] }}</div></a>
   <a href="?status=contacted" class="bg-white rounded-2xl p-4 shadow text-center {{ $status==='contacted'?'ring-2 ring-gold':'' }}"><div class="text-[10px] text-gray-500 tracking-widest font-bold">CONTACTED</div><div class="text-2xl font-extrabold text-navy mt-1">{{ $counts['contacted'] }}</div></a>

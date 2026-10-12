@@ -11,7 +11,7 @@
     <div><label class="block text-xs font-semibold text-navy mb-2 tracking-widest">BODY *</label><textarea name="body" rows="8" required class="w-full rounded-xl border-2 border-gray-200 px-4 py-3 focus:border-gold focus:outline-none">{{ old('body') }}</textarea></div>
     <div><label class="block text-xs font-semibold text-navy mb-2 tracking-widest">IMAGE URL</label><input name="image" type="url" value="{{ old('image') }}" placeholder="https://..." class="w-full min-h-[48px] rounded-xl border-2 border-gray-200 px-4 focus:border-gold focus:outline-none"></div>
     <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="published" value="1" checked class="w-5 h-5"> Publish immediately</label>
-    <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition">📤 Publish Post</button>
+    <button class="w-full min-h-[48px] rounded-xl bg-gold text-navy font-bold hover:scale-[1.02] transition"><x-icon name="arrow-up-tray" size="sm" />Publish Post</button>
   </form>
 </div>
 @endsection

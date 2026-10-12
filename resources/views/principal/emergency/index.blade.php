@@ -4,7 +4,7 @@
 
 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
   <div>
-    <h1 class="text-2xl md:text-3xl font-extrabold text-navy">🚨 Emergency Broadcast</h1>
+    <h1 class="text-2xl md:text-3xl font-extrabold text-navy"><x-icon name="bell-alert" size="sm" class="mr-1" />Emergency Broadcast</h1>
     <p class="text-sm text-gray-500 mt-1">One-tap SMS to all parents / teachers. Use for real emergencies.</p>
   </div>
   <a href="{{ route('principal.emergency.create') }}" class="px-4 py-2 rounded-xl bg-red-600 text-white font-bold text-sm hover:scale-105 transition">+ New Alert</a>

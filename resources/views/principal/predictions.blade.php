@@ -69,7 +69,7 @@
             @endforeach
           </td>
           <td class="p-3 text-right whitespace-nowrap">
-            <a href="tel:{{ $p['student']->parent_phone }}" class="text-xs font-semibold text-navy hover:text-gold">📞 Call</a>
+            <a href="tel:{{ $p['student']->parent_phone }}" class="text-xs font-semibold text-navy hover:text-gold"><x-icon name="phone" size="sm" />Call</a>
           </td>
         </tr>
       @empty

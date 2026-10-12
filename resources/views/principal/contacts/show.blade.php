@@ -11,8 +11,8 @@
   </table>
   <div class="bg-gray-50 rounded-xl p-4 text-sm whitespace-pre-wrap">{{ $contact->message }}</div>
   <div class="mt-4 flex flex-wrap gap-2">
-    @if ($contact->email)<a href="mailto:{{ $contact->email }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold">✉️ Reply Email</a>@endif
-    @if ($contact->phone)<a href="tel:{{ $contact->phone }}" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold">📞 Call</a>@endif
+    @if ($contact->email)<a href="mailto:{{ $contact->email }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold"><x-icon name="envelope" size="sm" />Reply Email</a>@endif
+    @if ($contact->phone)<a href="tel:{{ $contact->phone }}" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold"><x-icon name="phone" size="sm" />Call</a>@endif
     <form method="POST" action="{{ route('principal.contacts.toggle', $contact) }}" class="contents">@csrf<button class="px-4 py-2 rounded-xl bg-gray-200 text-navy text-sm font-semibold">{{ $contact->handled ? 'Mark Unread' : 'Mark Handled' }}</button></form>
   </div>
 </div>

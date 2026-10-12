@@ -4,7 +4,7 @@
 
 <div class="mb-6">
   <a href="{{ route('principal.attendance.index') }}" class="text-xs text-gray-500">← Attendance</a>
-  <h1 class="text-2xl md:text-3xl font-extrabold text-navy mt-1">⚠️ Chronic Absentees</h1>
+  <h1 class="text-2xl md:text-3xl font-extrabold text-navy mt-1"><x-icon name="exclamation-triangle" size="sm" class="mr-1" />Chronic Absentees</h1>
   <p class="text-sm text-gray-500">Students with 3+ absences in last {{ $days }} days (since {{ \Carbon\Carbon::parse($from)->format('d M Y') }})</p>
 </div>
 
@@ -45,11 +45,11 @@
             <span class="px-3 py-1 rounded-full text-sm font-bold bg-red-100 text-red-700">{{ $a->absent_days }}</span>
           </td>
           <td class="p-3 text-right">
-            <a href="tel:{{ $a->student->parent_phone }}" class="text-xs font-semibold text-navy hover:text-gold">📞 Call Parent</a>
+            <a href="tel:{{ $a->student->parent_phone }}" class="text-xs font-semibold text-navy hover:text-gold"><x-icon name="phone" size="sm" />Call Parent</a>
           </td>
         </tr>
       @empty
-        <tr><td colspan="6" class="p-12 text-center text-gray-400">🎉 No chronic absentees — great attendance!</td></tr>
+        <tr><td colspan="6" class="p-12 text-center text-gray-400"><x-icon name="check-circle" size="sm" class="mr-1" />No chronic absentees — great attendance!</td></tr>
       @endforelse
     </tbody>
   </table>

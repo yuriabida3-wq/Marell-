@@ -4,7 +4,7 @@
 
 <div class="mb-6">
   <a href="{{ route('principal.emergency.index') }}" class="text-xs text-gray-500">← Alerts</a>
-  <h1 class="text-2xl md:text-3xl font-extrabold text-navy mt-1">🚨 New Emergency Alert</h1>
+  <h1 class="text-2xl md:text-3xl font-extrabold text-navy mt-1"><x-icon name="bell-alert" size="sm" class="mr-1" />New Emergency Alert</h1>
 </div>
 
 @if ($errors->any())
@@ -14,7 +14,7 @@
 @endif
 
 <div class="bg-red-50 border-2 border-red-300 rounded-2xl p-4 mb-6">
-  <div class="font-bold text-red-700 mb-1">⚠️ This sends real SMS to every recipient instantly.</div>
+  <div class="font-bold text-red-700 mb-1"><x-icon name="exclamation-triangle" size="sm" class="mr-1" />This sends real SMS to every recipient instantly.</div>
   <div class="text-sm text-red-600">Costs apply (Africa's Talking). Only use for genuine emergencies.</div>
 </div>
 
@@ -25,11 +25,11 @@
     <div>
       <label class="block text-xs font-semibold text-navy mb-2 tracking-widest">SEVERITY *</label>
       <div class="grid grid-cols-3 gap-2">
-        @foreach (['info' => ['ℹ️', 'Info', 'bg-blue-50 border-blue-300 text-blue-700'], 'warning' => ['⚠️', 'Warning', 'bg-yellow-50 border-yellow-300 text-yellow-700'], 'critical' => ['🚨', 'Critical', 'bg-red-50 border-red-300 text-red-700']] as $key => $opt)
+        @foreach (['info' => ['information-circle', 'Info', 'bg-blue-50 border-blue-300 text-blue-700'], 'warning' => ['exclamation-triangle', 'Warning', 'bg-yellow-50 border-yellow-300 text-yellow-700'], 'critical' => ['bell-alert', 'Critical', 'bg-red-50 border-red-300 text-red-700']] as $key => $opt)
           <label class="cursor-pointer">
             <input type="radio" name="severity" value="{{ $key }}" class="peer sr-only" @checked(old('severity', 'info') === $key)>
             <div class="border-2 rounded-xl p-3 text-center font-semibold text-sm transition {{ $opt[2] }} peer-checked:ring-4 peer-checked:ring-navy/30">
-              <div class="text-2xl mb-1">{{ $opt[0] }}</div>
+              <div class="mb-1"><x-icon :name="$opt[0]" size="lg" /></div>
               {{ $opt[1] }}
             </div>
           </label>
@@ -57,7 +57,7 @@
       <div class="text-xs text-gray-500 mt-1">Keep it short — SMS charges apply per 160 characters.</div>
     </div>
 
-    <button class="w-full min-h-[52px] rounded-xl bg-red-600 text-white font-bold hover:scale-[1.02] transition">🚨 SEND TO EVERYONE NOW</button>
+    <button class="w-full min-h-[52px] rounded-xl bg-red-600 text-white font-bold hover:scale-[1.02] transition"><x-icon name="bell-alert" size="sm" />SEND TO EVERYONE NOW</button>
   </form>
 </div>
 @endsection

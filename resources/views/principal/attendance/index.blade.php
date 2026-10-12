@@ -4,12 +4,12 @@
 
 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
   <div>
-    <h1 class="text-2xl md:text-3xl font-extrabold text-navy">✅ Attendance</h1>
+    <h1 class="text-2xl md:text-3xl font-extrabold text-navy"><x-icon name="check-circle" size="sm" class="mr-1" />Attendance</h1>
     <p class="text-sm text-gray-500 mt-1">{{ \Carbon\Carbon::parse($date)->format('l, d M Y') }}</p>
   </div>
   <div class="flex flex-wrap gap-2">
-    <a href="{{ route('principal.attendance.chronic') }}" class="px-4 py-2 rounded-xl bg-red-600 text-white text-sm font-semibold">⚠️ Chronic Absentees</a>
-    <a href="{{ route('principal.attendance.export', ['date' => $date]) }}" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold">📊 Export CSV</a>
+    <a href="{{ route('principal.attendance.chronic') }}" class="px-4 py-2 rounded-xl bg-red-600 text-white text-sm font-semibold"><x-icon name="exclamation-triangle" size="sm" />Chronic Absentees</a>
+    <a href="{{ route('principal.attendance.export', ['date' => $date]) }}" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold"><x-icon name="arrow-down-tray" size="sm" />Export CSV</a>
   </div>
 </div>
 
@@ -58,7 +58,7 @@
 {{-- CLASS BREAKDOWN --}}
 <div class="bg-white rounded-2xl shadow overflow-hidden mb-6">
   <div class="p-5 border-b">
-    <div class="font-extrabold text-navy">📊 By Class</div>
+    <div class="font-extrabold text-navy"><x-icon name="chart-bar" size="sm" class="mr-1" />By Class</div>
   </div>
   <div class="overflow-x-auto">
     <table class="w-full text-sm">
@@ -100,7 +100,7 @@
 {{-- DETAILED LIST --}}
 <div class="bg-white rounded-2xl shadow overflow-hidden">
   <div class="p-5 border-b">
-    <div class="font-extrabold text-navy">📋 Detailed Records</div>
+    <div class="font-extrabold text-navy"><x-icon name="clipboard-list" size="sm" class="mr-1" />Detailed Records</div>
   </div>
   <div class="overflow-x-auto">
     <table class="w-full text-sm">
@@ -133,7 +133,7 @@
             <td class="p-3 text-xs text-gray-600">{{ $a->marked_by_name ?? '—' }}</td>
             <td class="p-3 text-center">
               @if ($a->sms_sent)
-                <span class="text-xs text-green-600 font-bold">✓ Sent</span>
+                <span class="text-xs text-green-600 font-bold"><x-icon name="check-circle" size="sm" class="mr-1" />Sent</span>
               @else
                 <span class="text-xs text-gray-400">—</span>
               @endif

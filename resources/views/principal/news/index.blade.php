@@ -5,7 +5,7 @@
   <div><h1 class="text-2xl md:text-3xl font-extrabold text-navy">News &amp; Updates</h1><p class="text-sm text-gray-500 mt-1">{{ $news->total() }} posts</p></div>
   <a href="{{ route('principal.news.create') }}" class="px-4 py-2 rounded-xl bg-gold text-navy font-bold text-sm hover:scale-105 transition">+ New Post</a>
 </div>
-@if (session('success'))<div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700">✅ {{ session('success') }}</div></div>@endif
+@if (session('success'))<div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700"><x-icon name="check-circle" size="sm" class="mr-1" />{{ session('success') }}</div></div>@endif
 <div class="bg-white rounded-2xl shadow overflow-hidden">
   <table class="w-full text-sm">
     <thead class="bg-gray-50 text-xs text-gray-500"><tr class="text-left"><th class="p-3">TITLE</th><th class="p-3">DATE</th><th class="p-3 text-center">STATUS</th><th class="p-3 text-right">ACTION</th></tr></thead>

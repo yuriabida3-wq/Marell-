@@ -15,7 +15,7 @@
           <td class="p-3 font-semibold text-navy">{{ $m->name }}</td>
           <td class="p-3 text-gray-600">{{ \Illuminate\Support\Str::limit($m->subject ?: $m->message, 50) }}</td>
           <td class="p-3 text-gray-600 font-mono text-xs">{{ $m->phone ?: '—' }}</td>
-          <td class="p-3 text-center">@if($m->handled)<span class="text-xs text-green-700 font-bold">✓ Handled</span>@else<span class="text-xs text-blue-700 font-bold">● New</span>@endif</td>
+          <td class="p-3 text-center">@if($m->handled)<span class="text-xs text-green-700 font-bold">Handled</span>@else<span class="text-xs text-blue-700 font-bold">● New</span>@endif</td>
           <td class="p-3 text-right"><a href="{{ route('principal.contacts.show', $m) }}" class="text-xs font-semibold text-navy hover:text-gold">View</a></td>
         </tr>
       @empty

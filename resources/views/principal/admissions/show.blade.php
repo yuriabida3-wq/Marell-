@@ -2,7 +2,7 @@
 @section('title', $admission->student_name)
 @section('content')
 <div class="mb-6"><a href="{{ route('principal.admissions.index') }}" class="text-xs text-gray-500">← Applications</a><h1 class="text-2xl md:text-3xl font-extrabold text-navy mt-1">{{ $admission->student_name }}</h1></div>
-@if (session('success'))<div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700">✅ {{ session('success') }}</div></div>@endif
+@if (session('success'))<div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg mb-4"><div class="font-bold text-green-700"><x-icon name="check-circle" size="sm" class="mr-1" />{{ session('success') }}</div></div>@endif
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
   <div class="md:col-span-2 bg-white rounded-2xl p-6 shadow">
     <h2 class="font-extrabold text-navy mb-4">Application Details</h2>
@@ -16,9 +16,9 @@
       <tr><td class="py-2 text-gray-500 align-top">Message</td><td class="py-2 text-right">{{ $admission->message ?: '—' }}</td></tr>
     </table>
     <div class="mt-6 flex flex-wrap gap-2">
-      <a href="tel:{{ $admission->parent_phone }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold">📞 Call</a>
-      <a href="https://wa.me/{{ preg_replace('/\D/','',$admission->parent_phone) }}" target="_blank" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold">💬 WhatsApp</a>
-      <a href="sms:{{ $admission->parent_phone }}" class="px-4 py-2 rounded-xl bg-gray-200 text-navy text-sm font-semibold">📱 SMS</a>
+      <a href="tel:{{ $admission->parent_phone }}" class="px-4 py-2 rounded-xl bg-navy text-white text-sm font-semibold"><x-icon name="phone" size="sm" />Call</a>
+      <a href="https://wa.me/{{ preg_replace('/\D/','',$admission->parent_phone) }}" target="_blank" class="px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold"><x-icon name="chat-bubble" size="sm" />WhatsApp</a>
+      <a href="sms:{{ $admission->parent_phone }}" class="px-4 py-2 rounded-xl bg-gray-200 text-navy text-sm font-semibold"><x-icon name="device-phone" size="sm" />SMS</a>
     </div>
   </div>
   <div class="bg-white rounded-2xl p-6 shadow h-fit">
