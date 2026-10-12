@@ -36,37 +36,36 @@
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-  <div class="bg-white rounded-2xl p-6 shadow">
-    <h2 class="font-extrabold text-navy mb-4">⚡ Quick Actions</h2>
-    <div class="grid grid-cols-2 gap-3">
-      <a href="/bursar/students" class="quick-btn bg-navy text-white text-sm">🔍 Find Student</a>
-      <a href="/bursar/record" class="quick-btn bg-gold text-navy text-sm">➕ Record</a>
-      <a href="/bursar/balances" class="quick-btn bg-gray-100 text-navy text-sm">📊 Balances</a>
-      <a href="/bursar/daily" class="quick-btn bg-gray-100 text-navy text-sm">📅 Daily</a>
-    </div>
-  </div>
+    @php
+    $bursarActions = [
+        ['label' => 'Find Student', 'href' => '/bursar/students', 'icon' => 'magnifying-glass', 'tint' => 'primary'],
+        ['label' => 'Record',       'href' => '/bursar/record',   'icon' => 'pencil-square',    'tint' => 'accent'],
+        ['label' => 'Balances',     'href' => '/bursar/balances', 'icon' => 'chart-bar',        'tint' => 'info'],
+        ['label' => 'Daily',        'href' => '/bursar/daily',    'icon' => 'calendar',         'tint' => 'success'],
+    ];
+    @endphp
 
-  <div class="bg-white rounded-2xl p-6 shadow">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="font-extrabold text-navy">💳 Recent</h2>
-      <a href="/bursar/payments" class="text-xs text-navy hover:text-gold font-semibold">View all →</a>
-    </div>
-    @if ($recent->count())
-      <div class="space-y-2">
-        @foreach ($recent as $p)
-          <div class="flex items-center justify-between p-2 rounded-xl bg-gray-50">
-            <div>
-              <div class="text-sm font-semibold text-navy">{{ $p->student->name ?? '—' }}</div>
-              <div class="text-xs text-gray-500">{{ $p->receipt_no }} · {{ $p->created_at->format('d M H:i') }}</div>
+    <x-card title="Quick Actions">
+        <x-quick-links :items="$bursarActions" columns="2" />
+    </x-card>
+
+    <x-card title="Recent" action="View all" action-href="/bursar/payments">
+        @if ($recent->count())
+            <div class="space-y-2">
+                @foreach ($recent as $p)
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-surface-2">
+                        <div>
+                            <div class="text-sm font-semibold text-bodytext">{{ $p->student->name ?? '—' }}</div>
+                            <div class="text-xs text-mutedtext">{{ $p->receipt_no }} · {{ $p->created_at->format('d M H:i') }}</div>
+                        </div>
+                        <div class="text-sm font-bold text-success">KES {{ number_format($p->amount, 0) }}</div>
+                    </div>
+                @endforeach
             </div>
-            <div class="text-sm font-bold text-green-700">KES {{ number_format($p->amount, 0) }}</div>
-          </div>
-        @endforeach
-      </div>
-    @else
-      <p class="text-sm text-gray-400 text-center py-6">No payments yet</p>
-    @endif
-  </div>
+        @else
+            <p class="text-sm text-mutedtext text-center py-6">No payments yet</p>
+        @endif
+    </x-card>
 </div>
 
 @endsection
