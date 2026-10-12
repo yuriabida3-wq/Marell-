@@ -29,38 +29,38 @@
 
   <nav class="p-3">
     <div class="sidebar-group-title">Overview</div>
-    <a href="/dos" class="sidebar-link {{ request()->is('dos') ? 'active' : '' }}"><span>📊</span> Dashboard</a>
+    <a href="/dos" class="sidebar-link {{ request()->is('dos') ? 'active' : '' }}"><x-icon name="squares-2x2" size="sm" /> Dashboard</a>
 
     <div class="sidebar-group-title mt-3">Academics</div>
     <a href="/principal/attendance" class="sidebar-link {{ request()->is('principal/attendance*') ? 'active' : '' }}">
-      <span>✅</span> Attendance
+      <x-icon name="check-circle" size="sm" /> Attendance
     </a>
-    <a href="/dos/classes" class="sidebar-link {{ request()->is('dos/classes*') ? 'active' : '' }}"><span>🏫</span> Classes</a>
+    <a href="/dos/classes" class="sidebar-link {{ request()->is('dos/classes*') ? 'active' : '' }}"><x-icon name="building-library" size="sm" /> Classes</a>
     <a href="/dos/lesson-plans" class="sidebar-link {{ request()->is('dos/lesson-plans*') ? 'active' : '' }}">
-      <span>📋</span> Lesson Plans
+      <x-icon name="clipboard-list" size="sm" /> Lesson Plans
     </a>
     <a href="/dos/teacher-performance" class="sidebar-link {{ request()->is('dos/teacher-performance*') ? 'active' : '' }}">
-      <span>🏆</span> Teacher Performance
+      <x-icon name="trophy" size="sm" /> Teacher Performance
     </a>
     <a href="/dos/teacher-subjects" class="sidebar-link {{ request()->is('dos/teacher-subjects*') ? 'active' : '' }}">
-      <span>📋</span> Teacher Subjects
+      <x-icon name="users" size="sm" /> Teacher Subjects
     </a>
     <a href="/dos/timetable-generator" class="sidebar-link {{ request()->is('dos/timetable-generator*') ? 'active' : '' }}">
-      <span>⚡</span> Auto-Generate
+      <x-icon name="bolt" size="sm" /> Auto-Generate
     </a>
-    <a href="/dos/timetable" class="sidebar-link {{ request()->is('dos/timetable*') ? 'active' : '' }}"><span>📅</span> Timetable</a>
-    <a href="/dos/exams" class="sidebar-link {{ request()->is('dos/exams*') ? 'active' : '' }}"><span>📝</span> Exams</a>
-    <a href="/dos/marks" class="sidebar-link {{ request()->is('dos/marks*') ? 'active' : '' }}"><span>✍️</span> Marks Entry</a>
+    <a href="/dos/timetable" class="sidebar-link {{ request()->is('dos/timetable*') ? 'active' : '' }}"><x-icon name="calendar" size="sm" /> Timetable</a>
+    <a href="/dos/exams" class="sidebar-link {{ request()->is('dos/exams*') ? 'active' : '' }}"><x-icon name="document-text" size="sm" /> Exams</a>
+    <a href="/dos/marks" class="sidebar-link {{ request()->is('dos/marks*') ? 'active' : '' }}"><x-icon name="pencil-square" size="sm" /> Marks Entry</a>
 
     <div class="sidebar-group-title mt-3">Students</div>
-    <a href="/dos/students/create" class="sidebar-link {{ request()->is('dos/students*') ? 'active' : '' }}"><span>🎓</span> Register Student</a>
-    <a href="/dos/promote" class="sidebar-link {{ request()->is('dos/promote*') ? 'active' : '' }}"><span>⬆️</span> Promote</a>
+    <a href="/dos/students/create" class="sidebar-link {{ request()->is('dos/students*') ? 'active' : '' }}"><x-icon name="plus-circle" size="sm" /> Register Student</a>
+    <a href="/dos/promote" class="sidebar-link {{ request()->is('dos/promote*') ? 'active' : '' }}"><x-icon name="arrow-trending-up" size="sm" /> Promote</a>
 
     <div class="sidebar-group-title mt-3">Teachers</div>
-    <a href="/dos/teachers" class="sidebar-link {{ request()->is('dos/teachers*') ? 'active' : '' }}"><span>👨‍🏫</span> Manage Teachers</a>
+    <a href="/dos/teachers" class="sidebar-link {{ request()->is('dos/teachers*') ? 'active' : '' }}"><x-icon name="user-circle" size="sm" /> Manage Teachers</a>
 
     <div class="sidebar-group-title mt-3">Reports</div>
-    <a href="/dos/report-cards" class="sidebar-link {{ request()->is('dos/report-cards*') ? 'active' : '' }}"><span>📄</span> Report Cards</a>
+    <a href="/dos/report-cards" class="sidebar-link {{ request()->is('dos/report-cards*') ? 'active' : '' }}"><x-icon name="printer" size="sm" /> Report Cards</a>
   </nav>
 </aside>
 
@@ -72,20 +72,20 @@
       </button>
 
       <div class="hidden md:flex items-center flex-1 max-w-md">
-        <input id="dosSearch" type="text" placeholder="🔍 Search student..."
+        <input id="dosSearch" type="text" placeholder="Search student..."
                class="w-full min-h-[42px] rounded-xl bg-gray-100 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-gold">
       </div>
 
       <div class="ml-auto flex items-center gap-3">
       <div class="relative" id="quickJump">
-        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200">⚡ Quick Jump ▾</button>
+        <button onclick="document.getElementById('qjMenu').classList.toggle('hidden')" class="text-xs text-navy font-semibold px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200"><x-icon name="bolt" size="sm" class="mr-1" />Quick Jump ▾</button>
         <div id="qjMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border py-2 min-w-[200px] z-50">
-          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50">👑 Principal</a>
-          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50">📚 DOS</a>
-          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50">💰 Bursar</a>
-          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50">👨‍🏫 Teacher</a>
+          <a href="/principal" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="crown" size="sm" class="mr-1" />Principal</a>
+          <a href="/dos" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="academic-cap" size="sm" class="mr-1" />DOS</a>
+          <a href="/bursar" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="banknotes" size="sm" class="mr-1" />Bursar</a>
+          <a href="/teacher" class="block px-4 py-2 text-sm hover:bg-gray-50"><x-icon name="user-circle" size="sm" class="mr-1" />Teacher</a>
           <div class="border-t my-1"></div>
-          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500">🌐 Public Website</a>
+          <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-50 text-gray-500"><x-icon name="globe-alt" size="sm" class="mr-1" />Public Website</a>
         </div>
       </div>
       
