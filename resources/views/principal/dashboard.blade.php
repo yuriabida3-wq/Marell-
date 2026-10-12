@@ -161,25 +161,14 @@ cfg.options.cutout = '60%';
 </x-card>
 
 {{-- QUICK LINKS --}}
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-  <a href="/principal/students" class="bg-white rounded-2xl p-5 shadow hover:shadow-lg transition text-center">
-    <div class="text-3xl mb-2">🎓</div>
-    <div class="font-bold text-navy text-sm">Manage Students</div>
-  </a>
-  <a href="/principal/finance" class="bg-white rounded-2xl p-5 shadow hover:shadow-lg transition text-center">
-    <div class="text-3xl mb-2">💰</div>
-    <div class="font-bold text-navy text-sm">Finance</div>
-  </a>
-  <a href="/principal/finance/defaulters" class="bg-white rounded-2xl p-5 shadow hover:shadow-lg transition text-center">
-    <div class="text-3xl mb-2">⚠️</div>
-    <div class="font-bold text-navy text-sm">Defaulters</div>
-  </a>
-  <a href="/principal/sms" class="bg-white rounded-2xl p-5 shadow hover:shadow-lg transition text-center">
-    <div class="text-3xl mb-2">📱</div>
-    <div class="font-bold text-navy text-sm">SMS Center</div>
-  </a>
-</div>
-
-
+@php
+$tiles = [
+    ['label' => 'Manage Students', 'href' => '/principal/students',           'icon' => 'users',                 'tint' => 'primary'],
+    ['label' => 'Finance',         'href' => '/principal/finance',            'icon' => 'banknotes',             'tint' => 'success'],
+    ['label' => 'Defaulters',      'href' => '/principal/finance/defaulters', 'icon' => 'exclamation-triangle',  'tint' => 'danger'],
+    ['label' => 'SMS Center',      'href' => '/principal/sms',                'icon' => 'megaphone',             'tint' => 'info'],
+];
+@endphp
+<x-quick-links :items="$tiles" class="mt-6" />
 
 @endsection
