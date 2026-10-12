@@ -144,8 +144,8 @@
     </div>
 
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="/timetable" class="btn btn-navy">📅 View Timetable</a>
-      <a href="/fees" class="btn btn-gold">💰 Download Fee Structure</a>
+      <a href="/timetable" class="btn btn-navy"><x-icon name="calendar" size="sm" />View Timetable</a>
+      <a href="/fees" class="btn btn-gold"><x-icon name="banknotes" size="sm" />Download Fee Structure</a>
     </div>
   </div>
 </section>
