@@ -54,13 +54,13 @@
         <button class="hover:text-gold transition flex items-center gap-1">Portal <span class="text-xs">▾</span></button>
         <div class="absolute right-0 top-full pt-2 hidden group-hover:block">
           <div class="bg-white rounded-xl shadow-xl py-2 min-w-[200px] text-navy">
-            <a href="/parent/login" class="block px-4 py-2 hover:bg-gold/10 text-sm">🔐 Parent Login (OTP)</a>
-            <a href="/pay" class="block px-4 py-2 hover:bg-gold/10 text-sm">💳 Pay Fees Online</a>
-            <a href="/results" class="block px-4 py-2 hover:bg-gold/10 text-sm">📊 Check Results</a>
-            <a href="/verify-receipt/REC-2026-00003" class="block px-4 py-2 hover:bg-gold/10 text-sm">✓ Verify Receipt</a>
-            <a href="/report" class="block px-4 py-2 hover:bg-gold/10 text-sm">🕊️ Report Anonymously</a>
+            <a href="/parent/login" class="block px-4 py-2 hover:bg-gold/10 text-sm"><x-icon name="key" size="sm" class="mr-1" />Parent Login (OTP)</a>
+            <a href="/pay" class="block px-4 py-2 hover:bg-gold/10 text-sm"><x-icon name="credit-card" size="sm" class="mr-1" />Pay Fees Online</a>
+            <a href="/results" class="block px-4 py-2 hover:bg-gold/10 text-sm"><x-icon name="chart-bar" size="sm" class="mr-1" />Check Results</a>
+            <a href="/verify-receipt/REC-2026-00003" class="block px-4 py-2 hover:bg-gold/10 text-sm"><x-icon name="shield-check" size="sm" class="mr-1" />Verify Receipt</a>
+            <a href="/report" class="block px-4 py-2 hover:bg-gold/10 text-sm"><x-icon name="chat-bubble" size="sm" class="mr-1" />Report Anonymously</a>
             <div class="border-t my-1"></div>
-            <a href="/login" class="block px-4 py-2 hover:bg-gold/10 text-sm text-gray-500">👨‍💼 Staff Login</a>
+            <a href="/login" class="block px-4 py-2 hover:bg-gold/10 text-sm text-gray-500"><x-icon name="user-circle" size="sm" class="mr-1" />Staff Login</a>
           </div>
         </div>
       </div>
@@ -95,10 +95,10 @@
 
     <div class="mt-4 pt-4 border-t border-white/10">
       <div class="text-[10px] tracking-widest text-gold font-bold px-3 mb-2">PARENT PORTAL</div>
-      <a href="/parent/login" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2">🔐 Login (OTP)</a>
-      <a href="/pay" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2">💳 Pay Fees</a>
-      <a href="/results" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2">📊 Check Results</a>
-      <a href="/report" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2">🕊️ Report Anonymously</a>
+      <a href="/parent/login" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2"><x-icon name="key" size="sm" class="mr-1" />Login (OTP)</a>
+      <a href="/pay" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2"><x-icon name="credit-card" size="sm" class="mr-1" />Pay Fees</a>
+      <a href="/results" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2"><x-icon name="chart-bar" size="sm" class="mr-1" />Check Results</a>
+      <a href="/report" class="py-2 px-3 rounded-lg hover:bg-white/10 flex items-center gap-2"><x-icon name="chat-bubble" size="sm" class="mr-1" />Report Anonymously</a>
     </div>
 
     <a href="/pay" class="btn btn-gold mt-4 w-full">Pay Fees</a>
@@ -135,9 +135,9 @@
     <div>
       <h4 class="font-bold mb-3 text-gold">Contact</h4>
       <ul class="space-y-2 text-sm text-white/80">
-        <li>📍 Bungoma, Kenya</li>
-        <li>📞 +254 700 000 000</li>
-        <li>✉️ info@marell.ac.ke</li>
+        <li><x-icon name="map-pin" size="sm" class="mr-1" />Bungoma, Kenya</li>
+        <li><x-icon name="phone" size="sm" class="mr-1" />+254 700 000 000</li>
+        <li><x-icon name="envelope" size="sm" class="mr-1" />info@marell.ac.ke</li>
       </ul>
     </div>
   </div>
