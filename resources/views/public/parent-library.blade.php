@@ -7,7 +7,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
       <div>
         <div class="text-gold font-bold tracking-widest text-xs">PARENT PORTAL</div>
-        <h1 class="text-2xl md:text-3xl font-extrabold mt-1">📚 Library Books</h1>
+        <h1 class="text-2xl md:text-3xl font-extrabold mt-1"><x-icon name="book-open" size="lg" class="mr-2" />Library Books</h1>
         <p class="text-white/70 text-sm mt-1">Books your child has borrowed</p>
       </div>
       <a href="{{ route('parent.dashboard') }}" class="btn btn-outline text-sm !min-h-[42px]">← Dashboard</a>
@@ -67,7 +67,7 @@
   {{-- CURRENTLY OUT --}}
   <div class="card overflow-hidden mb-6">
     <div class="p-5 border-b bg-blue-50">
-      <div class="font-extrabold text-navy">📖 Currently Borrowed</div>
+      <div class="font-extrabold text-navy"><x-icon name="book-open" size="sm" class="mr-1" />Currently Borrowed</div>
     </div>
     @if ($activeLoans->count())
       <div class="divide-y">
@@ -95,7 +95,7 @@
       </div>
     @else
       <div class="p-12 text-center text-gray-400">
-        <div class="text-4xl mb-2">📚</div>
+        <div class="text-4xl mb-2"><x-icon name="book-open" size="lg" /></div>
         No books currently borrowed
       </div>
     @endif
@@ -105,7 +105,7 @@
   @if ($history->count())
     <div class="card overflow-hidden">
       <div class="p-5 border-b">
-        <div class="font-extrabold text-navy">📋 Recent Returns</div>
+        <div class="font-extrabold text-navy"><x-icon name="clipboard-list" size="sm" class="mr-1" />Recent Returns</div>
       </div>
       <div class="divide-y">
         @foreach ($history as $l)
@@ -119,7 +119,7 @@
                 Fine: KES {{ number_format($l->fine, 0) }}
               </div>
             @else
-              <div class="text-xs text-green-600">✓ No fine</div>
+              <div class="text-xs text-green-600"><x-icon name="check-circle" size="sm" class="mr-1" />No fine</div>
             @endif
           </div>
         @endforeach

@@ -20,7 +20,7 @@
         </div>
       </article>
     @empty
-      <div class="md:col-span-3 text-center py-20 text-gray-400"><div class="text-4xl mb-2">📭</div>No news yet</div>
+      <div class="md:col-span-3 text-center py-20 text-gray-400"><div class="text-4xl mb-2"><x-icon name="inbox" size="lg" /></div>No news yet</div>
     @endforelse
   </div>
   <div class="mt-8">{{ $news->links() }}</div>

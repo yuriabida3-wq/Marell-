@@ -65,8 +65,8 @@
   </div>
 
   <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center" data-aos="fade-up">
-    <a href="#" onclick="window.print(); return false;" class="btn btn-navy">🖨️ Print / Save PDF</a>
-    <a href="/pay" class="btn btn-gold">💳 Pay Fees Online</a>
+    <a href="#" onclick="window.print(); return false;" class="btn btn-navy"><x-icon name="printer" size="sm" />Print / Save PDF</a>
+    <a href="/pay" class="btn btn-gold"><x-icon name="credit-card" size="sm" />Pay Fees Online</a>
   </div>
 </section>
 
@@ -80,7 +80,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="card p-6" data-aos="fade-up">
-        <div class="text-3xl mb-3">📱</div>
+        <div class="text-3xl mb-3"><x-icon name="device-phone" size="lg" /></div>
         <h3 class="font-bold text-navy text-lg mb-3">Pay via M-Pesa (STK Push)</h3>
         <ol class="text-sm text-gray-700 space-y-2 list-decimal list-inside">
           <li>Visit <span class="font-semibold">marell.ac.ke/pay</span></li>
@@ -92,7 +92,7 @@
       </div>
 
       <div class="card p-6" data-aos="fade-up" data-aos-delay="100">
-        <div class="text-3xl mb-3">🏦</div>
+        <div class="text-3xl mb-3"><x-icon name="building-bank" size="lg" /></div>
         <h3 class="font-bold text-navy text-lg mb-3">Pay via Bank / Paybill</h3>
         <div class="text-sm text-gray-700 space-y-2">
           <div><span class="font-semibold">Paybill Number:</span> 247247</div>

@@ -49,7 +49,7 @@
 
       @if (session('success'))
         <div class="bg-green-50 border-l-4 border-green-600 p-4 mb-6 rounded-lg">
-          <div class="font-bold text-green-700">✅ {{ session('success') }}</div>
+          <div class="font-bold text-green-700"><x-icon name="check-circle" size="sm" class="mr-1" />{{ session('success') }}</div>
         </div>
       @endif
 
@@ -111,7 +111,7 @@
         </div>
 
         <div class="md:col-span-2">
-          <button type="submit" class="btn btn-gold w-full md:w-auto">📩 Submit Application</button>
+          <button type="submit" class="btn btn-gold w-full md:w-auto"><x-icon name="paper-airplane" size="sm" />Submit Application</button>
         </div>
       </form>
     </div>
@@ -122,7 +122,7 @@
   <div class="max-w-3xl mx-auto px-4 text-center" data-aos="fade-up">
     <h2 class="text-2xl md:text-3xl font-extrabold mb-3">Need help applying?</h2>
     <p class="text-white/80 mb-6">Call us or visit the school office — we're happy to walk you through.</p>
-    <a href="tel:+254700000000" class="btn btn-gold">📞 +254 700 000 000</a>
+    <a href="tel:+254700000000" class="btn btn-gold"><x-icon name="phone" size="sm" />+254 700 000 000</a>
   </div>
 </section>
 

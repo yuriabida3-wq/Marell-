@@ -31,7 +31,7 @@
         </select>
       </div>
       <div class="md:col-span-3">
-        <button class="btn btn-gold w-full md:w-auto">🔍 View Results</button>
+        <button class="btn btn-gold w-full md:w-auto"><x-icon name="magnifying-glass" size="sm" />View Results</button>
       </div>
     </form>
   </div>
@@ -39,9 +39,9 @@
   @if ($student)
     @if ($student->balance > 5000)
       <div class="card p-6 border-l-4 border-red-600 mb-6" data-aos="fade-up">
-        <div class="text-lg font-bold text-red-700 mb-2">⚠️ Outstanding Fee Balance</div>
+        <div class="text-lg font-bold text-red-700 mb-2"><x-icon name="exclamation-triangle" size="sm" class="mr-1" />Outstanding Fee Balance</div>
         <p class="text-sm text-gray-700 mb-4">Your child <strong>{{ $student->name }}</strong> has an outstanding balance of <strong class="text-red-600">KES {{ number_format($student->balance,2) }}</strong>. Clear a minimum of KES 5,000 to view full results.</p>
-        <a href="/pay?adm={{ $student->adm_no }}" class="btn btn-gold">💳 Pay Now</a>
+        <a href="/pay?adm={{ $student->adm_no }}" class="btn btn-gold"><x-icon name="credit-card" size="sm" />Pay Now</a>
       </div>
     @else
       <div class="card p-6 mb-6" data-aos="fade-up">
@@ -85,12 +85,12 @@
           </div>
         </div>
         <div class="flex flex-col sm:flex-row gap-3 justify-center" data-aos="fade-up">
-          <a href="#" onclick="window.print(); return false;" class="btn btn-navy">🖨️ Print / Save PDF</a>
-          <a href="/pay?adm={{ $student->adm_no }}" class="btn btn-gold">💳 Pay Fees</a>
+          <a href="#" onclick="window.print(); return false;" class="btn btn-navy"><x-icon name="printer" size="sm" />Print / Save PDF</a>
+          <a href="/pay?adm={{ $student->adm_no }}" class="btn btn-gold"><x-icon name="credit-card" size="sm" />Pay Fees</a>
         </div>
       @else
         <div class="card p-8 text-center" data-aos="fade-up">
-          <div class="text-4xl mb-3">📭</div>
+          <div class="text-4xl mb-3"><x-icon name="inbox" size="lg" /></div>
           <div class="font-bold text-navy text-lg">No results yet</div>
           <p class="text-sm text-gray-600 mt-2">Results for {{ request('term','Term 1') }} have not been published.</p>
         </div>

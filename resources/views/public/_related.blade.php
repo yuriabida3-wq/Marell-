@@ -7,33 +7,33 @@
     </div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
       <a href="/admissions" class="bg-white rounded-2xl p-4 text-center shadow hover:shadow-lg hover:-translate-y-1 transition">
-        <div class="text-2xl mb-1">📝</div><div class="font-semibold text-navy text-sm">Admissions</div>
+        <div class="text-2xl mb-1"><x-icon name="pencil-square" size="lg" /></div><div class="font-semibold text-navy text-sm">Admissions</div>
       </a>
       <a href="/fees" class="bg-white rounded-2xl p-4 text-center shadow hover:shadow-lg hover:-translate-y-1 transition">
-        <div class="text-2xl mb-1">💰</div><div class="font-semibold text-navy text-sm">Fee Structure</div>
+        <div class="text-2xl mb-1"><x-icon name="banknotes" size="lg" /></div><div class="font-semibold text-navy text-sm">Fee Structure</div>
       </a>
       <a href="/pay" class="bg-white rounded-2xl p-4 text-center shadow hover:shadow-lg hover:-translate-y-1 transition">
-        <div class="text-2xl mb-1">💳</div><div class="font-semibold text-navy text-sm">Pay Fees</div>
+        <div class="text-2xl mb-1"><x-icon name="credit-card" size="lg" /></div><div class="font-semibold text-navy text-sm">Pay Fees</div>
       </a>
       <a href="/results" class="bg-white rounded-2xl p-4 text-center shadow hover:shadow-lg hover:-translate-y-1 transition">
-        <div class="text-2xl mb-1">📊</div><div class="font-semibold text-navy text-sm">Check Results</div>
+        <div class="text-2xl mb-1"><x-icon name="chart-bar" size="lg" /></div><div class="font-semibold text-navy text-sm">Check Results</div>
       </a>
       <a href="/timetable" class="bg-white rounded-2xl p-4 text-center shadow hover:shadow-lg hover:-translate-y-1 transition">
-        <div class="text-2xl mb-1">📅</div><div class="font-semibold text-navy text-sm">Timetable</div>
+        <div class="text-2xl mb-1"><x-icon name="calendar" size="lg" /></div><div class="font-semibold text-navy text-sm">Timetable</div>
       </a>
       <a href="/news" class="bg-white rounded-2xl p-4 text-center shadow hover:shadow-lg hover:-translate-y-1 transition">
-        <div class="text-2xl mb-1">📰</div><div class="font-semibold text-navy text-sm">News</div>
+        <div class="text-2xl mb-1"><x-icon name="newspaper" size="lg" /></div><div class="font-semibold text-navy text-sm">News</div>
       </a>
       <a href="/parent/login" class="bg-white rounded-2xl p-4 text-center shadow hover:shadow-lg hover:-translate-y-1 transition">
-        <div class="text-2xl mb-1">🔐</div><div class="font-semibold text-navy text-sm">Parent Portal</div>
+        <div class="text-2xl mb-1"><x-icon name="key" size="lg" /></div><div class="font-semibold text-navy text-sm">Parent Portal</div>
       </a>
       <a href="/contact" class="bg-white rounded-2xl p-4 text-center shadow hover:shadow-lg hover:-translate-y-1 transition">
-        <div class="text-2xl mb-1">📞</div><div class="font-semibold text-navy text-sm">Contact</div>
+        <div class="text-2xl mb-1"><x-icon name="phone" size="lg" /></div><div class="font-semibold text-navy text-sm">Contact</div>
       </a>
     </div>
     <div class="text-center mt-6 text-sm">
       <a href="/report" class="inline-flex items-center gap-2 text-gray-500 hover:text-navy">
-        <span>🕊️</span> Have a concern? Report anonymously →
+        <span><x-icon name="chat-bubble" size="sm" /></span> Have a concern? Report anonymously →
       </a>
     </div>
   </div>
