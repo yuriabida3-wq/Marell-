@@ -59,6 +59,25 @@ class Cp15bPaySuccessStateTest extends TestCase
         $response->assertSee('Payment Successful');
     }
 
+    public function test_success_page_renders_when_receipt_no_missing(): void
+    {
+        // L48: a completed payment without a receipt_no must not 500 the
+        // success page. The verify-receipt link is hidden instead.
+        $student = Student::factory()->create();
+        $payment = Payment::factory()->create([
+            'student_id' => $student->id,
+            'status'     => 'completed',
+            'receipt_no' => null,
+        ]);
+
+        $url = URL::signedRoute('pay.success', $payment);
+        $response = $this->get($url);
+
+        $response->assertOk();
+        $response->assertSee('Payment Successful');
+        $response->assertDontSee('Verify this receipt online');
+    }
+
     public function test_receipt_denies_non_completed_payment(): void
     {
         $student = Student::factory()->create();

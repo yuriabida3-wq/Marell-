@@ -54,12 +54,14 @@
       </div>
     </div>
 
+    @if ($payment->receipt_no)
     <div class="mt-4 text-xs">
       <a href="{{ \Illuminate\Support\Facades\URL::signedRoute('verify.receipt', ['receipt_no' => $payment->receipt_no]) }}" class="text-navy underline inline-flex items-center gap-1">
         <x-icon name="check-circle" size="sm" />
         Verify this receipt online
       </a>
     </div>
+    @endif
 
 <div class="mt-6 text-xs text-gray-500">
       An SMS receipt has been sent to {{ $payment->student->parent_phone }}.
