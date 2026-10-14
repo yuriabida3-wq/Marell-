@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Payment extends Model
 {
@@ -27,21 +28,35 @@ class Payment extends Model
     }
 
     /**
-     * Generate next receipt number, collision-safe.
-     * Uses MAX(existing sequence for year) + 1, not count().
+     * Generate next receipt number.
+     * Uses a dedicated counter row per year, locked with lockForUpdate()
+     * inside its own transaction. Serializes all concurrent callers
+     * regardless of database isolation level. Format RCP-YYYY-NNNNN.
      */
     public static function generateReceiptNo(): string
     {
-        $year   = date('Y');
-        $prefix = "REC-{$year}-";
+        $year = (int) date('Y');
 
-        $max = self::where('receipt_no', 'like', "{$prefix}%")
-            ->lockForUpdate()
-            ->selectRaw('MAX(CAST(SUBSTRING(receipt_no, -5) AS UNSIGNED)) as max_seq')
-            ->value('max_seq');
+        return DB::transaction(function () use ($year) {
+            DB::table('receipt_counters')->insertOrIgnore([
+                'year'       => $year,
+                'last'       => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-        $next = ((int) $max) + 1;
+            $current = (int) DB::table('receipt_counters')
+                ->where('year', $year)
+                ->lockForUpdate()
+                ->value('last');
 
-        return $prefix . str_pad((string) $next, 5, '0', STR_PAD_LEFT);
+            $next = $current + 1;
+
+            DB::table('receipt_counters')
+                ->where('year', $year)
+                ->update(['last' => $next, 'updated_at' => now()]);
+
+            return sprintf('RCP-%d-%05d', $year, $next);
+        });
     }
 }
