@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -10,6 +11,8 @@ use Tests\TestCase;
  */
 class Cp11PayPagePrivacyTest extends TestCase
 {
+    use RefreshDatabase;
+
     private function ctrl(): string
     {
         return (string) file_get_contents(base_path('app/Http/Controllers/PaymentController.php'));
@@ -65,8 +68,25 @@ class Cp11PayPagePrivacyTest extends TestCase
 
     public function test_blade_does_not_prefill_phone(): void
     {
-        $src = $this->payBlade();
-        $this->assertStringNotContainsString('$student->parent_phone', $src);
-        $this->assertStringContainsString("name=\"phone\" value=\"{{ old('phone') }}\"", $src);
+        // Source-level defence in depth: no view may reference the parent phone.
+        $this->assertStringNotContainsString('$student->parent_phone', $this->payBlade());
+
+        // Behaviour: the rendered /pay page must not leak the phone number.
+        \App\Models\Student::create([
+            'adm_no'       => 'PRIV-001',
+            'name'         => 'Privacy Testchild',
+            'class'        => '7',
+            'stream'       => 'A',
+            'parent_name'  => 'Parent Shouldnotappear',
+            'parent_phone' => '0712345678',
+        ]);
+
+        $response = $this->get('/pay?adm=PRIV-001');
+        $response->assertOk();
+        $response->assertSee('name="phone"', false);
+        $response->assertDontSee('0712345678', false);
+        $response->assertDontSee('value="07', false);
+        $response->assertDontSee('value="01', false);
+        $response->assertDontSee('Parent Shouldnotappear', false);
     }
 }
