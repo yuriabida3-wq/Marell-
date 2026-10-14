@@ -58,7 +58,7 @@
         <div class="text-xs md:text-sm font-semibold mt-2">Average Score</div>
       </div>
       <div class="bg-navy rounded-2xl p-6 text-center text-white" data-aos="fade-up" data-aos-delay="160">
-        <div class="text-4xl md:text-5xl font-extrabold text-gold">{{ \App\Models\User::role("teacher")->count() }}</div>
+        <div class="text-4xl md:text-5xl font-extrabold text-gold">{{ \App\Models\User::whereHas("roles", fn($q) => $q->where("name", "teacher"))->count() }}</div>
         <div class="text-xs md:text-sm text-white/80 mt-2">Qualified Teachers</div>
       </div>
       <div class="bg-white border-4 border-navy rounded-2xl p-6 text-center" data-aos="fade-up" data-aos-delay="240">
