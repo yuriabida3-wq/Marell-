@@ -132,4 +132,63 @@ L40  `CanteenItemController@checkout` SMS wrapped in empty `catch (\Throwable $e
 - [ ] Owner review
 - [ ] Tag phase-0-done
 
+## 11. Feature classification (spec §14 Phase 0 mandatory)
+
+Legend: IV = implemented-verified; P = partial; B = broken; BO = backend-only; U = unused; NB = not built.
+
+| Feature | Class | Evidence |
+|---|---|---|
+| Staff login `/login` | IV | `LoginController`, live route line 19 |
+| Parent OTP `/parent/login`+`/parent/verify` | P | routes exist; end-to-end unverified (Q2) |
+| Guard login `/login` | IV | `SecurityGuardController`; name collision L10 |
+| Public pay GET `/pay` | IV | `PaymentController@show`, masked student, Cp11 source-grep |
+| Public pay POST `/pay` | IV | `PaymentController@initiate`, throttle 10,1 |
+| Pay wait/check/success/receipt (signed) | IV | signed middleware, frozen |
+| Receipt verify `/verify-receipt/{no}` | IV | `VerifyController` |
+| M-Pesa secure callback | IV | `MpesaCallbackController` secret+shape check |
+| M-Pesa legacy callback | P | env-gated; allowlist L41 |
+| `ProcessMpesaCallback` job | IV | locks, dup-check, amount-match, SMS-after-commit |
+| Raw callback persistence table | NB | spec L3; see L45 |
+| Payment manual record (staff/bursar/bulk) | IV | `FinanceController`,`BursarController` transactions |
+| Receipt number generation | P | gap-lock reliance; L34 |
+| Wallet parent top-up | P | rate-limited; no row lock on pending txn |
+| Wallet admin load | P | race L33 |
+| Canteen checkout | IV | `CanteenItemController@checkout` locked + checks |
+| Canteen items CRUD | P | hard-delete L43; emoji L42 |
+| `canteenSell` tombstone | IV | returns 410 (L39) |
+| Fee autopilot | B | handover §11 / spec L6-L8 |
+| Live collection poll | P | L16 |
+| Prediction thresholds | P | L23 |
+| Library | U/P | auth unverified (Q3) |
+| Visitors / Gate / Pickup | U/P | not read |
+| Results / report cards | U/P | not read |
+| Boarding module | NB | Phase 5 |
+| Transport module | NB | Phase 6 |
+| `school_modules` registry | NB | §7.3 |
+| Settings admin page | NB | spec L18 |
+| Audit log | P | table+model exist; wiring unverified |
+| Service worker | P | L15 |
+| Spatie permissions | P | usage in routes vs menus unverified |
+
+## 12. §17 open questions — closure
+
+Q1 RCP000000 — CLOSED (`demo_seed.php:122` demo artifact)
+Q2 parent OTP end-to-end — OPEN (Phase 1 test)
+Q3 library auth — OPEN (read middleware)
+Q4 dos/teacher-subjects writers — OPEN
+Q5 frozen emoji redesign — CLOSED (Phase 4 only)
+Q6 payment states/columns — CLOSED
+Q7 payment multi-step transaction — CLOSED
+Q8 jobs and schedule — OPEN (grep app/Jobs + schedule:list)
+Q9 SMS provider return — OPEN (read SmsService)
+Q10 Daraja env — PARTIAL (config keys exist; values not printed)
+
+## 13. Findings added this step (L41-L45)
+
+L41  `MpesaCallbackController@ipAllowed` returns true when allowlist empty. Safe only if `callback_secret` set. Verify env in Phase 1.
+L42  `CanteenItemController` JSON responses embed check/cross emoji. Violates §2.11/§5.1.
+L43  `CanteenItemController@destroy` hard-deletes, no soft-delete, no audit entry.
+L44  SMS templates hardcode "MARELL ACADEMY" / "MARELL WALLET" / "MARELL CANTEEN" / "MARELL ALERT" in `ProcessMpesaCallback`, `CanteenItemController`, `WalletController`. Violates §1.
+L45  No `payment_callbacks` table. Spec L3 wants raw-payload persistence before dispatch.
+
 END OF AUDIT.
