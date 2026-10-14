@@ -1,10 +1,13 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class WalletTransaction extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['student_id','type','amount','initiated_amount','balance_after','reference','category','description','recorded_by','staff_id','ip', 'status', 'checkout_request_id', 'mpesa_receipt', 'phone'];
     protected $casts = ['amount' => 'decimal:2', 'initiated_amount' => 'decimal:2', 'balance_after' => 'decimal:2'];
 
