@@ -213,4 +213,27 @@ Rule change (self-imposed):
 - No destructive DB operation in the same message as any other operation.
 - Any command whose exit code can be masked by a pipeline must be run without the pipeline, or the pipeline's exit code checked separately.
 
+## 15. Findings surfaced during Phase 1A
+
+L41  `MpesaCallbackController@ipAllowed` returns true when allowlist empty. Safe only if callback_secret set.
+L42  `CanteenItemController` JSON responses embed check/cross emoji. Violates §2.11/§5.1.
+L43  `CanteenItemController@destroy` hard-deletes, no soft-delete, no audit entry.
+L44  SMS templates hardcode "MARELL ACADEMY" / "MARELL WALLET" / "MARELL CANTEEN" / "MARELL ALERT" in ProcessMpesaCallback, CanteenItemController, WalletController. Violates §1.
+L45  No `payment_callbacks` table. Spec L3 wants raw-payload persistence before dispatch.
+L46  Existing git tags v1.0-demo-ready, v1.0.1-demo-seeded do not match spec §8 format (vMAJOR.MINOR.PATCH).
+L47  FIXED 92e6451 — public home called `User::role("teacher")->count()`, which throws RoleDoesNotExist on fresh DBs. Replaced with whereHas.
+L48  `public/pay-success.blade.php:58` — `URL::signedRoute('verify.receipt', [...])` throws if `$payment->receipt_no` is null. Production completed payments always have one, but no guard exists. Latent 500. Fix in Phase 1D.
+
+## 16. Phase 1A outcomes
+
+- Test DB moved sqlite :memory: → MariaDB marell_test (spec §10.1)
+- StudentFactory, PaymentFactory, WalletTransactionFactory created (spec §10.1)
+- WalletTransaction: HasFactory enabled
+- ExampleTest: self-contained with RefreshDatabase, passing
+- Cp11: rewritten as HTTP-render (real behavioural proof, not source-grep)
+- Cp15b: NEW — first money-path behaviour test hitting DB + signed URLs + rendering
+- Test suite: 211 → 215 passing, 0 failing
+- L5: verified satisfied in code, now covered by Cp15b
+- Incident 2026-10-14 (dev DB wiped, restored) documented in §14
+
 END OF AUDIT.
