@@ -191,4 +191,26 @@ L43  `CanteenItemController@destroy` hard-deletes, no soft-delete, no audit entr
 L44  SMS templates hardcode "MARELL ACADEMY" / "MARELL WALLET" / "MARELL CANTEEN" / "MARELL ALERT" in `ProcessMpesaCallback`, `CanteenItemController`, `WalletController`. Violates §1.
 L45  No `payment_callbacks` table. Spec L3 wants raw-payload persistence before dispatch.
 
+## 14. Incident log
+
+### 2026-10-14 — dev DB students table wiped by runaway tinker command
+
+Cause: an automated `php artisan tinker` command intended to run against the test DB was issued without `--env=testing`. It ran against the dev DB `marell` and executed `Student::query()->delete()`, cascading through every FK-linked table.
+
+Blast radius (dev DB `marell`):
+- Wiped via cascade: students, payments, wallet_transactions, attendances, results, fee_escalations, pickup_logs, book_loans
+- Unaffected: users, timetables, canteen_items, expenses, visitors, admissions, settings
+
+Recovery:
+- Located drill snapshot `~/db_backups/marell_drill_20261010_012121.sql` (Oct 10, post-migrations)
+- Safety-dumped damaged state to `~/db_backups/marell_pre_restore_20261014_085107.sql`
+- Restored from drill snapshot; verified counts (students 139, payments 236, wallet_transactions 242, attendances 560)
+
+Residual loss: none detected; drill snapshot matched all survivor tables 1:1 before restore.
+
+Rule change (self-imposed):
+- Every DB-writing command must state the target env/DB in the command message and include `--env=testing` or `--database=marell_test` when the target is the test DB.
+- No destructive DB operation in the same message as any other operation.
+- Any command whose exit code can be masked by a pipeline must be run without the pipeline, or the pipeline's exit code checked separately.
+
 END OF AUDIT.
