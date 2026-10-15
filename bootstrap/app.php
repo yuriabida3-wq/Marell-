@@ -56,6 +56,15 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('fees:autopilot')->dailyAt('08:00')->name('fee-autopilot');
 
         $schedule->command('fines:apply')->dailyAt('06:55')->name('auto-late-fines');
+
+        // L4: resolve payments stuck in pending. Config-gated so the schedule
+        // only fires when the owner enables it via MPESA_STUCK_RESOLVER_ENABLED.
+        if (config('services.mpesa.stuck_resolver_enabled', false)) {
+            $schedule->job(new \App\Jobs\ResolveStuckPayments)
+                ->everyTwoMinutes()
+                ->name('resolve-stuck-payments')
+                ->withoutOverlapping();
+        }
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -71,6 +71,7 @@ return [
         'callback_secret'         => env('MPESA_CALLBACK_SECRET', ''),
         'callback_legacy_enabled' => env('MPESA_CALLBACK_LEGACY_ENABLED', true),
         'callback_ip_allowlist'   => env('MPESA_CALLBACK_IP_ALLOWLIST', ''),
+        'stuck_resolver_enabled'  => env('MPESA_STUCK_RESOLVER_ENABLED', false),
     ],
 
 ];
