@@ -41,7 +41,12 @@ class FeeAutopilotController extends Controller
     public function run()
     {
         $stats = FeeAutopilotService::runDaily();
-        return back()->with('success', "Autopilot run: {$stats['escalations_sent']} sent, {$stats['skipped']} skipped.");
+
+        if (!empty($stats['disabled'])) {
+            return back()->with('error', 'Autopilot is disabled. Enable fee_autopilot_enabled to run.');
+        }
+
+        return back()->with('success', "Autopilot run: {$stats['escalations_queued']} queued, {$stats['skipped']} skipped.");
     }
 
     public function student(Student $student)
