@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Jobs\ProcessMpesaCallback;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
@@ -10,10 +11,13 @@ use Tests\TestCase;
  * CP-02: /api/mpesa/callback lockdown.
  *
  * All tests use Queue::fake() so ProcessMpesaCallback NEVER runs.
- * No DB writes to payments or wallet_transactions occur.
+ * No writes to payments or wallet_transactions. Raw payloads are written
+ * to payment_callbacks (L3), so RefreshDatabase isolates each test.
  */
 class Cp02MpesaCallbackSecurityTest extends TestCase
 {
+    use RefreshDatabase;
+
     private function validPayload(): array
     {
         return [
