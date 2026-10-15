@@ -9,6 +9,7 @@ use App\Services\MpesaService;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 
 class ParentPortalController extends Controller
@@ -43,7 +44,7 @@ class ParentPortalController extends Controller
 
         if ($studentExists) {
             $otp = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-            Cache::put("parent_otp:{$phone}", $otp, now()->addMinutes(5));
+            Cache::put("parent_otp:{$phone}", Hash::make($otp), now()->addMinutes(5));
 
             try {
                 app(SmsService::class)->send(
@@ -90,7 +91,7 @@ class ParentPortalController extends Controller
         }
 
         $cached = Cache::get("parent_otp:{$phone}");
-        if (!$cached || !hash_equals((string) $cached, (string) $data['otp'])) {
+        if (!$cached || !Hash::check((string) $data['otp'], (string) $cached)) {
             RateLimiter::hit($verifyKey, 900);
             return back()->with('error', 'Invalid or expired code. Please try again.');
         }
