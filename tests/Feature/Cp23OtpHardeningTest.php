@@ -43,11 +43,20 @@ class Cp23OtpHardeningTest extends TestCase
         $this->assertStringContainsString('RateLimiter::hit($verifyKey, 900)', $src);
     }
 
-    public function test_parent_portal_uses_hash_equals(): void
+    public function test_parent_portal_uses_hashed_otp_with_constant_time_check(): void
     {
         $src = $this->parentPortal();
-        $this->assertStringContainsString('hash_equals((string) $cached', $src);
+
+        // L19: OTP is stored hashed at rest. Hash::check performs the
+        // constant-time comparison internally after verifying the hash.
+        $this->assertStringContainsString('Hash::check((string) $data[\'otp\'], (string) $cached)', $src);
+
+        // Must NOT compare plaintext OTP directly.
         $this->assertStringNotContainsString("\$cached !== \$data['otp']", $src);
+        $this->assertStringNotContainsString("hash_equals((string) \$cached", $src);
+
+        // Must NOT store plaintext OTP in the cache.
+        $this->assertStringContainsString('Hash::make($otp)', $src);
     }
 
     public function test_parent_portal_no_longer_leaks_registration(): void
