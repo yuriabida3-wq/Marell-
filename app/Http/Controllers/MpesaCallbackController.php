@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ProcessMpesaCallback;
+use App\Models\PaymentCallback;
 use App\Support\LogRedactor;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -34,7 +36,7 @@ class MpesaCallbackController extends Controller
             return response()->json(['ResultCode' => 1, 'ResultDesc' => 'Bad request'], 400);
         }
 
-        return $this->accept($request);
+        return $this->accept($request, 'secure');
     }
 
     /**
@@ -57,18 +59,43 @@ class MpesaCallbackController extends Controller
             return response()->json(['ResultCode' => 1, 'ResultDesc' => 'Bad request'], 400);
         }
 
-        return $this->accept($request);
+        return $this->accept($request, 'legacy');
     }
 
     /**
      * Common path for a callback that has passed the gates.
      * Dispatches to the mpesa queue and acknowledges within the 5-second window.
      */
-    protected function accept(Request $request)
+    protected function accept(Request $request, string $source = 'secure')
     {
         $payload = $request->all();
 
         Log::info('M-Pesa callback received', LogRedactor::redact($payload));
+
+        $stk          = $payload['Body']['stkCallback'] ?? [];
+        $checkoutId   = is_array($stk) ? ($stk['CheckoutRequestID'] ?? null) : null;
+        $meta         = collect($stk['CallbackMetadata']['Item'] ?? [])
+            ->mapWithKeys(fn ($i) => [$i['Name'] ?? '_' => $i['Value'] ?? null])
+            ->all();
+        $mpesaReceipt = $meta['MpesaReceiptNumber'] ?? null;
+
+        try {
+            PaymentCallback::create([
+                'checkout_request_id'  => $checkoutId,
+                'mpesa_receipt_number' => $mpesaReceipt,
+                'payload'              => $payload,
+                'source'               => $source,
+                'ip'                   => $request->ip(),
+                'received_at'          => now(),
+            ]);
+        } catch (UniqueConstraintViolationException $e) {
+            // Daraja retry: identical callback already accepted. Do not re-dispatch.
+            Log::info('M-Pesa callback: duplicate checkout_request_id, ignoring');
+            return response()->json([
+                'ResultCode' => 0,
+                'ResultDesc' => 'Accepted',
+            ]);
+        }
 
         ProcessMpesaCallback::dispatch($payload)->onQueue('mpesa');
 
