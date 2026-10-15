@@ -101,6 +101,48 @@ class MpesaService
     }
 
     /**
+     * Query the status of an STK Push request.
+     * Returns Daraja JSON response or ['error' => ...] on failure.
+     * ResultCode 0 = success (paid). 1032 = cancelled by user. 1037 = timeout.
+     */
+    public function stkQuery(string $checkoutRequestId): array
+    {
+        $token = $this->getAccessToken();
+        if (!$token) {
+            return ['error' => 'Could not authenticate with Daraja. Check credentials.'];
+        }
+
+        $timestamp = now()->format('YmdHis');
+        $password  = base64_encode($this->shortcode . $this->passkey . $timestamp);
+
+        $payload = [
+            'BusinessShortCode' => $this->shortcode,
+            'Password'          => $password,
+            'Timestamp'         => $timestamp,
+            'CheckoutRequestID' => $checkoutRequestId,
+        ];
+
+        try {
+            $res = Http::withToken($token)
+                ->timeout(20)
+                ->acceptJson()
+                ->post($this->baseUrl() . '/mpesa/stkpushquery/v1/query', $payload);
+
+            $json = $res->json() ?: ['error' => $res->body()];
+
+            Log::info('STK Query request', \App\Support\LogRedactor::redact([
+                'checkout_request_id' => $checkoutRequestId,
+                'response'            => $json,
+            ]));
+
+            return $json;
+        } catch (\Throwable $e) {
+            Log::error('STK Query exception: ' . \App\Support\LogRedactor::maskPhonesInString($e->getMessage()));
+            return ['error' => 'Network error contacting Daraja.'];
+        }
+    }
+
+    /**
      * Normalize Kenyan phone to 2547XXXXXXXX or 2541XXXXXXXX format.
      */
     public static function normalizePhone(string $phone): ?string
