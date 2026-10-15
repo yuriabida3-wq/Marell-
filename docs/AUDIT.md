@@ -236,4 +236,15 @@ L48  `public/pay-success.blade.php:58` — `URL::signedRoute('verify.receipt', [
 - L5: verified satisfied in code, now covered by Cp15b
 - Incident 2026-10-14 (dev DB wiped, restored) documented in §14
 
+## 17. Phase 1D progress — L12 closed
+
+L12 status: **verified, not fixed.** The library routes were already correct:
+  - `library.*` (staff) — `auth` + `role:dos|principal|bursar|teacher`
+  - `parent.library` — `parent.auth` (OTP session)
+  - `library.public` (`/library-catalog`) — intentionally public marketing catalog
+
+Coverage added in `tests/Feature/LibraryAuthTest.php` (6 tests).
+
+**Deferred to Phase 2:** the `module:library` middleware required by §7.3. That middleware cannot be applied until the module registry exists. Registered here so it is not lost.
+
 END OF AUDIT.
