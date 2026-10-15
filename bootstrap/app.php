@@ -65,6 +65,13 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->name('resolve-stuck-payments')
                 ->withoutOverlapping();
         }
+
+        // L7: re-queue fee escalations stuck in `pending` after a crashed run.
+        // Self-gating: reapStale() is a no-op unless fee_autopilot_enabled is on.
+        $schedule->call(fn () => \App\Services\FeeAutopilotService::reapStale())
+            ->everyFiveMinutes()
+            ->name('reap-fee-escalations')
+            ->withoutOverlapping();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
