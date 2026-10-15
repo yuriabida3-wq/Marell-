@@ -40,7 +40,7 @@
       <div class="font-extrabold text-navy text-lg mb-1">{{ $student->name }}</div>
       <div class="text-xs text-gray-500 mb-4">{{ $student->adm_no }} · {{ $student->class }}</div>
 
-      <img src="https://quickchart.io/qr?text={{ urlencode(url('/student-qr/' . $student->qr_token)) }}&size=250&margin=1" class="mx-auto mb-4 rounded-xl border-4 border-navy" style="width:250px;height:250px;">
+      <img src="{{ \App\Services\QrService::svgDataUrl(url('/student-qr/' . $student->qr_token), 250) }}" class="mx-auto mb-4 rounded-xl border-4 border-navy" style="width:250px;height:250px;">
 
       <div class="text-xs text-gray-500 mb-4 break-all">{{ url('/student-qr/' . $student->qr_token) }}</div>
 
@@ -59,7 +59,7 @@
       <div class="font-extrabold text-navy text-lg mb-1">KES {{ number_format($payment->amount, 0) }}</div>
       <div class="text-xs text-gray-500 mb-4">{{ $payment->receipt_no }}</div>
 
-      <img src="https://quickchart.io/qr?text={{ urlencode(\Illuminate\Support\Facades\URL::signedRoute('verify.receipt', ['receipt_no' => $payment->receipt_no])) }}&size=250&margin=1" class="mx-auto mb-4 rounded-xl border-4 border-green-600" style="width:250px;height:250px;">
+      <img src="{{ \App\Services\QrService::svgDataUrl(\Illuminate\Support\Facades\URL::signedRoute('verify.receipt', ['receipt_no' => $payment->receipt_no]), 250) }}" class="mx-auto mb-4 rounded-xl border-4 border-green-600" style="width:250px;height:250px;">
 
       <div class="text-xs text-gray-500 mb-4 break-all">{{ \Illuminate\Support\Facades\URL::signedRoute('verify.receipt', ['receipt_no' => $payment->receipt_no]) }}</div>
 
@@ -78,7 +78,7 @@
       <div class="font-extrabold text-navy text-lg mb-1">{{ $pickup->name }}</div>
       <div class="text-xs text-gray-500 mb-4">{{ $pickup->relationship }} · {{ $pickup->student->name ?? '' }}</div>
 
-      <img src="https://quickchart.io/qr?text={{ urlencode(url('/pickup/verify/' . $pickup->qr_token)) }}&size=250&margin=1" class="mx-auto mb-4 rounded-xl border-4 border-red-600" style="width:250px;height:250px;">
+      <img src="{{ \App\Services\QrService::svgDataUrl(url('/pickup/verify/' . $pickup->qr_token), 250) }}" class="mx-auto mb-4 rounded-xl border-4 border-red-600" style="width:250px;height:250px;">
 
       <div class="text-xs text-gray-500 mb-4 break-all">{{ url('/pickup/verify/' . $pickup->qr_token) }}</div>
 
