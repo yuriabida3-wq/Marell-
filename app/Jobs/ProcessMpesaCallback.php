@@ -53,6 +53,11 @@ class ProcessMpesaCallback implements ShouldQueue
             return;
         }
 
+        // L3: link the persisted raw callback row to the resolved payment.
+        \App\Models\PaymentCallback::where('checkout_request_id', $checkoutId)
+            ->whereNull('payment_id')
+            ->update(['payment_id' => $payment->id]);
+
         if ($payment->status === 'completed') {
             Log::info("M-Pesa callback: payment {$payment->id} already completed. Skipping.");
             return;
