@@ -34,6 +34,12 @@ Policy (spec §2.7, §18): never delete code whose purpose has not been read in 
 - Frozen pay-flow pages with residual content emoji (if any).
 - Parent-portal legacy views — some may be superseded by newer parent pages. Requires page-by-page read in Phase 4.
 
+## Dead — after L9 (2026-10-15)
+
+- `App\Http\Controllers\QrDemoController::quickchartUrl()` — was the only server-side
+  quickchart.io URL builder. After L9 the QR hub view calls `QrService::svgDataUrl()`
+  directly. Method left in place per §2.7. Line 24 comment retained.
+
 ## NOT dead — leave alone
 
 - `resources/views/auth/login.blade.php` (LIVE)
