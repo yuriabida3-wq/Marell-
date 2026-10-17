@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLog;
 use App\Models\CanteenItem;
 use App\Models\Student;
 use App\Models\WalletTransaction;
@@ -226,6 +227,11 @@ class WalletController extends Controller
             'load',
             $data['notes'] ?? 'Admin load'
         );
+
+        AuditLog::log('wallet.admin_load', $student, [], [
+            'amount'      => (float) $data['amount'],
+            'new_balance' => (float) $student->fresh()->wallet_balance,
+        ], $data['notes'] ?? 'Admin load');
 
         return back()->with('success', "Loaded KES " . number_format($data['amount'], 2) . " for {$student->name}.");
     }
