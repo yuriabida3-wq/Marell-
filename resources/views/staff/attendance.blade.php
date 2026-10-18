@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('content')
 <div class="p-6 max-w-6xl mx-auto">
     <h1 class="text-2xl font-bold mb-4">Staff Attendance Log</h1>
