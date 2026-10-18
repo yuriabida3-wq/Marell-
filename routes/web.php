@@ -544,7 +544,7 @@ Route::middleware('guard.or.staff')->prefix('gate/console')->name('gate.console.
     Route::get('/',                   [App\Http\Controllers\GuardConsoleController::class, 'index'])->name('index');
     Route::get('/stats',              [App\Http\Controllers\GuardConsoleController::class, 'stats'])->name('stats');
     Route::get('/recent',             [App\Http\Controllers\GuardConsoleController::class, 'recent'])->name('recent');
-    Route::get('/inside',             [App\Http\Controllers\GuardConsoleController::class, 'inside'])->name('inside');
+    Route::get('/inside',             [App\Http\Controllers\GuardConsoleController::class, 'insideList'])->name('inside');
     Route::post('/visitor',           [App\Http\Controllers\GuardConsoleController::class, 'visitorCheckIn'])->name('visitor-in');
     Route::post('/visitor-out',       [App\Http\Controllers\GuardConsoleController::class, 'visitorCheckOut'])->name('visitor-out');
 });
