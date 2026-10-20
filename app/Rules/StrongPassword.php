@@ -9,8 +9,8 @@ class StrongPassword implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (strlen((string) $value) < 8) {
-            $fail('Password must be at least 8 characters.');
+        if (strlen((string) $value) < 10) {
+            $fail('Password must be at least 10 characters.');
             return;
         }
         if (!preg_match('/[A-Z]/', $value)) {
