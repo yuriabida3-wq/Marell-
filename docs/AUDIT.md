@@ -254,4 +254,57 @@ L52 — untracked file named `write` at repo root. Same class. Recommend delete.
 
 Neither appears in any Blade/controller reference. Neither is a git-tracked file. Both are ignored by application code.
 
+## 19. Phase 1 completion status
+
+### Closed since §18
+
+**L20 — IDOR / access matrix: CLOSED (discovery + gate)**
+Harness written at `tests/Feature/Access/AccessMatrixTest.php`. Report at `docs/ACCESS_MATRIX_BASELINE.md`. After fixes:
+  - 0 red flags (no guest-leaks, no wrong-role-leaks)
+  - 0 errors (no 5xx)
+
+Two real defects found during discovery and fixed:
+  - 4 blades referenced non-existent `layouts.app` (commit 374d7c2) — 5xx on `/principal/staff-attendance`, `/principal/staff-qrcodes`, `/principal/canteen-report`, `/principal/canteen-items`
+  - `GuardConsoleController::inside()` method missing; route now points to `insideList` (commit ba6ece9)
+
+**L21 — session/auth hardening: PARTIALLY CLOSED**
+Already correct:
+  - Session regeneration on login (`LoginController:52`)
+  - Cookie `secure`/`http_only`/`same_site` env-driven defaults
+  - Password reset tokens expire (60 min)
+Fixed in this phase:
+  - Staff passwords now require ≥ 10 chars (commit 5f479d4), was 8
+
+DEFERRED to Phase 9 (§14 Phase 9 covers "user access review and staff offboarding" — same lifecycle concern):
+  - Force change on first login
+  - Optional staff 2FA
+
+### audit_logs wiring status
+Wired:
+  - `student.updated`, `student.status_changed`
+  - `user.created`, `user.updated`, `user.password_reset`, `user.status_changed`
+  - `payment.recorded`, `fine.waived`
+  - `wallet.admin_load` (new this phase)
+  - Login events logged to dedicated `login_activities` table (not audit_logs — deliberate design)
+
+Not yet wired (deferred to their own phases, no endpoint exists):
+  - Refunds / reversals (L27 — no endpoint)
+  - Receipt void (no void endpoint)
+  - Fee-structure change (L26 — no versioning yet)
+  - Guard release (Pickup release lifecycle is Phase 7)
+  - Export (many different export call-sites; own session)
+  - Settings change (Settings page is Phase 2)
+  - Module change (Module registry is Phase 2)
+  - Support access (Support system is Phase 9)
+
+### L22 — verify-receipt privacy: CLOSED
+Test proof at `tests/Feature/VerifyReceiptPrivacyTest.php` (commit 212a25b). Page was already correct; test now asserts the property.
+Minor deviation: page header echoes the receipt_no the visitor supplied — not a leak, retained for UX.
+
+### Operational notes
+  - Access-matrix run (~200 routes × 6 actors) crashes MariaDB on Termux. Mitigation: run access-matrix test in isolation, not as part of the full suite. Not a production concern.
+
+### Phase 1 remaining for Gate 1 tag
+  - Owner smoke-test the six finance pages: `/principal/finance`, `/principal/wallet`, `/principal/fee-autopilot`, `/principal/fee-autopilot/student/1`, `/principal/results`, `/principal/sms`
+
 END OF AUDIT.
