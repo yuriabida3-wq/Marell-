@@ -307,4 +307,26 @@ Minor deviation: page header echoes the receipt_no the visitor supplied — not 
 ### Phase 1 remaining for Gate 1 tag
   - Owner smoke-test the six finance pages: `/principal/finance`, `/principal/wallet`, `/principal/fee-autopilot`, `/principal/fee-autopilot/student/1`, `/principal/results`, `/principal/sms`
 
+## 20. Smoke test results + L53
+
+### Programmatic smoke (replaces manual click-through)
+Two test files added to close Gate 1's "smoke-test the six finance pages" requirement:
+  - `tests/Feature/Smoke/SixFinancePagesTest.php` — 6 Gate-1 pages deep-validated (200, full HTML, no error markers, page-specific text)
+  - `tests/Feature/Smoke/PrincipalPagesSmokeTest.php` — every GET route under `/principal` (90+ routes) checked for 5xx, error markers, empty HTML
+
+**Result: all green.** No 500s, no error markers, no empty pages.
+Exports and JSON endpoints excluded from strict body checks — they stream files / small payloads by design.
+
+### L53 — open risk for Phase 9
+
+`User::role('teacher')` throws `RoleDoesNotExist` when the roles table is empty. Affects 10+ call sites:
+  - `PrincipalController.php:34`
+  - `SmsCenterController.php:15,39`
+  - `DosController.php:20,25,34,113,155,262`
+  - `DosReportController.php:175`
+
+Production is safe because the install path seeds roles. **Fresh install MUST seed roles before any page loads.** Owner: Phase 9 `skuli:install` command.
+
+Do not change call sites now — production has roles; the fix belongs in the install flow, not scattered across 10 controllers.
+
 END OF AUDIT.
