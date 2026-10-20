@@ -247,4 +247,11 @@ Coverage added in `tests/Feature/LibraryAuthTest.php` (6 tests).
 
 **Deferred to Phase 2:** the `module:library` middleware required by §7.3. That middleware cannot be applied until the module registry exists. Registered here so it is not lost.
 
+## 18. Stray untracked files at repo root
+
+L49 — untracked file named `main` at repo root. Content: shell-redirect artefact. Not from any code change. Recommend delete when the tree is otherwise clean.
+L52 — untracked file named `write` at repo root. Same class. Recommend delete.
+
+Neither appears in any Blade/controller reference. Neither is a git-tracked file. Both are ignored by application code.
+
 END OF AUDIT.
